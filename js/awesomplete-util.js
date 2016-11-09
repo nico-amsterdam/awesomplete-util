@@ -74,7 +74,7 @@ var AwesompleteUtil = function() {
               if (!opened || (input !== document.activeElement)) {
                  if (val.length > 0) {
                    input.classList.add(_CLS_NOT_FOUND);
-                   _fire(input, _AWE_MATCH, null);
+                   _fire(input, _AWE_MATCH, []);
                  }
               } else {
                 input.classList.remove(_CLS_NOT_FOUND);
@@ -173,7 +173,7 @@ var AwesompleteUtil = function() {
           var elem = awe.input;
           elem.classList.remove(_CLS_FOUND);
           elem.classList.remove(_CLS_NOT_FOUND);
-          _fire(elem, _AWE_MATCH, null);
+          _fire(elem, _AWE_MATCH, []);
         }
         function _update(awe, val, prepop) {
           awe.utilprops.prepop = prepop || false;
@@ -250,7 +250,7 @@ var AwesompleteUtil = function() {
         }
         function _mark(text, input, startsWith) {
           var searchText = $.regExpEscape(_htmlEscape(input).trim()), 
-              regExp = startsWith ? RegExp('^' + searchText, 'i') : RegExp('(?!<[^>]+?>)' + searchText + '(?![^<]*?>)', 'gi');
+              regExp = searchText.length <= 0 ? null : startsWith ? RegExp('^' + searchText, 'i') : RegExp('(?!<[^>]+?>)' + searchText + '(?![^<]*?>)', 'gi');
           return text.replace(regExp, '<mark>$&</mark>');
         }
         function _jsonFlatten(result, cur, prop, level, opts) {
@@ -320,6 +320,7 @@ var AwesompleteUtil = function() {
         convertInput: function(text) {
           return 'string' === typeof text ? text.trim().toLowerCase() : '';
         },
+        item: _item,
         mark: _mark,
         itemContains: function(text, input) {
           var arr;
