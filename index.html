@@ -1,1 +1,300 @@
-Nothing to see yet, move along...
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>AwesompleteUtil</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://leaverou.github.io/awesomplete/prism/prism.css"/>
+<link rel="stylesheet" href="https://getbootstrap.com/dist/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="https://nico-amsterdam.github.io/awesomplete-util/css/awesomplete.css"/>
+<script src="https://nico-amsterdam.github.io/awesomplete-util/js/awesomplete.min.js"></script>
+<script src="https://nico-amsterdam.github.io/awesomplete-util/js/awesomplete-util.min.js"></script>
+<style>
+  body { line-heigth: 150%; font-size: 18px; }
+
+  /* style navbar */
+  .logo { font-family: "Georgia, serif"; color:brown; font-style:italic }
+  .logo span { font-style:normal }
+  .navbar { background-color: #64f652 }
+  @media screen and (min-width: 768px) { 
+    .navbar { position: fixed; top: 0; width: 100% }
+    header { margin-top: 25px }
+    header, section { padding-top: 40px }  
+  }
+
+  /* style html and javascript code blocks */
+  .language-javascript,
+  .language-markup { margin-top: -4em !important }
+
+  .language-label  { text-align: right;
+                     font-weight: bold; 
+                     margin: 1em 1em;
+                     color: brown }
+
+  /* fight with bootstrap */
+  .table { display: table }
+  h2 { margin-left: -15px; margin-right: -15px }
+
+  /* style awesomplete-util */
+  div.awesomplete { display: block }
+  .input-group-btn .dropdown-btn { line-height: 30px }
+  div.awesomplete-disabled ul li p mark { background: none; color:#333; padding:0 }
+  div.awesomplete ul { font-size: smaller }
+  div.awesomplete ul li p { display: block; font-size: small; margin-left: 1em; color:#0 }
+  div.awesomplete .awe-found { border: 2px solid green }
+  div.awesomplete .awe-not-found { border: 2px solid red }
+  .hide-not-found div.awesomplete .awe-not-found { border-color: lightblue }
+
+  /* style examples */
+  #awe-track-artists ul { margin-top: 0 }
+  .album { min-height: 200px }
+  .odd  { border-right: thick ridge purple; padding-right: 6px }
+  .even { border-left: thick groove purple; padding-left: 6px }
+
+
+</style>
+</head>
+<body>
+
+  <!-- Static navbar -->
+  <nav class="navbar navbar-default navbar-static-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+          <a class="navbar-brand logo" href="#">Awesomplete<span>Util</span></a>
+      </div>
+        <ul class="nav navbar-nav">
+          <li><a href="#examples">Examples</a>
+          <li><a href="#installation">Installation</a>
+          <li><a href="#events">Events</a>
+          <li><a href="#style">CSS Style</a>
+          <li><a href="#functions">Functions</a>
+        </ul>
+    </div>
+  </nav>
+  <header class="container">
+    <div class="row">
+      <p>
+      <span class="logo">Awesomplete<span>Util</span></span> is a javascript library enhancing Lea Verou's autocomplete/autosuggest/typeahead/inputsearch <a href="https://leaverou.github.io/awesomplete/index.html">Awesomplete widget</a>.
+      <p>
+      AwesompleteUtil adds the following features:
+      <ul>
+        <li>Dynamic remote data loading; based on what is typed-in it performs an ajax lookup.
+        <li>Allow HTML markup in the shown items. Show value with description. Optionally search in the description text.
+        <li>Show when there is an exact match.
+        <li>Show when there isn't a match.
+        <li>When there is an exact match show related data (supplied in the remote data) in other parts of the page.
+        <li>Select the highlighted item with the tab-key.
+      </ul>
+      <p>
+      AwesompleteUtil provides enough hooks to keep the agility that the Awesomplete widget has.
+      <p>
+      The only dependency of AwesompleteUtil is Awesomplete. Together it is less than 5KB minified gzipped.
+      It runs on modern browsers; IE11, Edge, Safari, Android stock browser, Chrome, Firefox.
+      <p>
+      The lucky users of <a href="https://www.phoenixframework.org">Phoenix</a> can use the <a href="#">AwesompleteUtil form helper</a> to generate most of the javascript code. 
+    </div>
+  </header>
+
+  <section class="container" id="examples">
+    <h2>Examples</h2>
+
+  <fieldset id="spotify-artist">
+    <legend class="h3">
+    Spotify artist search
+    </legend>
+    <div class="row even">
+      Example demonstrates:
+      <ul>
+         <li>dynamic data loading
+         <li>flatten json
+      </ul>
+      Obviously we cannot load all artists known by spotify in the browsers memory, so that's why we use here
+      dynamic data loading. The search starts if 2 characters are entered.
+      <p>
+      <div class="col-sm-12">
+         Enter an artist name:
+      </div>
+    </div>
+    <div class="row even">
+       <label class="control-label col-sm-2" for="user_artist1">Artist</label>
+       <div class="col-sm-10">
+         <div class="awesomplete">
+           <input class="form-control" id="user_artist1" name="user[artist1]" type="text">
+       </div>
+    </div>
+  </fieldset>
+
+    <div class="row even">
+      <p class="language-label">HTML
+      <pre class="language-markup"><code >&lt;input class="form-control" id="user_artist1" name="user[artist1] type="text" /&gt;</code></pre>
+    </div>
+    <div class="row even">
+      The standard supplied 'starts-with' and 'contains' filters don't exactly match with how Spotify searches.
+      Spotify searches words, you can search for 'Michael Jackson' or 'Jackson Michael' and get the same results.
+      Thats why a custom filter called 'filterWords' is used that filters on the words entered. To highlight the
+      words we searched for in the list of suggestions a custom item function called 'itemWords' is used.
+      <p class="language-label">Javascript
+      <pre class="language-javascript"><code><script>
+  var filterWords = function(data, input) {
+    var words = input.split(/\s+/), result = true, j;
+    /* iterate words */
+    for (j = 0; result && j < words.length; j++) {
+      /* all entered words must be found */
+      result = Awesomplete.FILTER_CONTAINS(data, words[j]); 
+    }
+    return result;
+  },
+  itemWords = function(text, input) {
+    var arr, words = input.split(/\s+/), j;
+    if (input.trim() !== '') {
+      /* Label contains value and optional extra HTML markup which starts with the <p> tag. 
+         Do not mark text after the first <p> */
+      arr = ('' + text).split(/<p>/);
+      /* iterate words */
+      for (j = 0; j < words.length; j++) {
+        /* highlight word with <mark> </mark> tags */
+        arr[0] = AwesompleteUtil.mark(arr[0], words[j]);
+      }
+      text = arr.join('<p>');           
+    } 
+    return AwesompleteUtil.item(text, input);
+  };</script></code></pre>
+    </div>
+    <div class="row even">
+      Here we gone create the Awesomplete object with the filter and item defined above.
+      At the end of the remote url for the ajax lookup we add the '*' wildcard character.
+      We specify the limit of 15; if 15 or more results are returned by the server the AwesompleteUtil assumes that there
+      are more results, so it will re-query if more characters are typed in to get more refined results.
+      <p class="language-label">Javascript
+      <pre class="language-javascript"><code><script>AwesompleteUtil.startAwesomplete('#user_artist1',
+ { 
+  url: 'https://api.spotify.com/v1/search?type=artist&limit=15&q=artist:', 
+  urlEnd: '*', 
+  limit: 15, 
+  convertResponse: AwesompleteUtil.jsonFlatten.bind({value: 'name'})
+ }, 
+ {
+  filter: filterWords,
+  item: itemWords
+ }
+);</script></code></pre>
+    </div>
+
+  <fieldset id="spotify-track">
+    <legend class="h3">
+    Spotify track search
+    </legend>
+    <div class="row odd">
+      <div class="col-sm-12">
+         Enter a song title:
+      </div>
+    </div>
+    <div class="row odd track-input">
+       <label class="control-label text-right col-sm-2" for="user_track1">Track</label>
+       <div class="col-sm-10">
+         <input id="user_track1" class="form-control" name="user[track1]" type="text">
+       </div>
+    </div>
+    <div class="row odd artists">
+       <label class="text-right col-sm-2" >Artists</label>
+       <div class="col-sm-10" id="awe-track-artists"></div>
+    </div>
+    <div class="row odd album"> 
+       <label class="text-right col-sm-2" >Album</label>
+       <div class="col-sm-3" id="awe-track-album"></div>
+       <div class="col-sm-7" id="awe-track-album-img"></div>
+    </div>
+  </fieldset>
+
+    <div class="row odd">
+      <p class="language-label">HTML
+      <pre class="language-markup"><code >&lt;input id="user_track1" class="form-control" name="user[track1] type="text" /&gt;</code></pre>
+    </div>
+
+    <div class="row odd">
+      Text here
+      <p class="language-label">Javascript
+      <pre class="language-javascript"><code><script>var artistsFun = function(e, dataField) { 
+   var arrArtists = e.detail.length === 1 ? e.detail[0][dataField] : [],
+       html = '', 
+       i; 
+   for (i=0; i < arrArtists.length; i++) {
+     html = html + '<li>' + arrArtists[i].name;
+   } 
+   Awesomplete.$('#awe-track-artists').innerHTML = '<ul>' + html + '</ul>'; 
+}
+
+var albumImgFun = function(e, dataField) {
+   var arrImages = e.detail.length === 1 ? e.detail[0][dataField] : [],
+       style = ''; 
+   if (arrImages.length > 0) {
+     style = 'background:url(' + arrImages[0].url + ') ' 
+           + 'no-repeat; height: 200px; background-size: 200px';
+   } 
+   Awesomplete.$('#awe-track-album-img').style = style;
+}  
+
+AwesompleteUtil.startCopy('#user_track1', 'album.name', '#awe-track-album');
+AwesompleteUtil.startCopy('#user_track1', 'artists', artistsFun);
+AwesompleteUtil.startCopy('#user_track1', 'album.images', albumImgFun);</script></code></pre>
+    </div>
+
+    <div class="row odd">
+      Text here
+      <p class="language-label">Javascript
+      <pre class="language-javascript"><code><script>var artistsFun = function(e, dataField) { 
+   var arrArtists = e.detail.length === 1 ? e.detail[0][dataField] : [],
+       html = '', 
+       i; 
+   for (i=0; i < arrArtists.length; i++) {
+     html = html + '<li>' + arrArtists[i].name;
+   } 
+   Awesomplete.$('#awe-track-artists').innerHTML = '<ul>' + html + '</ul>'; 
+}
+
+var albumImgFun = function(e, dataField) {
+   var arrImages = e.detail.length === 1 ? e.detail[0][dataField] : [],
+       style = ''; 
+   if (arrImages.length > 0) {
+     style = 'background:url(' + arrImages[0].url + ') ' 
+           + 'no-repeat; height: 200px; background-size: 200px';
+   } 
+   Awesomplete.$('#awe-track-album-img').style = style;
+}  
+
+AwesompleteUtil.startCopy('#user_track1', 'album.name', '#awe-track-album');
+AwesompleteUtil.startCopy('#user_track1', 'artists', artistsFun);
+AwesompleteUtil.startCopy('#user_track1', 'album.images', albumImgFun);</script></code></pre>
+    </div>
+    <div class="row odd">
+      <p class="language-label">Javascript
+      <pre class="language-javascript"><code><script>
+AwesompleteUtil.startAwesomplete('#user_track1', 
+ {
+  url: 'https://api.spotify.com/v1/search?type=track&limit=10&q=track:', 
+  urlEnd: '*', 
+  limit: 10, 
+  convertResponse: AwesompleteUtil.jsonFlatten.bind({value: 'name'}), prepop: true
+ },
+ {
+  minChars: 3, 
+  data: function(rec, input) { 
+         return { 
+           label: rec['name']+'<p>'+(rec['album.name'] || ''), 
+           value: rec['name'] 
+          }; 
+        }, 
+  filter: filterWords,
+  item: itemWords
+ }
+);</script></code></pre>
+    </div>
+
+  </section>
+  <section class="container" id="epilogue"> 
+    <div class="row">
+      <a href="https://lea.verou.me/2015/02/awesomplete-2kb-autocomplete-with-zero-dependencies/">Lea's blog about the creation of Awesomplete</a>
+    </div>
+  </section>
+
+  <script src="https://leaverou.github.io/awesomplete/prism/prism.js"></script>
+</body>
