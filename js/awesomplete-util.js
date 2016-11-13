@@ -268,7 +268,7 @@ var AwesompleteUtil = function() {
           var t = this,
               awe;
           if (e.target === $(t.btnId)) {
-            awe = t.aweId;
+            awe = t.awe;
             if (awe.ul.childNodes.length === 0) {
              awe.minChars = 0;
              awe.evaluate();
@@ -436,15 +436,15 @@ var AwesompleteUtil = function() {
           removeEventListener(_AWE_MATCH, fun);
           return fun;
         },
-        createClickFun: function(btnId, aweId) {
-          return _clickFun.bind({btnId: $(btnId) || btnId, aweId : aweId});
+        createClickFun: function(btnId, awe) {
+          return _clickFun.bind({btnId: $(btnId) || btnId, awe : awe});
         },
         attachClickFun: function(fun) {
           addEventListener('click', fun); 
           return fun;
         },
-        startClick: function(btnId, aweId) {
-          return this.attachClickFun(this.createClickFun(btnId, aweId));
+        startClick: function(btnId, awe) {
+          return this.attachClickFun(this.createClickFun(btnId, awe));
         },
         detachClickFun: function(fun) {
           removeEventListener('click', fun); 
