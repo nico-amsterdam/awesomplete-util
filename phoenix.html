@@ -30,7 +30,7 @@
                      font-weight: bold; 
                      margin: 1em 1em;
                      color: brown }
-  .generated { font-size: 16px; text-align: right; }
+  .generated { font-size: 16px; text-align: right; display:block; }
 
   /* fight with bootstrap */
   .table { display: table }
@@ -172,7 +172,7 @@
     item: "itemWords",
     convertResponse: "AwesompleteUtil.jsonFlatten.bind({value: 'name'})"
   }
-) %&gt;</code><div class="generated"><a href="index.html#spotify-artist">Generated code</a></div></pre>
+) %&gt;</code><span class="generated"><a href="index.html#spotify-artist">Generated code</a></span></pre>
         Look at the convertResponse property.
         AwesompleteUtil accepts a JSON response object with an array of objects to feed the list of suggestions, e.g.
         something like:<pre><code>{ "artists":[ {"value":"Adele"}, {"value":"U2"} ] }</code></pre>However Spotify returns a deeper structure.
