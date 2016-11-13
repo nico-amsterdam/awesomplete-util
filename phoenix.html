@@ -3,6 +3,7 @@
 <head>
 <title>Phoenix Awesomplete form helper</title>
 <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link rel="stylesheet" href="https://leaverou.github.io/awesomplete/prism/prism.css"/>
 <link rel="stylesheet" href="https://getbootstrap.com/dist/css/bootstrap.min.css"/>
 <link rel="stylesheet" href="https://nico-amsterdam.github.io/awesomplete-util/css/awesomplete.css"/>
@@ -184,6 +185,7 @@
     </legend>
     <div class="row odd">
       <div class="col-xs-11 col-xs-offset-1 features">
+         text here
       </div>
       <div class="col-sm-12">
          Enter a song title:
@@ -194,13 +196,13 @@
       </div>
     </div>
     <div class="row odd artists">
-       <label class="text-right col-sm-2" >Artists</label>
-       <div class="col-sm-10" id="awe-track-artists"></div>
+       <label class="text-right col-sm-2">Artists</label>
+       <div class="col-sm-10" id="awe-track-artists">&nbsp;</div>
     </div>
     <div class="row odd album"> 
-       <label class="text-right col-sm-2" >Album</label>
-       <div class="col-sm-3" id="awe-track-album"></div>
-       <div class="col-sm-7" id="awe-track-album-img"></div>
+       <label class="text-right col-sm-2">Album</label>
+       <div class="col-sm-3" id="awe-track-album">&nbsp;</div>
+       <div class="col-sm-7" id="awe-track-album-img">&nbsp;</div>
     </div>
   </fieldset>
 
@@ -272,7 +274,7 @@ AwesompleteUtil.startAwesomplete('#user_track1',
   url: 'https://api.spotify.com/v1/search?type=track&limit=10&q=track:', 
   urlEnd: '*', 
   limit: 10, 
-  convertResponse: AwesompleteUtil.jsonFlatten.bind({value: 'name'}), prepop: true
+  convertResponse: AwesompleteUtil.jsonFlatten.bind({value: 'name'})
  },
  {
   minChars: 3, 
@@ -291,6 +293,7 @@ AwesompleteUtil.startAwesomplete('#user_track1',
 
   </section>
   <section class="container" id="epilogue"> 
+    <h2>Anything else that comes to mind</h2>
     <div class="row">
       <div class="col-sm-12">
         <a href="https://lea.verou.me/2015/02/awesomplete-2kb-autocomplete-with-zero-dependencies/">Lea's blog about the creation of Awesomplete</a>

@@ -3,6 +3,7 @@
 <head>
 <title>AwesompleteUtil</title>
 <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link rel="stylesheet" href="https://leaverou.github.io/awesomplete/prism/prism.css"/>
 <link rel="stylesheet" href="https://getbootstrap.com/dist/css/bootstrap.min.css"/>
 <link rel="stylesheet" href="https://nico-amsterdam.github.io/awesomplete-util/css/awesomplete.css"/>
@@ -72,25 +73,26 @@
   </nav>
   <header class="container">
     <div class="row">
-      <p>
-      <span class="logo">Awesomplete<span>Util</span></span> is a javascript library enhancing Lea Verou's autocomplete/autosuggest/typeahead/inputsearch <a href="https://leaverou.github.io/awesomplete/index.html">Awesomplete widget</a>.
-      <p>
-      AwesompleteUtil adds the following features:
-      <ul>
-        <li>Dynamic remote data loading; based on what is typed-in it performs an ajax lookup.
-        <li>Allow HTML markup in the shown items. Show value with description. Optionally search in the description text.
-        <li>Show when there is an exact match.
-        <li>Show when there isn't a match.
-        <li>When there is an exact match show related data (supplied in the remote data) in other parts of the page.
-        <li>Select the highlighted item with the tab-key.
-      </ul>
-      <p>
-      AwesompleteUtil provides enough hooks to keep the agility that the Awesomplete widget has.
-      <p>
-      The only dependency of AwesompleteUtil is Awesomplete. Together it is less than 5KB minified gzipped.
-      It runs on modern browsers; IE11, Edge, Safari, Android stock browser, Chrome, Firefox.
-      <p>
-      The lucky users of <a href="https://www.phoenixframework.org">Phoenix</a> can use the <a href="phoenix.html">Awesomplete form helper</a> to generate most of the javascript code. 
+      <div class="col-sm-12">
+        <span class="logo">Awesomplete<span>Util</span></span> is a javascript library enhancing Lea Verou's autocomplete/autosuggest/typeahead/inputsearch <a href="https://leaverou.github.io/awesomplete/index.html">Awesomplete widget</a>.
+        <p>
+        AwesompleteUtil adds the following features:
+        <ul>
+          <li>Dynamic remote data loading; based on what is typed-in it performs an ajax lookup.
+          <li>Allow HTML markup in the shown items. Show value with description. Optionally search in the description text.
+          <li>Show when there is an exact match.
+          <li>Show when there isn't a match.
+          <li>When there is an exact match show related data (supplied in the remote data) in other parts of the page.
+          <li>Select the highlighted item with the tab-key.
+        </ul>
+        <p>
+        AwesompleteUtil provides enough hooks to keep the agility that the Awesomplete widget has.
+        <p>
+        The only dependency of AwesompleteUtil is Awesomplete. Together it is less than 5KB minified gzipped.
+        It runs on modern browsers; IE11, Edge, Safari, Android stock browser, Chrome, Firefox.
+        <p>
+        The lucky users of <a href="https://www.phoenixframework.org">Phoenix</a> can use the <a href="phoenix.html">Awesomplete form helper</a> to generate most of the javascript code. 
+      </div>
     </div>
   </header>
 
@@ -192,6 +194,7 @@
     </legend>
     <div class="row odd">
       <div class="col-xs-11 col-xs-offset-1 features">
+         some text
       </div>
       <div class="col-sm-12">
          Enter a song title:
@@ -202,13 +205,13 @@
       </div>
     </div>
     <div class="row odd artists">
-       <label class="text-right col-sm-2" >Artists</label>
+       <label class="text-right col-sm-2">Artists</label>
        <div class="col-sm-10" id="awe-track-artists"></div>
     </div>
     <div class="row odd album"> 
-       <label class="text-right col-sm-2" >Album</label>
-       <div class="col-sm-3" id="awe-track-album"></div>
-       <div class="col-sm-7" id="awe-track-album-img"></div>
+       <label class="text-right col-sm-2">Album</label>
+       <div class="col-sm-3" id="awe-track-album">&nbsp;</div>
+       <div class="col-sm-7" id="awe-track-album-img">&nbsp;</div>
     </div>
   </fieldset>
 
@@ -280,7 +283,7 @@ AwesompleteUtil.startAwesomplete('#user_track1',
   url: 'https://api.spotify.com/v1/search?type=track&limit=10&q=track:', 
   urlEnd: '*', 
   limit: 10, 
-  convertResponse: AwesompleteUtil.jsonFlatten.bind({value: 'name'}), prepop: true
+  convertResponse: AwesompleteUtil.jsonFlatten.bind({value: 'name'})
  },
  {
   minChars: 3, 
@@ -299,6 +302,7 @@ AwesompleteUtil.startAwesomplete('#user_track1',
 
   </section>
   <section class="container" id="epilogue"> 
+    <h2>Anything else that comes to mind</h2>
     <div class="row">
       <div class="col-sm-12">
         <a href="https://lea.verou.me/2015/02/awesomplete-2kb-autocomplete-with-zero-dependencies/">Lea's blog about the creation of Awesomplete</a>
