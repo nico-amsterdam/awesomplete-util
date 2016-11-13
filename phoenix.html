@@ -30,7 +30,7 @@
                      font-weight: bold; 
                      margin: 1em 1em;
                      color: brown }
-  .generated { font-size: 16px; text-align: right; display:block; }
+  .generated { margin-top: -4em; text-align: right; padding: 1em; font-size: smaller }
 
   /* fight with bootstrap */
   .table { display: table }
@@ -172,7 +172,8 @@
     item: "itemWords",
     convertResponse: "AwesompleteUtil.jsonFlatten.bind({value: 'name'})"
   }
-) %&gt;</code><span class="generated"><a href="index.html#spotify-artist">Generated code</a></span></pre>
+) %&gt;</code></pre>
+        <p class="generated"><a href="index.html#spotify-artist" target="util">Generated code</a><p>
         Look at the convertResponse property.
         AwesompleteUtil accepts a JSON response object with an array of objects to feed the list of suggestions, e.g.
         something like:<pre><code>{ "artists":[ {"value":"Adele"}, {"value":"U2"} ] }</code></pre>However Spotify returns a deeper structure.
@@ -228,39 +229,11 @@
 
 var albumImgFun = function(e, dataField) {
    var arrImages = e.detail.length === 1 ? e.detail[0][dataField] : [],
-       style = ''; 
-   if (arrImages.length > 0) {
-     style = 'background:url(' + arrImages[0].url + ') ' 
-           + 'no-repeat; height: 200px; background-size: 200px';
-   } 
-   Awesomplete.$('#awe-track-album-img').style = style;
-}  
-
-AwesompleteUtil.startCopy('#user_track1', 'album.name', '#awe-track-album');
-AwesompleteUtil.startCopy('#user_track1', 'artists', artistsFun);
-AwesompleteUtil.startCopy('#user_track1', 'album.images', albumImgFun);</script></code></pre>
-      </div>
-      <div class="col-sm-12 js">
-        Text here
-        <p class="language-label">Javascript
-        <pre class="language-javascript"><code><script>var artistsFun = function(e, dataField) { 
-   var arrArtists = e.detail.length === 1 ? e.detail[0][dataField] : [],
-       html = '', 
-       i; 
-   for (i=0; i < arrArtists.length; i++) {
-     html = html + '<li>' + arrArtists[i].name;
-   } 
-   Awesomplete.$('#awe-track-artists').innerHTML = '<ul>' + html + '</ul>'; 
-}
-
-var albumImgFun = function(e, dataField) {
-   var arrImages = e.detail.length === 1 ? e.detail[0][dataField] : [],
-       style = ''; 
-   if (arrImages.length > 0) {
-     style = 'background:url(' + arrImages[0].url + ') ' 
-           + 'no-repeat; height: 200px; background-size: 200px';
-   } 
-   Awesomplete.$('#awe-track-album-img').style = style;
+       html = ''; 
+   if (arrImages.length > 0) {                                                                                 
+     html = '<img src="' + arrImages[0].url + '" alt="album image" width="200"/>';
+   }  
+   Awesomplete.$('#awe-track-album-img').innerHTML = html;
 }  
 
 AwesompleteUtil.startCopy('#user_track1', 'album.name', '#awe-track-album');
