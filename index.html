@@ -151,7 +151,8 @@
   itemWords = function(text, input) {
     var arr, words = input.split(/\s+/), j;
     if (input.trim() !== '') {
-      /* Label contains value and optional extra HTML markup which starts with the <p> tag. 
+      /* Label contains value and optional extra HTML markup 
+         which starts with the <p> tag. 
          Do not mark text after the first <p> */
       arr = ('' + text).split('<p>');
       /* iterate words */
@@ -171,13 +172,13 @@
         are more results, so it will re-query if more characters are typed in to get more refined results.
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.startAwesomplete('#user_artist1',
- { 
+ {  /* util options */
   url: 'https://api.spotify.com/v1/search?type=artist&limit=15&q=artist:', 
   urlEnd: '*', 
   limit: 15, 
   convertResponse: AwesompleteUtil.jsonFlatten.bind({value: 'name'})
  }, 
- {
+ {  /* awesomplete options */
   filter: filterWords,
   item: itemWords
  }
@@ -238,7 +239,7 @@
 var albumImgFun = function(e, dataField) {
    var arrImages = e.detail.length === 1 ? e.detail[0][dataField] : [],
        html = ''; 
-   if (arrImages.length > 0) {                                                                                 
+   if (arrImages.length > 0) {
      html = '<img src="' + arrImages[0].url + '" alt="album image" width="200"/>';
    }  
    Awesomplete.$('#awe-track-album-img').innerHTML = html;
@@ -270,6 +271,81 @@ AwesompleteUtil.startAwesomplete('#user_track1',
   item: itemWords
  }
 );</script></code></pre>
+  Unfortunetly we cannot instruct to Spotify to sort on song title length. If you search for songs with only one or
+  two words, it might be that the desired song is not in the first 10 shown results.
+      </div>
+    </div>
+
+  <fieldset id="spotify-artist" class="example">
+    <legend class="h3">
+    Email address
+    </legend>
+    <div class="row even">
+      <div class="col-xs-11 col-xs-offset-1 features">
+        Example demonstrates:
+        <ul>
+          <li>dynamic data loading
+          <li>suggestion label differs from value
+          <li>description shown in suggestions
+        </ul>
+      </div>
+      <div class="col-sm-12">
+         Enter an email address (they are all from acme.com):
+      </div>
+      <label class="control-label col-sm-2" for="user_email2">Email</label>
+      <div class="col-sm-10 awesomplete">
+         <input class="form-control" id="user_email2" name="user[email2]" autocomplete="off" type="text">
+      </div>
+    </div>
+  </fieldset>
+
+    <div class="row even">
+      <div class="col-sm-12 html">
+        Input control:
+        <p class="language-label">HTML
+        <pre class="language-markup"><code >&lt;input class="form-control" id="user_email2" autocomplete="off"
+     name="user[email2] type="text" /&gt;</code></pre>
+      </div>
+      <div class="col-sm-12 js">
+          This examples uses random names from <a href="http://uinames.com/api/" target=_blank>http://uinames.com/api/</a>
+        The function below constructs email addresses.
+        <p class="language-label">Javascript
+        <pre class="language-javascript"><code><script>var uinames2contacts = function(names) {
+  var email_result = {},
+      result_list = [],
+      transform_names = function(item) {
+        var contact = {};
+        contact.name = item.name + ' ' + item.surname;
+        contact.email = item.name.toLowerCase() + '.' + 
+                        item.surname.toLowerCase() + '@acme.com';
+        contact.value = contact.name + ' <' + contact.email + '>';
+        result_list.push(contact);
+      };
+  names.forEach(transform_names);
+  email_result.contacts = result_list;
+  return email_result;
+};</script></code></pre>
+      </div>
+      <div class="col-sm-12 awe">
+        Here the Awesomplete object is created 
+        <p class="language-label">Javascript
+        <pre class="language-javascript"><code><script>AwesompleteUtil.startAwesomplete('#user_email2',
+ { 
+  url: 'http://uinames.com/api/?amount=100',
+  convertResponse: uinames2contacts,
+  loadall: true
+ }, 
+ {
+  minChars: 1,
+  maxItems: 7,
+  data: function(rec, input) { 
+    return { label: (rec['name'] || '').replace('<p>', '<p >')+'<p>'+(rec['email'] || ''),
+             value: rec['value'] };
+  }, 
+  filter: AwesompleteUtil.filterContains
+ }
+);</script></code></pre>
+        Look at the convertResponse property.
       </div>
     </div>
 
