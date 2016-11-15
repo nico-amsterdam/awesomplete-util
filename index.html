@@ -75,7 +75,7 @@
   <header class="container">
     <div class="row">
       <div class="col-sm-12">
-        <span class="logo">Awesomplete<span>Util</span></span> is a javascript library enhancing Lea Verou's autocomplete/autosuggest/typeahead/inputsearch <a href="https://leaverou.github.io/awesomplete/index.html">Awesomplete widget</a>.
+        <span class="logo">Awesomplete<span>Util</span></span> is a javascript library enhancing Lea Verou's autocomplete / autosuggest / typeahead / inputsearch <a href="https://leaverou.github.io/awesomplete/index.html">Awesomplete widget</a>.
         <p>
         AwesompleteUtil adds the following features:
         <ul>
@@ -276,7 +276,7 @@ AwesompleteUtil.startAwesomplete('#user_track1',
       </div>
     </div>
 
-  <fieldset id="spotify-artist" class="example">
+  <fieldset id="email2" class="example">
     <legend class="h3">
     Email address
     </legend>
@@ -284,7 +284,7 @@ AwesompleteUtil.startAwesomplete('#user_track1',
       <div class="col-xs-11 col-xs-offset-1 features">
         Example demonstrates:
         <ul>
-          <li>dynamic data loading
+          <li>use remote service which returns everything; load all
           <li>suggestion label differs from value
           <li>description shown in suggestions
         </ul>
@@ -348,6 +348,69 @@ AwesompleteUtil.startAwesomplete('#user_track1',
         Look at the convertResponse property.
       </div>
     </div>
+
+  <fieldset id="colors" class="example">
+    <legend class="h3">
+    Colors
+    </legend>
+    <div class="row odd">
+      <div class="col-xs-11 col-xs-offset-1 features">
+        Example demonstrates:
+        <ul>
+          <li>suggestion list with value and label as part of page
+          <li>label with HTML
+          <li>Copy initial/autofill value; Prepopulation event during page load
+        </ul>
+      </div>
+      <div class="col-sm-12">
+         Enter a color:
+      </div>
+      <label class="control-label col-sm-2" for="user_color">Color</label>
+      <div class="col-sm-10 awesomplete">
+         <input id="user_color" class="form-control" name="user[color]" value="red" type="text">
+         <div id="awe-color-result"></div>
+      </div>
+    </div>
+  </fieldset>
+
+    <div class="row odd">
+      <div class="col-sm-12 html">
+        Input control:
+        <p class="language-label">HTML
+        <pre class="language-markup"><code >&lt;input id="user_color" class="form-control" 
+     name="user[color] type="text" value="purple" /&gt;</code></pre>
+      </div>
+      <div class="col-sm-12 awe">
+        Here the Awesomplete object is created 
+        <p class="language-label">Javascript
+        <pre class="language-javascript"><code><script>AwesompleteUtil.startCopy('#user_color', 'label', '#awe-color-result');
+AwesompleteUtil.startAwesomplete('#user_color', 
+ {
+  prepop: true
+ }, 
+ { 
+  list: [
+    { label: "<b style='color:black'>black</b>",   value: 'black' },
+    { label: "<b style='color:blue'>blue</b>",     value: 'blue'  },
+    { label: "<b style='color:brown'>brown</b>",   value: 'brown' },
+    { label: "<b style='color:green'>green</b>",   value: 'green' },
+    { label: "<b style='color:orange'>orange</b>", value: 'orange'},
+    { label: "<b style='color:pink'>pink</b>",     value: 'pink'  },
+    { label: "<b style='color:purple'>purple</b>", value: 'purple'},
+    { label: "<b style='color:red'>red</b>",       value: 'red'   },
+    { label: "<b style='color:yellow'>yellow</b>", value: 'yellow'}
+  ], 
+  minChars: 1, 
+  filter: AwesompleteUtil.filterContains
+ }
+);</script></code></pre>
+      Notice the prepop property and the startCopy function call. The initial/prepopulated/autofilled value of input-control triggers the copy action, and the label is copied to the div-tag with id 'awe-color-result' during page load. The order of the html elements and the inline script is important here. The startCopy function must be called before the startAwesomplete function, because the latter can immediately fire the 'awesomplete-prepop' event which should be handled by the former.
+The startCopy inline script should preferable be placed after the HTML element which is the target. If you do, it only has to lookup the target element once, but If you don't do this it will lookup the target element with each event.
+<p>
+If u use remote data loading and combine prepop:true with loadall:true the remote call will happen during page load. If prepop:false, the loadall will be done lazely, e.g. if the user makes changes and the input size >= minChars.
+      </div>
+    </div>
+
 
   </section>
   <section class="container" id="epilogue"> 
