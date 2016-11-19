@@ -269,14 +269,17 @@ var AwesompleteUtil = function() {
         }
         function _clickFun(e) {
           var t = this,
-              awe;
+              awe, 
+              minChars;
           if (e.target === $(t.btnId)) {
             awe = t.awe;
             if (awe.ul.childNodes.length === 0 || awe.ul.hasAttribute('hidden')) {
-             awe.minChars = 0;
-             awe.evaluate();
+              minChars = awe.minChars;
+              awe.minChars = 0;
+              awe.evaluate();
+              awe.minChars = minChars;
             } else {
-             awe.close();
+              awe.close();
             }
           }
         }
