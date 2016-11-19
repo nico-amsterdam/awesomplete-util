@@ -272,11 +272,9 @@ var AwesompleteUtil = function() {
               awe;
           if (e.target === $(t.btnId)) {
             awe = t.awe;
-            if (awe.ul.childNodes.length === 0) {
+            if (awe.ul.childNodes.length === 0 || awe.ul.hasAttribute('hidden')) {
              awe.minChars = 0;
              awe.evaluate();
-            } else if (awe.ul.hasAttribute('hidden')) {
-             awe.open();
             } else {
              awe.close();
             }
