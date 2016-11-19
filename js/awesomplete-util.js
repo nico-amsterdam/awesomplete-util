@@ -254,9 +254,9 @@ var AwesompleteUtil = function() {
                 val = (dataField && val ? val[dataField] : val) || '';
                 if ('undefined' !== typeof elem.value) {
                   elem.value = val;
-                  if (elem.classList) {
-                    // this is not user input
-                    elem.classList.remove(_CLS_NOT_FOUND, _CLS_FOUND);
+                  if (elem.classList && elem.classList.remove) {
+                    // input is not wrong anymore
+                    elem.classList.remove(_CLS_NOT_FOUND);
                   }
                 } else if ('undefined' !== typeof elem.src) {
                   elem.src = val;
