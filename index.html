@@ -18,7 +18,7 @@
   .logo span { font-style:normal }
   .navbar { background-color: #64f652 }
   @media screen and (min-width: 768px) { 
-    .navbar { position: fixed; top: 0; width: 100% }
+    .navbar { position: fixed; top: 0; width: 100%; opacity: 0.9 }
     header { margin-top: 25px }
     header, section { padding-top: 40px }  
   }
@@ -38,7 +38,6 @@
   /* style awesomplete-util */
   div.awesomplete { display: block }
   .input-group-btn .dropdown-btn { line-height: 30px }
-  div.awesomplete-disabled ul li p mark { background: none; color:#333; padding:0 }
   div.awesomplete ul { font-size: smaller }
   div.awesomplete ul li p { display: block; font-size: small; margin-left: 1em; color:#0 }
   div.awesomplete .awe-found { border: 2px solid green }
@@ -46,6 +45,7 @@
   .hide-not-found div.awesomplete .awe-not-found { border-color: lightblue }
 
   /* style examples */
+  .example { margin-top: 40px }
   #awe-track-artists ul { margin-top: 0 }
   .album { min-height: 200px }
   .odd  { border-right: thick ridge purple; padding-right: 6px }
@@ -100,6 +100,7 @@
   <section class="container" id="examples">
     <h2>Examples</h2>
 
+  <!-- BEGIN spotify artist example -->
   <fieldset id="spotify-artist" class="example">
     <legend class="h3">
     Spotify artist search
@@ -108,10 +109,10 @@
       <div class="col-xs-11 col-xs-offset-1 features">
         Example demonstrates:
         <ul>
-          <li>dynamic data loading
-          <li>flatten json
-          <li>custom search filter
-          <li>custom text highlighter
+          <li>Dynamic data loading.
+          <li>Flatten json.
+          <li>Custom search filter.
+          <li>Custom text highlighter.
         </ul>
         Obviously we cannot load all artists known by spotify in the browsers memory, so that's why we use here
         dynamic data loading. The search starts if 2 characters are entered.
@@ -120,7 +121,7 @@
          Enter an artist name:
       </div>
       <label class="control-label col-sm-2" for="user_artist1">Artist</label>
-      <div class="col-sm-10 awesomplete">
+      <div class="col-sm-10 au">
          <input class="form-control" id="user_artist1" name="user[artist1]" type="text">
       </div>
     </div>
@@ -130,7 +131,7 @@
       <div class="col-sm-12 html">
         Nothing unusal in the input control:
         <p class="language-label">HTML
-        <pre class="language-markup"><code >&lt;input class="form-control" id="user_artist1" name="user[artist1] type="text" /&gt;</code></pre>
+        <pre class="language-markup"><code >&lt;input class="form-control" id="user_artist1" name="user[artist1]" type="text" /&gt;</code></pre>
       </div>
       <div class="col-sm-12 js">
         The standard supplied 'starts-with' and 'contains' filters don't exactly match with how Spotify searches.
@@ -166,7 +167,7 @@
   };</script></code></pre>
       </div>
       <div class="col-sm-12 awe">
-        Here the Awesomplete object is created with the filter and item functions defined above.
+        Below the Awesomplete object is created with the filter and item functions defined above.
         At the end of the remote url for the ajax lookup we add the '*' wildcard character.
         A limit of 15 is specified; if 15 or more results are returned by the server the code assumes that there
         are more results, so it will re-query if more characters are typed in to get more refined results.
@@ -189,20 +190,27 @@
         jsonFlatten flattens JSON:<p><code>{ "a":{"b":{"c":[{"d":{"e":1}}]}}}</code> becomes <code>{"a.b.c":[{"d.e":1}]}</code>.<p> You can pass-on extra option via the bind method. Awesomplete by default looks for 'value' and 'label' properties. Here it's specified that within the array, the 'name' property should also be added as 'value' property.
       </div>
     </div>
+  <!-- END spotify artist example -->
 
-  <fieldset id="spotify-track">
+  <!-- BEGIN spotify track example -->
+  <fieldset id="spotify-track" class="example">
     <legend class="h3">
     Spotify track search
     </legend>
     <div class="row odd">
       <div class="col-xs-11 col-xs-offset-1 features">
-         some text
+        Example demonstrates:
+        <ul>
+          <li>Dynamic data loading.
+          <li>Show related data of selected item.
+          <li>Custom render functions for copy action.
+        </ul>
       </div>
       <div class="col-sm-12">
          Enter a song title:
       </div>
       <label class="control-label text-right col-sm-2" for="user_track1">Track</label>
-      <div class="col-sm-10">
+      <div class="col-sm-10 au">
         <input id="user_track1" class="form-control" autocomplete="off" name="user[track1]" type="text">
       </div>
     </div>
@@ -224,7 +232,8 @@
      name="user[track1]" type="text" /&gt;</code></pre>
       </div>
       <div class="col-sm-12 js">
-        Text here
+        The artistsFun function below shows the artists of the selected track as list items.
+        The albumImgFun function displays an image of the album of the selected track. These functions are used by the startCopy methods. 
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>var artistsFun = function(e, dataField) { 
    var arrArtists = e.detail.length === 1 ? e.detail[0][dataField] : [],
@@ -250,6 +259,7 @@ AwesompleteUtil.startCopy('#user_track1', 'artists', artistsFun);
 AwesompleteUtil.startCopy('#user_track1', 'album.images', albumImgFun);</script></code></pre>
       </div>
       <div class="col-sm-12 js">
+        The creation of the Awesomplete object below is almost the same as in the 'spotify artist search' example.
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>
 AwesompleteUtil.startAwesomplete('#user_track1', 
@@ -275,26 +285,31 @@ AwesompleteUtil.startAwesomplete('#user_track1',
   two words, it might be that the desired song is not in the first 10 shown results.
       </div>
     </div>
+  <!-- END spotify track example -->
 
-  <fieldset id="email2" class="example">
+  <!-- BEGIN combobox example -->
+  <fieldset id="combobox" class="example">
     <legend class="h3">
-    Email address
+    Combobox with countries
     </legend>
     <div class="row even">
       <div class="col-xs-11 col-xs-offset-1 features">
         Example demonstrates:
         <ul>
-          <li>use remote service which returns everything; load all
-          <li>suggestion label differs from value
-          <li>description shown in suggestions
+          <li>Combobox.
+          <li>Use remote service which returns everything; load all.
         </ul>
       </div>
-      <div class="col-sm-12">
-         Enter an email address (they are all from acme.com):
-      </div>
-      <label class="control-label col-sm-2" for="user_email2">Email</label>
-      <div class="col-sm-10 awesomplete">
-         <input class="form-control" id="user_email2" name="user[email2]" autocomplete="off" type="text">
+      <label class="control-label col-sm-2" for="user_combocountry">Country</label>
+      <div class="col-sm-10 au">
+         <span class="table">
+            <input class="form-control" id="user_combocountry" name="user[combocountry]" type="text">
+            <span class="input-group-btn">
+               <button class="dropdown-btn" id="awe_btn_user_combocountry" type="button">
+                  <span class="caret"></span>
+               </button>
+            </span>
+         </span>
       </div>
     </div>
   </fieldset>
@@ -303,52 +318,148 @@ AwesompleteUtil.startAwesomplete('#user_track1',
       <div class="col-sm-12 html">
         Input control:
         <p class="language-label">HTML
-        <pre class="language-markup"><code >&lt;input class="form-control" id="user_email2" autocomplete="off"
-     name="user[email2] type="text" /&gt;</code></pre>
-      </div>
-      <div class="col-sm-12 js">
-          This examples uses random names from <a href="http://uinames.com/api/" target=_blank>http://uinames.com/api/</a>
-        The function below constructs email addresses.
-        <p class="language-label">Javascript
-        <pre class="language-javascript"><code><script>var uinames2contacts = function(names) {
-  var email_result = {},
-      result_list = [],
-      transform_names = function(item) {
-        var contact = {};
-        contact.name = item.name + ' ' + item.surname;
-        contact.email = item.name.toLowerCase() + '.' + 
-                        item.surname.toLowerCase() + '@acme.com';
-        contact.value = contact.name + ' <' + contact.email + '>';
-        result_list.push(contact);
-      };
-  names.forEach(transform_names);
-  email_result.contacts = result_list;
-  return email_result;
-};</script></code></pre>
+        <pre class="language-markup"><code >&lt;input id="user_combocountry" class="form-control" 
+     name="user[combocountry]" type="text" /&gt;
+&lt;span class="input-group-btn"&gt;
+   &lt;button class="dropdown-btn" id="awe_btn_user_combocountry" type="button"&gt;
+      &lt;span class="caret"&gt;&lt;/span&gt;
+   &lt;/button&gt;
+&lt;/span&gt;</code></pre>
       </div>
       <div class="col-sm-12 awe">
-        Here the Awesomplete object is created 
+        The combobox is useful when there are only a few items in the list. Here we use 8 maxItems,
+        so when the combobox is opened, only the first 8 countries are shown.
+        The shortest country names are shown first.
         <p class="language-label">Javascript
-        <pre class="language-javascript"><code><script>AwesompleteUtil.startAwesomplete('#user_email2',
- { 
-  url: 'http://uinames.com/api/?amount=100',
-  convertResponse: uinames2contacts,
-  loadall: true
- }, 
- {
-  minChars: 1,
-  maxItems: 7,
-  data: function(rec, input) { 
-    return { label: (rec['name'] || '').replace('<p>', '<p >')+'<p>'+(rec['email'] || ''),
-             value: rec['value'] };
-  }, 
-  filter: AwesompleteUtil.filterContains
- }
+        <pre class="language-javascript"><code><script>AwesompleteUtil.startClick('#awe_btn_user_combocountry',
+  AwesompleteUtil.startAwesomplete('#user_combocountry',
+   {
+    url: 'http://restcountries.eu/rest/v1/all', 
+    loadall: true, 
+    prepop: true
+   }, 
+   {
+    minChars: 1,
+    maxItems: 8,
+    data: function(rec, input) { return rec['name']; }
+   }
+  )
 );</script></code></pre>
-        Look at the convertResponse property.
+        The prepop:true makes sure that the countries are loaded during page load.
       </div>
     </div>
+  <!-- END combobox example -->
 
+  <!-- BEGIN user_host example -->
+  <fieldset id="user-host" class="example">
+    <legend class="h3">
+    Connect as user to host
+    </legend>
+    <div class="row odd">
+      <div class="col-xs-11 col-xs-offset-1 features">
+        Example demonstrates:
+        <ul>
+          <li>Type user name and get suggestions for hostnames; autocomplete after a certain character.
+          <li>Show descriptions in the suggestion list.
+          <li>Load suggestions from static json file.
+        </ul>
+      </div>
+      <div class="col-sm-12">
+         Enter for example 'root@192.168.1.1'
+      </div>
+      <label class="control-label col-sm-2" for="user_host">User@host</label>
+      <div class="col-sm-10 au hide-not-found">
+         <input class="form-control" id="user_host" name="user[host]" type="text">
+      </div>
+    </div>
+  </fieldset>
+
+    <div class="row odd">
+      <div class="col-sm-12 html">
+        Input control:
+        <p class="language-label">HTML
+        <pre class="language-markup"><code >&lt;input id="user_host" class="form-control" 
+     name="user[host]" type="text" /&gt;</code></pre>
+      </div>
+      <div class="col-sm-12 awe">
+        The combobox is especially useful when there are only a few items in the list.
+        <p class="language-label">Javascript
+        <pre class="language-javascript"><code><script>AwesompleteUtil.startAwesomplete('#user_host',
+ {
+   url: 'js/host.json',
+   loadall: true
+ },
+ {
+   data: function(rec, input) {
+     var data = { label: rec['value']+'<p>'+(rec['label'] || ''), value: rec['value'] }, 
+       before = input.slice(0, input.indexOf('@')) + '@'; 
+     return {label: before + data.label, value: before + data.value}; 
+   },
+   filter: AwesompleteUtil.filterStartsWith, 
+   item: AwesompleteUtil.itemStartsWith
+ }
+);</script></code></pre>
+      </div>
+    </div>
+  <!-- END user_host example -->
+
+  <!-- BEGIN iso-country example -->
+  <fieldset id="iso-country" class="example">
+    <legend class="h3">
+    Country iso code
+    </legend>
+    <div class="row even">
+      <div class="col-xs-11 col-xs-offset-1 features">
+        Example demonstrates:
+        <ul>
+          <li>Use remote service that doesn't return a list but a single entry to verify input.
+          <li>Show related data if entry found.
+          <li>Flatten json.
+        </ul>
+      </div>
+      <div class="col-sm-12">
+         Enter for example 'usa'
+      </div>
+      <label class="control-label col-sm-2" for="user_country_iso">Country iso three letter code</label>
+      <div class="col-sm-10 au">
+          <input class="form-control" id="user_country_iso" name="user[country_iso]" autocomplete="off" type="text">
+         <span id="awe-country-name"></span>
+      </div>
+    </div>
+  </fieldset>
+
+    <div class="row even">
+      <div class="col-sm-12 html">
+        This is actually not an autocomplete, but it does verify the input.
+        <p class="language-label">HTML
+        <pre class="language-markup"><code >&lt;input id="user_country_iso" class="form-control" autocomplete="off"
+     name="user[iso-country]" type="text" /&gt;
+&lt;span id="awe-country-name"&gt;&lt;/span&gt;</code></pre>
+      </div>
+      <div class="col-sm-12 awe">
+        Below the Awesomplete object is created:
+        <p class="language-label">Javascript
+        <pre class="language-javascript"><code><script>AwesompleteUtil.startCopy('#user_country_iso', 'RestResponse.result.name', '#awe-country-name');
+AwesompleteUtil.startAwesomplete('#user_country_iso',
+ {
+  url: 'http://services.groupkt.com/country/get/iso3code/', 
+  limit: 1, 
+  convertResponse: AwesompleteUtil.jsonFlatten.bind({root: 'RestResponse.result', value: 'RestResponse.result.alpha3_code'})
+ }, 
+ {
+  maxItems: 0,
+  minChars: 3,
+  filter: AwesompleteUtil.filterStartsWith
+ }
+);</script></code></pre>
+        The limit:1 tells that not more than 1 result is excepted, so it doesn't have to be an array. 
+        The result does contain an array, but this is not the array we want. Therefore the jsonFlatten function receives
+        bind options to tell which root element it must filter, and the value we are interested in.
+      </div>
+    </div>
+  <!-- END iso-country example -->
+
+  <!-- BEGIN colors example -->
   <fieldset id="colors" class="example">
     <legend class="h3">
     Colors
@@ -357,19 +468,19 @@ AwesompleteUtil.startAwesomplete('#user_track1',
       <div class="col-xs-11 col-xs-offset-1 features">
         Example demonstrates:
         <ul>
-          <li>suggestion list with value and label as part of page
-          <li>label with HTML
-          <li>Copy initial/autofill value; Prepopulation event during page load
+          <li>Suggestion list with value and label as part of page source.
+          <li>Label with HTML markup..
+          <li>Show related data of initial/autofill value; Prepopulation event during page load
         </ul>
       </div>
       <div class="col-sm-12">
          Enter a color:
       </div>
       <label class="control-label col-sm-2" for="user_color">Color</label>
-      <div class="col-sm-10 awesomplete">
-         <input id="user_color" class="form-control" name="user[color]" value="red" type="text">
-         <div id="awe-color-result"></div>
+      <div class="col-sm-10 au">
+         <input id="user_color" class="form-control" name="user[color]" value="purple" type="text">
       </div>
+      <div class="col-sm-2 text-right"><span id="awe-color-result"></span> &#x21B2;</div>
     </div>
   </fieldset>
 
@@ -377,11 +488,12 @@ AwesompleteUtil.startAwesomplete('#user_track1',
       <div class="col-sm-12 html">
         Input control:
         <p class="language-label">HTML
-        <pre class="language-markup"><code >&lt;input id="user_color" class="form-control" 
-     name="user[color] type="text" value="purple" /&gt;</code></pre>
+        <pre class="language-markup"><code>&lt;input id="user_color" class="form-control" 
+     name="user[color]" type="text" value="purple" /&gt;
+&lt;div&gt;&lt;span id="awe-color-result"&gt;&lt;/span&gt; &amp;#x21B2;&lt;/div&gt;</code></pre>
       </div>
       <div class="col-sm-12 awe">
-        Here the Awesomplete object is created 
+        Below the Awesomplete object is created 
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.startCopy('#user_color', 'label', '#awe-color-result');
 AwesompleteUtil.startAwesomplete('#user_color', 
@@ -404,12 +516,239 @@ AwesompleteUtil.startAwesomplete('#user_color',
   filter: AwesompleteUtil.filterContains
  }
 );</script></code></pre>
-      Notice the prepop property and the startCopy function call. The initial/prepopulated/autofilled value of input-control triggers the copy action, and the label is copied to the div-tag with id 'awe-color-result' during page load. The order of the html elements and the inline script is important here. The startCopy function must be called before the startAwesomplete function, because the latter can immediately fire the 'awesomplete-prepop' event which should be handled by the former.
+      Notice the prepop property and the startCopy function call. The initial/autofilled value of input-control triggers the copy action, and the label is copied to the span-tag with id 'awe-color-result' during page load. The order of the html elements and the inline script is important here. The startCopy function must be called before the startAwesomplete function, because the latter can immediately fire the 'awesomplete-prepop' event which should be handled by the former.
 The startCopy inline script should preferable be placed after the HTML element which is the target. If you do, it only has to lookup the target element once, but If you don't do this it will lookup the target element with each event.
 <p>
 If u use remote data loading and combine prepop:true with loadall:true the remote call will happen during page load. If prepop:false, the loadall will be done lazely, e.g. if the user makes changes and the input size >= minChars.
       </div>
     </div>
+  <!-- END colors example -->
+
+  <!-- BEGIN capital example -->
+  <fieldset id="capital" class="example">
+    <legend class="h3">
+    Country capitals
+    </legend>
+    <div class="row even">
+      <div class="col-xs-11 col-xs-offset-1 features">
+        Example demonstrates:
+        <ul>
+          <li>One remote call (load all) resulting in one response list shared by multiple controls.
+          <li>Copy related data of selected item to other input field, in two directions!
+        </ul>
+      </div>
+      <div class="col-sm-12">
+          Enter either country or capital, and look what happens in the other field.
+      </div>
+      <label class="control-label col-sm-2" for="user_country">Country</label>
+      <div class="col-sm-4 au">
+         <input id="user_country" class="form-control" name="user[country]" autocomplete="off" type="text">
+      </div>
+      <label class="control-label col-sm-2" for="user_capital">Capital</label>
+      <div class="col-sm-4 au">
+         <input id="user_capital" class="form-control" name="user[capital]" autocomplete="off" type="text">
+      </div>
+    </div>
+  </fieldset>
+
+    <div class="row even">
+      <div class="col-sm-12 html">
+        Input control:
+        <p class="language-label">HTML
+        <pre class="language-markup"><code>&lt;input id="user_country" class="form-control" name="user[country]" autocomplete="off" type="text" /&gt;
+&lt;input id="user_capital" class="form-control" name="user[capital]" autocomplete="off" type="text" /&gt;</code></pre>
+      </div>
+      <div class="col-sm-12 awe">
+        Below the Awesomplete object is created 
+        <p class="language-label">Javascript
+        <pre class="language-javascript"><code><script>AwesompleteUtil.startCopy('#user_country', 'capital', '#user_capital');
+AwesompleteUtil.startCopy('#user_capital', 'name', '#user_country');
+var awe_user_country=AwesompleteUtil.startAwesomplete('#user_country', 
+ {}, 
+ {
+  minChars: 1, 
+  maxItems: 7, 
+  data: function(rec, input) { return rec['name']; }
+ }
+);
+
+var awe_user_capital=AwesompleteUtil.startAwesomplete('#user_capital', 
+ {}, 
+ {
+  minChars: 1, 
+  maxItems: 7, 
+  data: function(rec, input) { return rec['capital']; }
+ }
+);
+
+AwesompleteUtil.ajax('http://restcountries.eu/rest/v1/all', '', '', 
+  function(e) {
+    var xhr = this, list;
+    if (xhr.status === 200) {
+      list = JSON.parse(xhr.responseText);
+      awe_user_country.list = list;
+      awe_user_capital.list = list;
+    }
+   }
+);</script></code></pre>
+      </div>
+    </div>
+  <!-- END capital example -->
+
+  <!-- BEGIN seafood example -->
+  <fieldset id="seafood" class="example">
+    <legend class="h3">
+    Seafood toppings
+    </legend>
+    <div class="row odd">
+      <div class="col-xs-11 col-xs-offset-1 features">
+        Example demonstrates:
+        <ul>
+          <li>Data list in page source.
+          <li>Select multiple items.
+        </ul>
+      </div>
+      <div class="col-sm-12">
+         Enter for example 'Crayfish'
+      </div>
+      <label class="control-label col-sm-2" for="user_seafood">Seafood toppings</label>
+      <div class="col-sm-10 au">
+         <input class="form-control" id="user_seafood" name="user[seafood]" type="text"
+          data-list="Anchovies, Cajun Prawn, Crayfish, Lobster, Oysters, Prawns, Salmon, Shrimps, Smoked Salmon, Squid, Tuna, Whitebait">
+       </div>
+      </div>
+    </div>
+  </fieldset>
+
+    <div class="row odd">
+      <div class="col-sm-12 html">
+        Input control with data-list:
+        <p class="language-label">HTML
+        <pre class="language-markup"><code >&lt;input id="user_seafood" class="form-control" 
+     name="user[seafood]" type="text" 
+  data-list="Anchovies, Cajun Prawn, Crayfish, Lobster,
+             Oysters, Prawns, Salmon, Shrimps,
+             Smoked Salmon, Squid, Tuna, Whitebait"&gt;</code></pre>
+      </div>
+      <div class="col-sm-12 awe">
+        Notice that you can enter multiple toppings, seperated by , or ;
+        <p class="language-label">Javascript
+        <pre class="language-javascript"><code><script>AwesompleteUtil.startAwesomplete('#user_seafood',
+ {
+  convertInput: function(input) { return input.replace(/[,;]\s*$/, '').match(/[^,;]*$/)[0].trim().toLowerCase(); }
+ },
+ {
+  minChars: 1, 
+  replace: function(data) { 
+    var text=data.value; 
+    this.input.value = this.input.value.match(/^.+[,;]\s*|/)[0] + text + ', ';
+  },
+  filter: function(data, input) {
+    return Awesomplete.FILTER_CONTAINS(data, input.match(/[^,;]*([,;]\s*)?$/)[0]);
+  },
+  item: function(text, input) {
+    return AwesompleteUtil.itemContains(text, input.match(/[^,;]*([,;]\s*)?$/)[0]); 
+  }
+ }
+);</script></code></pre>
+        The regular expressions are used to extract the last part of the input from the rest.
+      </div>
+    </div>
+  <!-- END seafood example -->
+
+
+  <!-- BEGIN multimail example -->
+  <fieldset id="multimail" class="example">
+    <legend class="h3">
+    Email address
+    </legend>
+    <div class="row even">
+      <div class="col-xs-11 col-xs-offset-1 features">
+        Example demonstrates:
+        <ul>
+          <li>Use remote service which returns everything; load all.
+          <li>Multiple input values.
+          <li>In the shown suggestions the email address is shown below the name. The value contains both.
+        </ul>
+      </div>
+      <div class="col-sm-12">
+         Enter an email address (they are all from acme.com):
+      </div>
+      <label class="control-label col-sm-2" for="user_multimail">Email</label>
+      <div class="col-sm-10 au">
+         <input class="form-control" id="user_multimail" name="user[multimail]" autocomplete="off" type="text">
+      </div>
+    </div>
+  </fieldset>
+
+    <div class="row even">
+      <div class="col-sm-12 html">
+        Input control:
+        <p class="language-label">HTML
+        <pre class="language-markup"><code >&lt;input id="user_multimail" class="form-control" autocomplete="off"
+     name="user[multimail]" type="text" /&gt;</code></pre>
+      </div>
+      <div class="col-sm-12 js">
+          This examples uses random names from <a href="http://uinames.com/api/" target=_blank>http://uinames.com/api/</a>
+        The uinames2contacts function below constructs email addresses.
+        <p class="language-label">Javascript
+        <pre class="language-javascript"><code><script>var uinames2contacts = function(names) {
+  var email_result = {},
+      result_list = [],
+      transform_names = function(item) {
+        var contact = {};
+        contact.name = item.name + ' ' + item.surname;
+        contact.email = item.name.toLowerCase() + '.' + 
+                        item.surname.toLowerCase() + '@acme.com';
+        contact.value = contact.name + ' <' + contact.email + '>';
+        result_list.push(contact);
+      };
+  names.forEach(transform_names);
+  email_result.contacts = result_list;
+  return email_result;
+},
+itemMarkAll = function(text, input) {
+  text = AwesompleteUtil.mark(text, input);
+  return AwesompleteUtil.item(text, input);
+};</script></code></pre>
+      </div>
+      <div class="col-sm-12 awe">
+        In this example the 'value' field contains both name (label) and email address (descr).
+        By default the description field is not highlighted. The itemMarkAll function above
+        highlights all matching text in the suggestion list, including the description.
+        Try for example to search on @acme.com to see what it highlights with or without this function. 
+        <p class="language-label">Javascript
+        <pre class="language-javascript"><code><script>AwesompleteUtil.startAwesomplete('#user_multimail',
+ { 
+  url: 'http://uinames.com/api/?amount=100',
+  convertResponse: uinames2contacts,
+  loadall: true,
+  convertInput: function(input) {
+    return input.replace(/[;,]\s*$/, '').match(/[^;,]*$/)[0].trim().toLowerCase();
+  }
+ }, 
+ {
+  minChars: 1,
+  maxItems: 7,
+  data: function(rec, input) { 
+    return { label: (rec['name'] || '').replace('<p>', '<p >')+'<p>'+(rec['email'] || ''),
+             value: rec['value'] };
+  }, 
+  replace: function(data) { 
+    var text=data.value; this.input.value = this.input.value.match(/^.+[;,]\s*|/)[0] + text + '; ';
+  }, 
+  filter: function(data, input) { 
+    return Awesomplete.FILTER_CONTAINS(data.value, input.match(/[^;,]*([;,]\s*)?$/)[0]); 
+  }, 
+  item: function(text, input) { 
+    return (itemMarkAll)(text, input.match(/[^;,]*([;,]\s*)?$/)[0]); 
+  }
+ }
+);</script></code></pre>
+        The regular expressions are used to extract the last part of the input from the rest.
+      </div>
+    </div>
+  <!-- END multimail example -->
 
 
   </section>
