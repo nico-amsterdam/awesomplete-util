@@ -5,8 +5,8 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://leaverou.github.io/awesomplete/prism/prism.css"/>
-<link rel="stylesheet" href="https://getbootstrap.com/dist/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="//leaverou.github.io/awesomplete/prism/prism.css"/>
+<link rel="stylesheet" href="//getbootstrap.com/dist/css/bootstrap.min.css"/>
 <link rel="stylesheet" href="css/awesomplete.css"/>
 <script src="js/awesomplete.min.js"></script>
 <script src="js/awesomplete-util.js"></script>
@@ -75,7 +75,7 @@
   <header class="container">
     <div class="row">
       <div class="col-sm-12">
-        <span class="logo">Awesomplete<span>Util</span></span> is a javascript library enhancing Lea Verou's autocomplete / autosuggest / typeahead / inputsearch <a href="https://leaverou.github.io/awesomplete/index.html">Awesomplete widget</a>.
+        <span class="logo">Awesomplete<span>Util</span></span> is a javascript library enhancing Lea Verou's autocomplete / autosuggest / typeahead / inputsearch <a href="//leaverou.github.io/awesomplete/index.html">Awesomplete widget</a>.
         <p>
         AwesompleteUtil adds the following features:
         <ul>
@@ -174,7 +174,7 @@
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.startAwesomplete('#user_artist1',
  {  /* util options */
-  url: 'https://api.spotify.com/v1/search?type=artist&limit=15&q=artist:', 
+  url: '//api.spotify.com/v1/search?type=artist&limit=15&q=artist:', 
   urlEnd: '*', 
   limit: 15, 
   convertResponse: AwesompleteUtil.jsonFlatten.bind({value: 'name'})
@@ -265,7 +265,7 @@ AwesompleteUtil.startCopy('#user_track1', 'album.images', albumImgFun);</script>
         <pre class="language-javascript"><code><script>
 AwesompleteUtil.startAwesomplete('#user_track1', 
  {
-  url: 'https://api.spotify.com/v1/search?type=track&limit=10&q=track:', 
+  url: '//api.spotify.com/v1/search?type=track&limit=10&q=track:', 
   urlEnd: '*', 
   limit: 10, 
   convertResponse: AwesompleteUtil.jsonFlatten.bind({value: 'name'})
@@ -335,7 +335,7 @@ AwesompleteUtil.startAwesomplete('#user_track1',
         <pre class="language-javascript"><code><script>AwesompleteUtil.startClick('#awe_btn_user_combocountry',
   AwesompleteUtil.startAwesomplete('#user_combocountry',
    {
-    url: 'http://restcountries.eu/rest/v1/all', 
+    url: '//restcountries.eu/rest/v1/all', 
     loadall: true, 
     prepop: true
    }, 
@@ -443,7 +443,7 @@ AwesompleteUtil.startAwesomplete('#user_track1',
         <pre class="language-javascript"><code><script>AwesompleteUtil.startCopy('#user_country_iso', 'RestResponse.result.name', '#awe-country-name');
 AwesompleteUtil.startAwesomplete('#user_country_iso',
  {
-  url: 'http://services.groupkt.com/country/get/iso3code/', 
+  url: '//services.groupkt.com/country/get/iso3code/', 
   limit: 1, 
   convertResponse: AwesompleteUtil.jsonFlatten.bind({root: 'RestResponse.result', value: 'RestResponse.result.alpha3_code'})
  }, 
@@ -582,7 +582,7 @@ var awe_user_capital=AwesompleteUtil.startAwesomplete('#user_capital',
  }
 );
 
-AwesompleteUtil.ajax('http://restcountries.eu/rest/v1/all', '', '', 
+AwesompleteUtil.ajax('//restcountries.eu/rest/v1/all', '', '', 
   function(e) {
     var xhr = this, list;
     if (xhr.status === 200) {
@@ -689,7 +689,7 @@ AwesompleteUtil.ajax('http://restcountries.eu/rest/v1/all', '', '',
      name="user[multimail]" type="text" /&gt;</code></pre>
       </div>
       <div class="col-sm-12 js">
-          This examples uses random names from <a href="http://uinames.com/api/" target=_blank>http://uinames.com/api/</a>
+          This examples uses random names from <a href="//uinames.com/api/" target=_blank>http://uinames.com/api/</a>
         The uinames2contacts function below constructs email addresses.
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>var uinames2contacts = function(names) {
@@ -720,7 +720,7 @@ itemMarkAll = function(text, input) {
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.startAwesomplete('#user_multimail',
  { 
-  url: 'http://uinames.com/api/?amount=100',
+  url: 'uinames.com/api/?amount=100',
   convertResponse: uinames2contacts,
   loadall: true,
   convertInput: function(input) {
@@ -752,6 +752,98 @@ itemMarkAll = function(text, input) {
 
 
   </section>
+  <section class="container" id="install"> 
+    <h2>Installation</h2>
+    <div class="row">
+      <div class="col-sm-12">
+      </div>
+    </div>
+  </section>
+
+  <section class="container" id="events"> 
+    <h2>Events</h2>
+    <div class="row">
+      <div class="col-sm-12">
+      </div>
+    </div>
+  </section>
+
+  <section class="container" id="style"> 
+    <h2>CSS</h2>
+    <div class="row">
+      <div class="col-sm-12">
+      </div>
+    </div>
+  </section>
+
+  <section class="container" id="functions"> 
+    <h2>API</h2>
+    <div class="row">
+      <div class="col-sm-12">
+         <table>
+           <thead>
+             <th>name
+             <th>description
+           </thead>
+           <tbody>
+             <tr>
+                <td>ajax(url, urlEnd, val, fn, xhr)
+                <td>Default ajax method, available for convenience. It performs a GET request on url + val + urlEnd. fn is the callback method. xhr is optional, you can pass on a preconfigured XMLHttpRequest. 
+             </tr>
+             <tr>
+                <td>convertInput(text)
+                <td>Default convertInput available for convenience. It trims spaces and converts text to lowercase.
+             </tr>
+             <tr>
+                <td>item(html, input)
+                <td>Item function (as specified in Awesomplete) which create an 'li' element with the given html as innerHTML.
+             </tr>
+             <tr>
+                <td>mark(text, input, startsWith)
+                <td>returns text with html mark elements for matching input. It does not place markers in HTML tags. When startsWith is true it only marks matching begin text.
+             </tr>
+             <tr>
+                <td>itemStartsWith(text, input)
+                <td>item function (as specified in Awesomplete) which highlights matching begin text.
+             </tr>
+             <tr>
+                <td>update(awe, value, prepop)
+                <td>Update awesomplete input value via javascript. If you do this directly on the input control, no events will fire. If you use this update function, the AwesompleteUtil can check if the value exists in the suggestion list and set classes on the input control and fire it's events. Specify prepop=true if it is an initial value (no user input).
+             </tr>
+             <tr>
+                <td>startAwesomplete(elemId, utilOpts, opts)
+                <td>Create the Awesomplete object and attach event-handlers for AwesompleteUtil. elemId must be either a DOM element or a string with the query for document.querySelector to find the element. In general use '#id_of_element'. utilsOpts is an json object with the options for utilOpts, which are: 'url', 'urlEnd', 'ajax', 'convertInput', 'loadall', 'prepop', 'limit', 'convertResponse'. opts are the options for Awesomplete and are passed on unchanged.
+             </tr>
+             <tr>
+                <td>detach(awe)
+                <td>
+             </tr>
+             <tr>
+                <td>startCopy(sourceId, dataField, targetId, prepop)
+                <td>
+             </tr>
+             <tr>
+                <td>startClick(btnId, awe)
+                <td>
+             </tr>
+             <tr>
+                <td>filterContains(data, input)
+                <td>
+             </tr>
+             <tr>
+                <td>filterStartsWith(data, input)
+                <td>
+             </tr>
+             <tr>
+                <td>jsonFlatten(data)
+                <td>
+             </tr>
+           </tbody>
+         <table>
+      </div>
+    </div>
+  </section>
+
   <section class="container" id="epilogue"> 
     <h2>Anything else that comes to mind</h2>
     <div class="row">
@@ -761,5 +853,5 @@ itemMarkAll = function(text, input) {
     </div>
   </section>
 
-  <script src="https://leaverou.github.io/awesomplete/prism/prism.js"></script>
+  <script src="//leaverou.github.io/awesomplete/prism/prism.js"></script>
 </body>
