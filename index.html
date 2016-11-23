@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://leaverou.github.io/awesomplete/prism/prism.css"/>
 <link rel="stylesheet" href="https://getbootstrap.com/dist/css/bootstrap.min.css"/>
-<link rel="stylesheet" href="https://nico-amsterdam.github.io/awesomplete-util/css/awesomplete.css"/>
-<script src="https://nico-amsterdam.github.io/awesomplete-util/js/awesomplete.min.js"></script>
-<script src="https://nico-amsterdam.github.io/awesomplete-util/js/awesomplete-util.min.js"></script>
+<link rel="stylesheet" href="css/awesomplete.css"/>
+<script src="js/awesomplete.min.js"></script>
+<script src="js/awesomplete-util.js"></script>
 <style>
   body { line-heigth: 150%; font-size: 18px; }
 
@@ -115,7 +115,7 @@
           <li>Custom text highlighter.
         </ul>
         Obviously we cannot load all artists known by spotify in the browsers memory, so that's why we use here
-        dynamic data loading. The search starts if 2 characters are entered.
+        dynamic data loading. The search starts if 3 characters are entered.
       </div>
       <div class="col-sm-12">
          Enter an artist name:
@@ -180,6 +180,7 @@
   convertResponse: AwesompleteUtil.jsonFlatten.bind({value: 'name'})
  }, 
  {  /* awesomplete options */
+  minChars: 3,
   filter: filterWords,
   item: itemWords
  }
@@ -220,8 +221,8 @@
     </div>
     <div class="row odd album"> 
        <label class="control-label text-right col-sm-2">Album</label>
-       <div class="col-sm-3" id="awe-track-album">&nbsp;</div>
-       <div class="col-sm-7" id="awe-track-album-img">&nbsp;</div>
+       <div class="col-sm-3" id="awe-track-album"></div>
+       <div class="col-sm-7" id="awe-track-album-img"></div>
     </div>
   </fieldset>
 
@@ -270,7 +271,7 @@ AwesompleteUtil.startAwesomplete('#user_track1',
   convertResponse: AwesompleteUtil.jsonFlatten.bind({value: 'name'})
  },
  {
-  minChars: 3, 
+  minChars: 4, 
   data: function(rec, input) { 
          return { 
            label: rec['name']+'<p>'+(rec['album.name'] || ''), 
@@ -519,7 +520,7 @@ AwesompleteUtil.startAwesomplete('#user_color',
       Notice the prepop property and the startCopy function call. The initial/autofilled value of input-control triggers the copy action, and the label is copied to the span-tag with id 'awe-color-result' during page load. The order of the html elements and the inline script is important here. The startCopy function must be called before the startAwesomplete function, because the latter can immediately fire the 'awesomplete-prepop' event which should be handled by the former.
 The startCopy inline script should preferable be placed after the HTML element which is the target. If you do, it only has to lookup the target element once, but If you don't do this it will lookup the target element with each event.
 <p>
-If u use remote data loading and combine prepop:true with loadall:true the remote call will happen during page load. If prepop:false, the loadall will be done lazely, e.g. if the user makes changes and the input size >= minChars.
+If you use remote data loading and combine prepop:true with loadall:true the remote call will happen during page load. If prepop:false, the loadall will be done lazely, e.g. if the user makes changes and the input size >= minChars.
       </div>
     </div>
   <!-- END colors example -->
