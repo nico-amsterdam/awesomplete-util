@@ -5,10 +5,10 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="//leaverou.github.io/awesomplete/prism/prism.css"/>
-<link rel="stylesheet" href="//getbootstrap.com/dist/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="https://leaverou.github.io/awesomplete/prism/prism.css"/>
+<link rel="stylesheet" href="https://getbootstrap.com/dist/css/bootstrap.min.css"/>
 <link rel="stylesheet" href="css/awesomplete.css"/>
-<script src="js/awesomplete.min.js"></script>
+<script src="js/awesomplete.js"></script>
 <script src="js/awesomplete-util.js"></script>
 <style>
   body { line-heigth: 150%; font-size: 18px; }
@@ -172,9 +172,9 @@
         A limit of 15 is specified; if 15 or more results are returned by the server the code assumes that there
         are more results, so it will re-query if more characters are typed in to get more refined results.
         <p class="language-label">Javascript
-        <pre class="language-javascript"><code><script>AwesompleteUtil.startAwesomplete('#user_artist1',
+        <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_artist1',
  {  /* util options */
-  url: '//api.spotify.com/v1/search?type=artist&limit=15&q=artist:', 
+  url: 'https://api.spotify.com/v1/search?type=artist&limit=15&q=artist:', 
   urlEnd: '*', 
   limit: 15, 
   convertResponse: AwesompleteUtil.jsonFlatten.bind({value: 'name'})
@@ -263,9 +263,9 @@ AwesompleteUtil.startCopy('#user_track1', 'album.images', albumImgFun);</script>
         The creation of the Awesomplete object below is almost the same as in the 'spotify artist search' example.
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>
-AwesompleteUtil.startAwesomplete('#user_track1', 
+AwesompleteUtil.start('#user_track1', 
  {
-  url: '//api.spotify.com/v1/search?type=track&limit=10&q=track:', 
+  url: 'https://api.spotify.com/v1/search?type=track&limit=10&q=track:', 
   urlEnd: '*', 
   limit: 10, 
   convertResponse: AwesompleteUtil.jsonFlatten.bind({value: 'name'})
@@ -333,9 +333,9 @@ AwesompleteUtil.startAwesomplete('#user_track1',
         The shortest country names are shown first.
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.startClick('#awe_btn_user_combocountry',
-  AwesompleteUtil.startAwesomplete('#user_combocountry',
+  AwesompleteUtil.start('#user_combocountry',
    {
-    url: '//restcountries.eu/rest/v1/all', 
+    url: 'https://restcountries.eu/rest/v1/all', 
     loadall: true, 
     prepop: true
    }, 
@@ -385,7 +385,7 @@ AwesompleteUtil.startAwesomplete('#user_track1',
       <div class="col-sm-12 awe">
         The combobox is especially useful when there are only a few items in the list.
         <p class="language-label">Javascript
-        <pre class="language-javascript"><code><script>AwesompleteUtil.startAwesomplete('#user_host',
+        <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_host',
  {
    url: 'js/host.json',
    loadall: true
@@ -441,9 +441,9 @@ AwesompleteUtil.startAwesomplete('#user_track1',
         Below the Awesomplete object is created:
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.startCopy('#user_country_iso', 'RestResponse.result.name', '#awe-country-name');
-AwesompleteUtil.startAwesomplete('#user_country_iso',
+AwesompleteUtil.start('#user_country_iso',
  {
-  url: '//services.groupkt.com/country/get/iso3code/', 
+  url: 'https://services.groupkt.com/country/get/iso3code/', 
   limit: 1, 
   convertResponse: AwesompleteUtil.jsonFlatten.bind({root: 'RestResponse.result', value: 'RestResponse.result.alpha3_code'})
  }, 
@@ -497,7 +497,7 @@ AwesompleteUtil.startAwesomplete('#user_country_iso',
         Below the Awesomplete object is created 
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.startCopy('#user_color', 'label', '#awe-color-result');
-AwesompleteUtil.startAwesomplete('#user_color', 
+AwesompleteUtil.start('#user_color', 
  {
   prepop: true
  }, 
@@ -564,7 +564,7 @@ If you use remote data loading and combine prepop:true with loadall:true the rem
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.startCopy('#user_country', 'capital', '#user_capital');
 AwesompleteUtil.startCopy('#user_capital', 'name', '#user_country');
-var awe_user_country=AwesompleteUtil.startAwesomplete('#user_country', 
+var awe_user_country=AwesompleteUtil.start('#user_country', 
  {}, 
  {
   minChars: 1, 
@@ -573,7 +573,7 @@ var awe_user_country=AwesompleteUtil.startAwesomplete('#user_country',
  }
 );
 
-var awe_user_capital=AwesompleteUtil.startAwesomplete('#user_capital', 
+var awe_user_capital=AwesompleteUtil.start('#user_capital', 
  {}, 
  {
   minChars: 1, 
@@ -582,7 +582,7 @@ var awe_user_capital=AwesompleteUtil.startAwesomplete('#user_capital',
  }
 );
 
-AwesompleteUtil.ajax('//restcountries.eu/rest/v1/all', '', '', 
+AwesompleteUtil.ajax('https://restcountries.eu/rest/v1/all', '', '', 
   function(e) {
     var xhr = this, list;
     if (xhr.status === 200) {
@@ -633,7 +633,7 @@ AwesompleteUtil.ajax('//restcountries.eu/rest/v1/all', '', '',
       <div class="col-sm-12 awe">
         Notice that you can enter multiple toppings, seperated by , or ;
         <p class="language-label">Javascript
-        <pre class="language-javascript"><code><script>AwesompleteUtil.startAwesomplete('#user_seafood',
+        <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_seafood',
  {
   convertInput: function(input) { return input.replace(/[,;]\s*$/, '').match(/[^,;]*$/)[0].trim().toLowerCase(); }
  },
@@ -689,7 +689,7 @@ AwesompleteUtil.ajax('//restcountries.eu/rest/v1/all', '', '',
      name="user[multimail]" type="text" /&gt;</code></pre>
       </div>
       <div class="col-sm-12 js">
-          This examples uses random names from <a href="//uinames.com/api/" target=_blank>http://uinames.com/api/</a>
+          This examples uses random names from <a href="http://uinames.com/api/" target=_blank>http://uinames.com/api/</a>
         The uinames2contacts function below constructs email addresses.
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>var uinames2contacts = function(names) {
@@ -718,7 +718,7 @@ itemMarkAll = function(text, input) {
         highlights all matching text in the suggestion list, including the description.
         Try for example to search on @acme.com to see what it highlights with or without this function. 
         <p class="language-label">Javascript
-        <pre class="language-javascript"><code><script>AwesompleteUtil.startAwesomplete('#user_multimail',
+        <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_multimail',
  { 
   url: 'uinames.com/api/?amount=100',
   convertResponse: uinames2contacts,
@@ -752,7 +752,7 @@ itemMarkAll = function(text, input) {
 
 
   </section>
-  <section class="container" id="install"> 
+  <section class="container" id="installation"> 
     <h2>Installation</h2>
     <div class="row">
       <div class="col-sm-12">
@@ -789,54 +789,40 @@ itemMarkAll = function(text, input) {
              <tr>
                 <td>ajax(url, urlEnd, val, fn, xhr)
                 <td>Default ajax method, available for convenience. It performs a GET request on url + val + urlEnd. fn is the callback method. xhr is optional, you can pass on a preconfigured XMLHttpRequest. 
-             </tr>
              <tr>
                 <td>convertInput(text)
                 <td>Default convertInput available for convenience. It trims spaces and converts text to lowercase.
-             </tr>
              <tr>
                 <td>item(html, input)
                 <td>Item function (as specified in Awesomplete) which create an 'li' element with the given html as innerHTML.
-             </tr>
              <tr>
                 <td>mark(text, input, startsWith)
                 <td>returns text with html mark elements for matching input. It does not place markers in HTML tags. When startsWith is true it only marks matching begin text.
-             </tr>
              <tr>
                 <td>itemStartsWith(text, input)
                 <td>item function (as specified in Awesomplete) which highlights matching begin text.
-             </tr>
              <tr>
                 <td>update(awe, value, prepop)
                 <td>Update awesomplete input value via javascript. If you do this directly on the input control, no events will fire. If you use this update function, the AwesompleteUtil can check if the value exists in the suggestion list and set classes on the input control and fire it's events. Specify prepop=true if it is an initial value (no user input).
-             </tr>
              <tr>
-                <td>startAwesomplete(elemId, utilOpts, opts)
-                <td>Create the Awesomplete object and attach event-handlers for AwesompleteUtil. elemId must be either a DOM element or a string with the query for document.querySelector to find the element. In general use '#id_of_element'. utilsOpts is an json object with the options for utilOpts, which are: 'url', 'urlEnd', 'ajax', 'convertInput', 'loadall', 'prepop', 'limit', 'convertResponse'. opts are the options for Awesomplete and are passed on unchanged.
-             </tr>
-             <tr>
-                <td>detach(awe)
-                <td>
-             </tr>
+                <td>start(elemId, utilOpts, opts)
+                <td>Create the Awesomplete object and attach event-handlers for AwesompleteUtil. elemId must be either a DOM element or a string with the query for document.querySelector to find the element. In general use '#id_of_element'. utilsOpts is an json object with the options for AwesompleteUtil, which are: 'url', 'urlEnd', 'loadall', 'prepop', 'limit', 'convertInput', 'convertResponse', 'ajax'. opts are the options for Awesomplete and are passed on unchanged.
+When opts is specified with maxItems:0, the Awesomplete.FILTER_CONTAINS and Awesomplete.FILTER_STARTSWITH will not work correctly, please use either AwesompleteUtil.filterContains or AwesompleteUtil.filterStartsWith or your own filter. 
              <tr>
                 <td>startCopy(sourceId, dataField, targetId, prepop)
                 <td>
-             </tr>
              <tr>
                 <td>startClick(btnId, awe)
-                <td>
-             </tr>
+                <td>return a function for Open/close the suggestion list. Used for the combobox button.
              <tr>
                 <td>filterContains(data, input)
-                <td>
-             </tr>
+                <td>filter function (as specified in Awesomplete) to filter suggestions. input is searched in data.value. Notice that Awesomplete.FILTER_CONTAINS by default searches on data.label.
              <tr>
                 <td>filterStartsWith(data, input)
-                <td>
-             </tr>
+                <td>filter function (as specified in Awesomplete) to filter suggestions. input is searched as start text in data.value. Notice that Awesomplete.FILTER_STARTWITH by default searches on data.label.
              <tr>
                 <td>jsonFlatten(data)
-                <td>
+                <td>function to flatten JSON. Notice that you can supply extra options via jsonFlatten.bind(opts) where opts is a json objects with options 'root', 'value' and 'label'.
              </tr>
            </tbody>
          <table>
@@ -853,5 +839,5 @@ itemMarkAll = function(text, input) {
     </div>
   </section>
 
-  <script src="//leaverou.github.io/awesomplete/prism/prism.js"></script>
+  <script src="https://leaverou.github.io/awesomplete/prism/prism.js"></script>
 </body>

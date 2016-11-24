@@ -42,6 +42,7 @@ var AwesompleteUtil = function() {
         // Look if there is an exact match or a mismatch, set awe-found, awe-not-found class and send match events.
         function _matchValue(awe, prepop) {
           var input = awe.input,            /* the input field */
+              classList = input.classList,
               utilprops = awe.utilprops,    /* extra properties piggybacked on Awesomplete object */ 
               selected = utilprops.selected,  /* the exact selected Suggestion with label and value */
               val = utilprops.convertInput(input.value),  /* trimmed lowercased value */
@@ -90,23 +91,23 @@ var AwesompleteUtil = function() {
                   _fire(input, _AWE_PREPOP, result);
                 } else if (utilprops.changed) {  /* if input is changed */
                   utilprops.prevSelected = result;  /* new result */
-                  input.classList.remove(_CLS_NOT_FOUND);
-                  input.classList.add(_CLS_FOUND);
+                  classList.remove(_CLS_NOT_FOUND);
+                  classList.add(_CLS_FOUND);
                   _fire(input, _AWE_MATCH, result);
                 }
               } else if (prepop) {  /* no exact match, if prepopulation phase */
                 _fire(input, _AWE_PREPOP, []);
               } else if (utilprops.changed) { /* no exact match, if input is changed */
                 utilprops.prevSelected = [];
-                input.classList.remove(_CLS_FOUND);
+                classList.remove(_CLS_FOUND);
                 // Mark as not-found if there are no suggestions anymore or if another field is now active
                 if (!opened || (input !== document.activeElement)) {
                    if (val.length > 0) {
-                     input.classList.add(_CLS_NOT_FOUND);
+                     classList.add(_CLS_NOT_FOUND);
                      _fire(input, _AWE_MATCH, []);
                    }
                 } else {
-                  input.classList.remove(_CLS_NOT_FOUND);
+                  classList.remove(_CLS_NOT_FOUND);
                 }
               }
             }
@@ -201,8 +202,10 @@ var AwesompleteUtil = function() {
           }
         }
         function _restart(awe) {
-          var elem = awe.input;
-          elem.classList.remove(_CLS_NOT_FOUND, _CLS_FOUND);
+          var elem = awe.input, classList = elem.classList;
+          // IE11 only handles the first parameter of the remove method.
+          classList.remove(_CLS_NOT_FOUND);
+          classList.remove(_CLS_FOUND);
           _fire(elem, _AWE_MATCH, []);
         }
         function _update(awe, val, prepop) {
@@ -369,7 +372,7 @@ var AwesompleteUtil = function() {
         itemStartsWith: function(text, input) {
           return _item(input.trim() === '' ? '' + text : _mark('' + text, input, true), input);
         },
-        createAwesomplete: function(elemId, utilOpts, opts) {
+        create: function(elemId, utilOpts, opts) {
           opts.item = opts.item || this.itemContains;
           var awe = new Awesomplete(elemId, opts);
           awe.utilprops = utilOpts || {};
@@ -412,8 +415,8 @@ var AwesompleteUtil = function() {
           awe.input.value = value;
           return _update(awe, value, prepop);
         },
-        startAwesomplete: function(elemId, utilOpts, opts) {
-          return this.attach(this.createAwesomplete(elemId, utilOpts, opts));
+        start: function(elemId, utilOpts, opts) {
+          return this.attach(this.create(elemId, utilOpts, opts));
         },
         detach: function(awe) {
           if (awe.utilprops.detach) {
