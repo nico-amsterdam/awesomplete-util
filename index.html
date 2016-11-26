@@ -11,13 +11,16 @@
 <script src="js/awesomplete.js"></script>
 <script src="js/awesomplete-util.js"></script>
 <script>
-// the real problem is that some services do not have a valid certificate. This is a https page
+// the real problem is that some services do not have a valid certificate. Because this page is on https
 // IE blocks access to http services (CORS), Firefox blocks access to unsecure https services.
 // getProtocol gives them both what they want for troubling services.
-var isIE = false;
-/*@cc_on isIE = true; @*/
+function isIEorEDGE() {
+  return navigator.appName == 'Microsoft Internet Explorer' ||
+        (navigator.appName == "Netscape" && 
+         (navigator.appVersion.indexOf('Trident') > -1 || navigator.appVersion.indexOf('Edge') > -1));
+}
 function getProtocol() {
-  return isIE ? 'https:' : 'http:'
+  return isIEorEDGE() ? 'https:' : 'http:'
 }
 </script>
 <style>
