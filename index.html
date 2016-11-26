@@ -10,6 +10,16 @@
 <link rel="stylesheet" href="css/awesomplete.css"/>
 <script src="js/awesomplete.js"></script>
 <script src="js/awesomplete-util.js"></script>
+<script>
+// the real problem is that some services do not have a valid certificate. This is a https page
+// IE blocks access to http services (CORS), Firefox blocks access to unsecure https services.
+// getProtocol gives them both what they want for troubling services.
+var isIE = false;
+/*@cc_on isIE = true; @*/
+function getProtocol() {
+  return isIE ? 'https:' : 'http:'
+}
+</script>
 <style>
   body { line-heigth: 150%; font-size: 18px; }
 
@@ -443,7 +453,7 @@ AwesompleteUtil.start('#user_track1',
         <pre class="language-javascript"><code><script>AwesompleteUtil.startCopy('#user_country_iso', 'RestResponse.result.name', '#awe-country-name');
 AwesompleteUtil.start('#user_country_iso',
  {
-  url: 'https://services.groupkt.com/country/get/iso3code/', 
+  url: getProtocol() + '//services.groupkt.com/country/get/iso3code/', 
   limit: 1, 
   convertResponse: AwesompleteUtil.jsonFlatten.bind({root: 'RestResponse.result', value: 'RestResponse.result.alpha3_code'})
  }, 
@@ -689,8 +699,8 @@ AwesompleteUtil.ajax('https://restcountries.eu/rest/v1/all', '', '',
      name="user[multimail]" type="text" /&gt;</code></pre>
       </div>
       <div class="col-sm-12 js">
-          This examples uses random names from <a href="http://uinames.com/api/" target=_blank>http://uinames.com/api/</a>
-        The uinames2contacts function below constructs email addresses.
+          This examples uses a <a href="http://uinames.com/api/" target=_blank>random name service</a>.
+        The uinames2contacts function below constructs an email address for each name.
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>var uinames2contacts = function(names) {
   var email_result = {},
@@ -706,21 +716,17 @@ AwesompleteUtil.ajax('https://restcountries.eu/rest/v1/all', '', '',
   names.forEach(transform_names);
   email_result.contacts = result_list;
   return email_result;
-},
-itemMarkAll = function(text, input) {
-  text = AwesompleteUtil.mark(text, input);
-  return AwesompleteUtil.item(text, input);
 };</script></code></pre>
       </div>
       <div class="col-sm-12 awe">
         In this example the 'value' field contains both name (label) and email address (descr).
-        By default the description field is not highlighted. The itemMarkAll function above
+        By default the description field is not highlighted. The itemMarkAll function 
         highlights all matching text in the suggestion list, including the description.
         Try for example to search on @acme.com to see what it highlights with or without this function. 
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_multimail',
  { 
-  url: 'https://uinames.com/api/?amount=100',
+  url: getProtocol() + '//uinames.com/api/?amount=100',
   convertResponse: uinames2contacts,
   loadall: true,
   convertInput: function(input) {
@@ -741,7 +747,7 @@ itemMarkAll = function(text, input) {
     return Awesomplete.FILTER_CONTAINS(data.value, input.match(/[^;,]*([;,]\s*)?$/)[0]); 
   }, 
   item: function(text, input) { 
-    return (itemMarkAll)(text, input.match(/[^;,]*([;,]\s*)?$/)[0]); 
+    return (AwesompleteUtil.itemMarkAll)(text, input.match(/[^;,]*([;,]\s*)?$/)[0]); 
   }
  }
 );</script></code></pre>
