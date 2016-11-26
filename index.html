@@ -10,19 +10,6 @@
 <link rel="stylesheet" href="css/awesomplete.css"/>
 <script src="js/awesomplete.js"></script>
 <script src="js/awesomplete-util.js"></script>
-<script>
-// the real problem is that some services do not have a valid certificate. Because this page is on https
-// IE blocks access to http services (CORS), Firefox blocks access to unsecure https services.
-// getProtocol gives them both what they want for troubling services.
-function isIEorEDGE() {
-  return navigator.appName == 'Microsoft Internet Explorer' ||
-        (navigator.appName == "Netscape" && 
-         (navigator.appVersion.indexOf('Trident') > -1 || navigator.appVersion.indexOf('Edge') > -1));
-}
-function getProtocol() {
-  return isIEorEDGE() ? 'https:' : 'http:'
-}
-</script>
 <style>
   body { line-heigth: 150%; font-size: 18px; }
 
@@ -453,12 +440,17 @@ AwesompleteUtil.start('#user_track1',
       <div class="col-sm-12 awe">
         Below the Awesomplete object is created:
         <p class="language-label">Javascript
-        <pre class="language-javascript"><code><script>AwesompleteUtil.startCopy('#user_country_iso', 'RestResponse.result.name', '#awe-country-name');
+        <pre class="language-javascript"><code><script>
+var extractCountryFun = function(data) {
+  return {value: data.alpha3Code, label: data.name};
+}
+
+AwesompleteUtil.startCopy('#user_country_iso', 'label', '#awe-country-name');
 AwesompleteUtil.start('#user_country_iso',
  {
-  url: getProtocol() + '//services.groupkt.com/country/get/iso3code/', 
+  url: 'https://restcountries.eu/rest/v1/alpha/',
   limit: 1, 
-  convertResponse: AwesompleteUtil.jsonFlatten.bind({root: 'RestResponse.result', value: 'RestResponse.result.alpha3_code'})
+  convertResponse: extractCountryFun
  }, 
  {
   maxItems: 0,
@@ -467,8 +459,7 @@ AwesompleteUtil.start('#user_country_iso',
  }
 );</script></code></pre>
         The limit:1 tells that not more than 1 result is excepted, so it doesn't have to be an array. 
-        The result does contain an array, but this is not the array we want. Therefore the jsonFlatten function receives
-        bind options to tell which root element it must filter, and the value we are interested in.
+        The jsonFlatten function receives a bind option to tell which attribute we are interested in.
       </div>
     </div>
   <!-- END iso-country example -->
@@ -729,7 +720,7 @@ AwesompleteUtil.ajax('https://restcountries.eu/rest/v1/all', '', '',
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_multimail',
  { 
-  url: getProtocol() + '//uinames.com/api/?amount=100',
+  url: 'js/uinames.json',
   convertResponse: uinames2contacts,
   loadall: true,
   convertInput: function(input) {

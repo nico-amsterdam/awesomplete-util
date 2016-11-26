@@ -325,6 +325,10 @@ var AwesompleteUtil = function() {
             if (value && (prop + '.').lastIndexOf(value + '.', 0) === 0) { result['value'] = result[prop]; }
             if (label && (prop + '.').lastIndexOf(label + '.', 0) === 0) { result['label'] = result[prop]; }
           }    
+          if (level === 0) {
+            if (value && !('value' in result)) { result['value'] = null; }
+            if (label && !('label' in result)) { result['label'] = null; }
+          }
           return result;
         }
         function _detach() {
