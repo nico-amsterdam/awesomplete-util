@@ -360,6 +360,7 @@ var AwesompleteUtil = function() {
         },
         item: _item,
         mark: _mark,
+        // highlight items: Marks input in the first line, not in the optional description
         itemContains: function(text, input) {
           var arr;
           if (input.trim().length > 0) {
@@ -369,6 +370,11 @@ var AwesompleteUtil = function() {
           }
           return _item(text, input);
         },
+        // highlight items: mark all occurrences of the input text
+        itemMarkAll: function(text, input) {
+          return _item(input.trim() === '' ? '' + text : _mark('' + text, input, false), input);
+        },
+        // highlight items: mark input in the begin text
         itemStartsWith: function(text, input) {
           return _item(input.trim() === '' ? '' + text : _mark('' + text, input, true), input);
         },
@@ -457,11 +463,11 @@ var AwesompleteUtil = function() {
           removeEventListener('click', fun); 
           return fun;
         },
-        // FILTER_CONTAINS filters on data.label. Here we filter on value and not on the shown label which contains markup.
+        // FILTER_CONTAINS filters on data.label. Here we filter on value and not on the shown label which may contain markup.
         filterContains: function(data, input) { 
           return Awesomplete.FILTER_CONTAINS(data.value, input);
         },
-        // FILTER_STARTSWITH filters on data.label. Here we filter on value and not on the shown label which contains markup.
+        // FILTER_STARTSWITH filters on data.label. Here we filter on value and not on the shown label which may contain markup.
         filterStartsWith: function(data, input) { 
           return Awesomplete.FILTER_STARTSWITH(data.value, input);
         },
