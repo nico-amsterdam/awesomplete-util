@@ -372,7 +372,7 @@ var AwesompleteUtil = function() {
         },
         // highlight items: mark all occurrences of the input text
         itemMarkAll: function(text, input) {
-          return _item(input.trim() === '' ? '' + text : _mark('' + text, input, false), input);
+          return _item(input.trim() === '' ? '' + text : _mark('' + text, input), input);
         },
         // highlight items: mark input in the begin text
         itemStartsWith: function(text, input) {
