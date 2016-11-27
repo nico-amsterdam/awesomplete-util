@@ -154,17 +154,18 @@ var AwesompleteUtil = function() {
             data = JSON.parse(xhr.responseText);
             if (awe.utilprops.convertResponse) data = awe.utilprops.convertResponse(data);
             if (!Array.isArray(data)) {
-              // search for the first property that contains an array
-              for (prop in data) {
-                if (Array.isArray(data[prop])) {
-                  data = data[prop];
-                  break;
+              if (awe.utilprops.limit === 1) {
+                // if we always get 0 or 1 result back, just take the whole result and put it in the array
+                data = _isEmpty(data) ? [] : [data]
+              } else {
+                // search for the first property that contains an array
+                for (prop in data) {
+                  if (Array.isArray(data[prop])) {
+                    data = data[prop];
+                    break;
+                  }
                 }
               }
-            }
-            // if we always get 0 or 1 result back
-            if (!Array.isArray(data) && awe.utilprops.limit === 1) {
-              data = _isEmpty(data) ? [] : [data]
             }
             // we can only handle arrays
             if (Array.isArray(data)) {
