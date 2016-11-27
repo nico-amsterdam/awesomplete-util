@@ -441,25 +441,20 @@ AwesompleteUtil.start('#user_track1',
         Below the Awesomplete object is created:
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>
-var extractCountryFun = function(data) {
-  return {value: data.alpha3Code, label: data.name};
-}
-
-AwesompleteUtil.startCopy('#user_country_iso', 'label', '#awe-country-name');
+AwesompleteUtil.startCopy('#user_country_iso', 'name', '#awe-country-name');
 AwesompleteUtil.start('#user_country_iso',
  {
   url: 'https://restcountries.eu/rest/v1/alpha/',
-  limit: 1, 
-  convertResponse: extractCountryFun
+  limit: 1
  }, 
  {
   maxItems: 0,
   minChars: 3,
+  data: function(rec, input) { return rec['alpha3Code']; },
   filter: AwesompleteUtil.filterStartsWith
  }
 );</script></code></pre>
-        The limit:1 tells that not more than 1 result is excepted, so it doesn't have to be an array. 
-        The jsonFlatten function receives a bind option to tell which attribute we are interested in.
+        The limit:1 tells that not more than 1 result is excepted, so the json service doesn't have to return an array. 
       </div>
     </div>
   <!-- END iso-country example -->
@@ -614,7 +609,7 @@ AwesompleteUtil.ajax('https://restcountries.eu/rest/v1/all', '', '',
         </ul>
       </div>
       <div class="col-sm-12">
-         Enter for example 'Crayfish'
+         Enter for example 'Crayfish, Oysters'
       </div>
       <label class="control-label col-sm-2" for="user_seafood">Seafood toppings</label>
       <div class="col-sm-10 au">
