@@ -140,7 +140,7 @@ var AwesompleteUtil = function() {
                   (!utilprops.loadall && 
                    val.lastIndexOf(queryParam, 0) === 0 && 
                    (val.lastIndexOf(utilprops.listQuery, 0) !== 0 || 
-                     (utilprops.limit > 1 && awe._list.length >= utilprops.limit))));
+                     ('number' === typeof utilprops.limit && awe._list.length >= utilprops.limit))));
         }
         function _onLoad() {
           var t = this,
@@ -154,7 +154,7 @@ var AwesompleteUtil = function() {
             data = JSON.parse(xhr.responseText);
             if (awe.utilprops.convertResponse) data = awe.utilprops.convertResponse(data);
             if (!Array.isArray(data)) {
-              if (awe.utilprops.limit === 1) {
+              if (awe.utilprops.limit === 0 || awe.utilprops.limit === 1) {
                 // if we always get 0 or 1 result back, just take the whole result and put it in the array
                 data = _isEmpty(data) ? [] : [data]
               } else {
