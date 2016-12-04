@@ -8,8 +8,8 @@
 <link rel="stylesheet" href="https://leaverou.github.io/awesomplete/prism/prism.css"/>
 <link rel="stylesheet" href="https://getbootstrap.com/dist/css/bootstrap.min.css"/>
 <link rel="stylesheet" href="css/awesomplete.css"/>
-<script src="js/awesomplete.js"></script>
-<script src="js/awesomplete-util.js"></script>
+<script src="js/awesomplete.min.js"></script>
+<script src="js/awesomplete-util.min.js"></script>
 <style>
   body { line-heigth: 150%; font-size: 18px; }
 
@@ -446,11 +446,22 @@ AwesompleteUtil.start('#user_track1',
         Below the Awesomplete object is created:
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>
+
+var ajax404 = function(url, urlEnd, val, fn, xhr) {
+    var awe = this;
+    function onload404() {
+      if (xhr.status === 404) AwesompleteUtil.load(awe, [], null);
+      fn();
+    }
+    AwesompleteUtil.ajax(url, urlEnd, val, onload404, xhr);
+  };
+
 AwesompleteUtil.startCopy('#user_country_iso', 'name', '#awe-country-name');
 AwesompleteUtil.start('#user_country_iso',
  {
   url: 'https://restcountries.eu/rest/v1/alpha/',
-  limit: 1
+  limit: 1,
+  ajax: ajax404
  }, 
  {
   maxItems: 0,
@@ -591,8 +602,8 @@ AwesompleteUtil.ajax('https://restcountries.eu/rest/v1/all', '', '',
     var xhr = this, list;
     if (xhr.status === 200) {
       list = JSON.parse(xhr.responseText);
-      awe_user_country.list = list;
-      awe_user_capital.list = list;
+      AwesompleteUtil.load(awe_user_country, list, true);
+      AwesompleteUtil.load(awe_user_capital, list, true);
     }
    }
 );</script></code></pre>

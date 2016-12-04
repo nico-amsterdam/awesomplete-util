@@ -49,7 +49,7 @@ var AwesompleteUtil = function() {
               classList = input.classList,
               utilprops = awe.utilprops,    /* extra properties piggybacked on Awesomplete object */ 
               selected = utilprops.selected,  /* the exact selected Suggestion with label and value */
-              val = utilprops.convertInput(input.value),  /* trimmed lowercased value */
+              val = utilprops.convertInput.call(awe, input.value),  /* trimmed lowercased value */
               opened = awe.opened,          /* is the suggestion list opened? */
               result = [],                  /* matches with value */ 
               list = awe._list,             /* current list of suggestions */
@@ -72,7 +72,7 @@ var AwesompleteUtil = function() {
               // We use the fake input here. fake.input.value will contain the result of the replace function. 
               awe.replace.call(fake, suggestion);
               // Trim and lowercase also the fake input and compare that with the current typed-in value.
-              if (utilprops.convertInput(fake.input.value) === val) {
+              if (utilprops.convertInput.call(awe, fake.input.value) === val) {
                 // we have an exact match. However there might more suggestions with the same value.
                 // If the user selected a suggestion from the list, we check if that is it, assuming that
                 // value + label is unique, otherwise it will be difficult for the user to make an informed decision.
@@ -137,20 +137,25 @@ var AwesompleteUtil = function() {
         function _isEmpty(val) {
           return Object.keys(val).length === 0 && val.constructor === Object
         }
-        function _ifNeedList(awe, val, queryParam) {
+        function _ifNeedList(awe, val, queryVal) {
           var utilprops = awe.utilprops;
           return (!utilprops.listQuery 
                    ||
                   (!utilprops.loadall && 
-                   val.lastIndexOf(queryParam, 0) === 0 && 
+                   val.lastIndexOf(queryVal, 0) === 0 && 
                    (val.lastIndexOf(utilprops.listQuery, 0) !== 0 || 
                      ('number' === typeof utilprops.limit && awe._list.length >= utilprops.limit))));
+        }
+        function _loadComplete(awe, list, queryVal) {
+          awe.list = list;
+          awe.utilprops.listQuery = queryVal;
+          _fire(awe.input, _AWE_LOAD, queryVal);
         }
         function _onLoad() {
           var t = this,
               awe = t.awe,
               xhr = t.xhr,
-              queryParam = t.queryParam,
+              queryVal = t.queryVal,
               val = awe.utilprops.val,
               data, 
               prop;
@@ -176,11 +181,9 @@ var AwesompleteUtil = function() {
               // do we still need this search result?;
               // - There is no result 
               // or
-              // - no loadall && value starts with query-param && value does not start with current result
-              if (_ifNeedList(awe, val, queryParam)) {
-                awe.list = data;
-                awe.utilprops.listQuery = queryParam || awe.utilprops.loadall;
-                _fire(awe.input, _AWE_LOAD, queryParam);
+              // - no loadall && value starts with query-value && value does not start with current result
+              if (_ifNeedList(awe, val, queryVal)) {
+                _loadComplete(awe, data, queryVal || awe.utilprops.loadall);
               }
             }
           }
@@ -193,10 +196,11 @@ var AwesompleteUtil = function() {
             // - with loadall, the value doesn't matter; we want them all.
             if (_ifNeedList(awe, val, val)) {
               xhr = new XMLHttpRequest();
-              awe.utilprops.ajax( awe.utilprops.url, 
+              awe.utilprops.ajax.call(awe,
+                                  awe.utilprops.url, 
                                   awe.utilprops.urlEnd,
                                   awe.utilprops.loadall ? '' : val, 
-                                  _onLoad.bind({awe: awe, xhr: xhr, queryParam: val}),
+                                  _onLoad.bind({awe: awe, xhr: xhr, queryVal: val}),
                                   xhr
                                 );
             } else {
@@ -232,7 +236,7 @@ var AwesompleteUtil = function() {
           var awe = this,
               val;
           if (e.target === awe.input) {
-            val = awe.utilprops.convertInput(awe.input.value);
+            val = awe.utilprops.convertInput.call(awe, awe.input.value);
             _update(awe, val);
           }
         }
@@ -368,6 +372,7 @@ var AwesompleteUtil = function() {
           return 'string' === typeof text ? text.trim().toLowerCase() : '';
         },
         item: _item,
+        load: _loadComplete,
         mark: _mark,
         // highlight items: Marks input in the first line, not in the optional description
         itemContains: function(text, input) {
@@ -422,7 +427,7 @@ var AwesompleteUtil = function() {
           awe.utilprops.detach = boundDetach;
           // Perform ajax call if prepop is true and there is an initial input value, or we have to load all values anyway.
           if (awe.utilprops.prepop && (awe.utilprops.loadall || elem.value.length > 0)) {
-            awe.utilprops.val = awe.utilprops.convertInput(elem.value);
+            awe.utilprops.val = awe.utilprops.convertInput.call(awe, elem.value);
             _lookup(awe, awe.utilprops.val);
           }
           return awe;
