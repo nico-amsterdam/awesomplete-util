@@ -9,6 +9,10 @@
  * - events and styling for exact matches
  * - events and styling for mismatches
  * - select item with TAB key
+ *
+ * (c) Nico Hoogervorst
+ * License: MIT
+ *
  */
 var AwesompleteUtil = function() {
     //
@@ -32,7 +36,7 @@ var AwesompleteUtil = function() {
           var lv = Array.isArray(data)
               ? { label: data[0], value: data[1] }
               : typeof data === "object" && "label" in data && "value" in data ? data : { label: data, value: data };
-            return {label: lv.label || lv.value, value: lv.value};
+            return {label: lv.label || lv.value, value: lv.value, toString: function() { return '' + this.label; }};
         }
         // Helper to send events with detail property.
         function _fire(target, name, detail) {
@@ -416,6 +420,7 @@ var AwesompleteUtil = function() {
           $.bind(elem, events);
 
           awe.utilprops.detach = boundDetach;
+          // Perform ajax call if prepop is true and there is an initial input value, or we have to load all values anyway.
           if (awe.utilprops.prepop && (awe.utilprops.loadall || elem.value.length > 0)) {
             awe.utilprops.val = awe.utilprops.convertInput(elem.value);
             _lookup(awe, awe.utilprops.val);

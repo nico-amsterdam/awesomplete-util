@@ -52,6 +52,8 @@
   .even { border-left: thick groove purple; padding-left: 6px }
   .features { font-size: smaller; padding: 1em; margin-bottom: 2em; border: 3px solid green }
   .html, .js, .awe { margin-top: 2em }
+  th, td { vertical-align: top }
+  tbody, td { border: 1px solid black; padding: 5px 8px }
 
 </style>
 </head>
@@ -187,8 +189,12 @@
 );</script></code></pre>
         Look at the convertResponse property.
         AwesompleteUtil accepts a JSON response object with an array of objects to feed the list of suggestions, e.g.
-        something like:<pre><code>{ "artists":[ {"value":"Adele"}, {"value":"U2"} ] }</code></pre>However Spotify returns a deeper structure.
-        jsonFlatten flattens JSON:<p><code>{ "a":{"b":{"c":[{"d":{"e":1}}]}}}</code> becomes <code>{"a.b.c":[{"d.e":1}]}</code>.<p> You can pass-on extra option via the bind method. Awesomplete by default looks for 'value' and 'label' properties. Here it's specified that within the array, the 'name' property should also be added as 'value' property.
+        something like:<pre><code>{ "artists":[ "Adele", "U2" ] }</code></pre>However Spotify returns a deeper structure.
+        The jsonFlatten function flattens JSON:<p><code>{ "a":{"b":{"c":[{"d":{"e":1}}]}}}</code> becomes <code>{"a.b.c":[{"d.e":1}]}</code>.
+        <p>
+        You can pass-on extra option via the bind method. 
+        Awesomplete by default accepts strings or objects with 'value' and 'label' properties.
+        In the example it's specified that within the array, the 'name' property should also be added as 'value' property and implicitly also as 'label' property.
       </div>
     </div>
   <!-- END spotify artist example -->
@@ -244,7 +250,7 @@
      html = html + '<li>' + arrArtists[i].name;
    } 
    Awesomplete.$('#awe-track-artists').innerHTML = '<ul>' + html + '</ul>'; 
-}
+};
 
 var albumImgFun = function(e, dataField) {
    var arrImages = e.detail.length === 1 ? e.detail[0][dataField] : [],
@@ -253,10 +259,10 @@ var albumImgFun = function(e, dataField) {
      html = '<img src="' + arrImages[0].url + '" alt="album image" width="200"/>';
    }  
    Awesomplete.$('#awe-track-album-img').innerHTML = html;
-}  
+};
 
 AwesompleteUtil.startCopy('#user_track1', 'album.name', '#awe-track-album');
-AwesompleteUtil.startCopy('#user_track1', 'artists', artistsFun);
+AwesompleteUtil.startCopy('#user_track1', 'artists',      artistsFun);
 AwesompleteUtil.startCopy('#user_track1', 'album.images', albumImgFun);</script></code></pre>
       </div>
       <div class="col-sm-12 js">
@@ -362,7 +368,7 @@ AwesompleteUtil.start('#user_track1',
         <ul>
           <li>Type user name and get suggestions for hostnames; autocomplete after a certain character.
           <li>Show descriptions in the suggestion list.
-          <li>Load suggestions from static json file.
+          <li>Load suggestions from json file.
         </ul>
       </div>
       <div class="col-sm-12">
@@ -383,7 +389,6 @@ AwesompleteUtil.start('#user_track1',
      name="user[host]" type="text" /&gt;</code></pre>
       </div>
       <div class="col-sm-12 awe">
-        The combobox is especially useful when there are only a few items in the list.
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_host',
  {
@@ -451,7 +456,7 @@ AwesompleteUtil.start('#user_country_iso',
   maxItems: 0,
   minChars: 3,
   data: function(rec, input) { return rec['alpha3Code']; },
-  filter: AwesompleteUtil.filterStartsWith
+  filter: Awesomplete.FILTER_STARTSWITH
  }
 );</script></code></pre>
         The limit:1 tells that not more than 1 result is excepted, so the json service doesn't have to return an array. 
@@ -665,9 +670,9 @@ AwesompleteUtil.ajax('https://restcountries.eu/rest/v1/all', '', '',
       <div class="col-xs-11 col-xs-offset-1 features">
         Example demonstrates:
         <ul>
-          <li>Use remote service which returns everything; load all.
-          <li>Multiple input values.
           <li>In the shown suggestions the email address is shown below the name. The value contains both.
+          <li>Multiple input values.
+          <li>Load suggestions from json file.
         </ul>
       </div>
       <div class="col-sm-12">
@@ -689,7 +694,8 @@ AwesompleteUtil.ajax('https://restcountries.eu/rest/v1/all', '', '',
       </div>
       <div class="col-sm-12 js">
           This examples uses a <a href="http://uinames.com/api/" target=_blank>random name service</a>.
-        The uinames2contacts function below constructs an email address for each name.
+        saved in the 'js/uinames.json' file.
+        The uinames2contacts function below constructs email addresses and a value that contains both name and email address.
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>var uinames2contacts = function(names) {
   var email_result = {},
@@ -778,8 +784,8 @@ AwesompleteUtil.ajax('https://restcountries.eu/rest/v1/all', '', '',
          <table>
            <thead>
              <tr>
-               <th>name
-               <th>description
+               <th>Name
+               <th>Description
              </tr>
            </thead>
            <tbody>
