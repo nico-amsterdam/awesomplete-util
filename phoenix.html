@@ -135,6 +135,22 @@
   <section class="container" id="examples">
     <h2>Examples</h2>
 
+    <div class="row">
+      <div class="col-sm-12 html">
+         <ol>
+            <li><a href="#spotify-artist">Spotify artist search</a>
+            <li><a href="#spotify-track">Spotify track search</a>
+            <li><a href="#combobox">Combobox with countries</a>
+            <li><a href="#user-host">Connect as user to host</a>
+            <li><a href="#iso-country">Country iso code</a>
+            <li><a href="#colors">Colors</a>
+            <li><a href="#capital">Country capitals</a>
+            <li><a href="#seafood">Seafood pizza toppings</a>
+            <li><a href="#multimail">Email address</a>
+         </ol>
+      </div>
+    </div>
+
   <!-- BEGIN spotify artist example -->
   <fieldset id="spotify-artist" class="example">
     <legend class="h3">
@@ -316,7 +332,8 @@ var albumImgFun = function(e, dataField) {
      :user,
      :track1,
      [       # input_text options
-      class: "form-control"
+      class: "form-control",
+      autocomplete: "off"
      ],
      %{
         url:    "https://api.spotify.com/v1/search?type=track&limit=10&q=track:",
@@ -513,7 +530,7 @@ AwesompleteUtil.start('#user_track1',
        before = input.slice(0, input.indexOf('@')) + '@'; 
      return {label: before + data.label, value: before + data.value}; 
    },
-   filter: AwesompleteUtil.filterStartsWith, 
+   filter: Awesomplete.filterStartsWith, 
    item: AwesompleteUtil.itemStartsWith
  }
 );</script></code></pre>
@@ -547,6 +564,21 @@ AwesompleteUtil.start('#user_track1',
   </fieldset>
 
     <div class="row even">
+      <div class="col-sm-12 js">
+        The web service does returns HTTP status 404 if the search value is not found. AwesompleteUtil
+        only reacts on HTTP OK status 200, and prefers an empty list if no values are found.
+        The function ajax404 is defined to intercept the onload method.
+        <p class="language-label">Javascript
+        <pre class="language-javascript"><code><script>var ajax404 = function(url, urlEnd, val, fn, xhr) {
+    var awe = this;
+    function onload404() {
+      if (xhr.status === 404) AwesompleteUtil.load(awe, [], null);
+      fn();
+    }
+    AwesompleteUtil.ajax(url, urlEnd, val, onload404, xhr);
+  };
+</script></code></pre>
+      </div>
       <div class="col-sm-12 eex">
         This is actually not an autocomplete, but it does verify the input.
         <p class="language-label">EEx
@@ -554,18 +586,21 @@ AwesompleteUtil.start('#user_track1',
  :user,
  :country_iso,
  [
-    class: "form-control"
+    class: "form-control",
+    autocomplete: "off"
  ],
  %{
     url: "https://restcountries.eu/rest/v1/alpha/",
     value: "alpha3Code",
-    limit: 1,
+    limit: 0,
     minChars: 3,
     maxItems: 0,
-    filter: "AwesompleteUtil.filterStartsWith" 
+    filter: "Awesomplete.FILTER_STARTSWITH",
+    ajax: ajax404
  }
 ) %&gt;</code></pre>
-        The limit:1 tells that not more than 1 result is excepted, so the json service doesn't have to return an array. 
+        The limit:1 tells that not more than 1 result is expected, so the json service doesn't have to return an array. 
+        With limit:0 it will always re-query if more characters are typed. 
         <p class="generated"><a href="#" onclick="return toggle('#awe-country-iso');">show/hide generated code</a>
       </div>
       <div class="col-sm-12 awe slide-up" id="awe-country-iso">
@@ -713,7 +748,10 @@ AwesompleteUtil.start('#user_color',
       &lt;%= copy_to_field(:user, :capital, "name", :user, :country) %&gt;
       &lt;%= label(:user, :country, "Country", class: "control-label col-sm-2") %&gt;
       &lt;div class="col-sm-4"&gt;
-        &lt;%= awesomplete(:user, :country, [class: "form-control"], 
+        &lt;%= awesomplete(:user, :country, 
+            [class: "form-control",
+             autocomplete: "off"
+            ], 
             [ 
               assign: true,
               minChars: 1, 
@@ -723,7 +761,10 @@ AwesompleteUtil.start('#user_color',
       &lt;/div&gt;
       &lt;%= label(:user, :capital, "Capital", class: "control-label col-sm-2") %&gt;
       &lt;div class="col-sm-4"&gt;
-        &lt;%= awesomplete(:user, :capital, [class: "form-control"], 
+        &lt;%= awesomplete(:user, :capital,
+            [class: "form-control",
+             autocomplete: "off"
+            ], 
             [ 
               assign: true,
               minChars: 1, 
@@ -734,6 +775,9 @@ AwesompleteUtil.start('#user_color',
         <p class="generated"><a href="#" onclick="return toggle('#awe-capital');">show/hide generated code</a>
       </div>
       <div class="col-sm-12 awe slide-up" id="awe-capital">
+        <p class="language-label">Generated HTML
+        <pre class="language-markup"><code>&lt;input id="user_country" class="form-control" name="user[country]" autocomplete="off" type="text" /&gt;
+&lt;input id="user_capital" class="form-control" name="user[capital]" autocomplete="off" type="text" /&gt;</code></pre>
         <p class="language-label">Generated javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.startCopy('#user_country', 'capital', '#user_capital');
 AwesompleteUtil.startCopy('#user_capital', 'name', '#user_country');
@@ -757,14 +801,14 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
       </div>
       <div class="col-sm-12 js">
         The script below loads all countries and fills both Awesomplete objects with the result.
-        <p class="language-label">Generated javascript
+        <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.ajax('https://restcountries.eu/rest/v1/all', '', '', 
   function(e) {
     var xhr = this, list;
     if (xhr.status === 200) {
       list = JSON.parse(xhr.responseText);
-      awe_user_country.list = list;
-      awe_user_capital.list = list;
+      AwesompleteUtil.load(awe_user_country, list, true);
+      AwesompleteUtil.load(awe_user_capital, list, true);
     }
    }
 );</script></code></pre>
@@ -786,7 +830,7 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
         </ul>
       </div>
       <div class="col-sm-12">
-         Enter for example 'Crayfish'
+         Enter for example 'Crayfish, Oysters'
       </div>
       <label class="control-label col-sm-2" for="user_seafood">Seafood toppings</label>
       <div class="col-sm-10 au">
@@ -865,7 +909,7 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
       </div>
       <label class="control-label col-sm-2" for="user_multimail">Email</label>
       <div class="col-sm-10 au">
-         <input class="form-control" id="user_multimail" name="user[multimail]" autocomplete="off" type="text">
+         <input class="form-control" id="user_multimail" name="user[multimail]" type="text">
       </div>
     </div>
   </fieldset>
@@ -878,8 +922,7 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
               :user,
               :multimail,
               [
-               class: "form-control",
-               autocomplete: "off"
+               class: "form-control"
               %{
                  url:    "js/uinames.json",
                  convertResponse: "uinames2contacts",
@@ -921,10 +964,10 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
         <p class="generated"><a href="#" onclick="return toggle('#awe-multimail');">show/hide generated code</a>
       </div>
       <div class="col-sm-12 awe slide-up" id="awe-multimail">
-        <p class="language-label">HTML
-        <pre class="language-markup"><code >&lt;input id="user_multimail" class="form-control" autocomplete="off"
+        <p class="language-label">Generated HTML
+        <pre class="language-markup"><code >&lt;input id="user_multimail" class="form-control"
      name="user[multimail]" type="text" /&gt;</code></pre>
-        <p class="language-label">Javascript
+        <p class="language-label">Generated javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_multimail',
  { 
   url: 'js/uinames.json',
