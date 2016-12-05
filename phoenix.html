@@ -8,8 +8,8 @@
 <link rel="stylesheet" href="https://leaverou.github.io/awesomplete/prism/prism.css"/>
 <link rel="stylesheet" href="https://getbootstrap.com/dist/css/bootstrap.min.css"/>
 <link rel="stylesheet" href="https://nico-amsterdam.github.io/awesomplete-util/css/awesomplete.css"/>
-<script src="js/awesomplete.js"></script>
-<script src="js/awesomplete-util.js"></script>
+<script src="js/awesomplete.min.js"></script>
+<script src="js/awesomplete-util.min.js"></script>
 <script>
   var toggle = function(id) { 
     var el = document.querySelector(id), cl = el.classList, c = 'slide-down', add = c, rem = 'slide-up';
@@ -530,7 +530,7 @@ AwesompleteUtil.start('#user_track1',
        before = input.slice(0, input.indexOf('@')) + '@'; 
      return {label: before + data.label, value: before + data.value}; 
    },
-   filter: Awesomplete.filterStartsWith, 
+   filter: AwesompleteUtil.filterStartsWith, 
    item: AwesompleteUtil.itemStartsWith
  }
 );</script></code></pre>
@@ -613,13 +613,13 @@ AwesompleteUtil.start('#user_track1',
 AwesompleteUtil.start('#user_country_iso',
  {
   url: 'https://restcountries.eu/rest/v1/alpha/',
-  limit: 1
+  limit: 0
  }, 
  {
   maxItems: 0,
   minChars: 3,
   data: function(rec, input) { return rec['alpha3Code']; },
-  filter: AwesompleteUtil.filterStartsWith
+  filter: Awesomplete.FILTER_STARTSWITH
  }
 );</script></code></pre>
       </div>
