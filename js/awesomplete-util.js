@@ -31,12 +31,12 @@ var AwesompleteUtil = function() {
     // private functions
     //
         // Some parts are shamelessly copied from Awesomplete.js like this simplified Suggestion.
-        // Returns an object with label and value properties. Data in is plain text, Object or Array with label and value.
+        // Returns an object with label and value properties. Data is plain text or Object/Array with label and value.
         function _suggestion(data) {
           var lv = Array.isArray(data)
               ? { label: data[0], value: data[1] }
               : typeof data === "object" && "label" in data && "value" in data ? data : { label: data, value: data };
-            return {label: lv.label || lv.value, value: lv.value, toString: function() { return '' + this.label; }};
+            return {label: lv.label || lv.value, value: lv.value};
         }
         // Helper to send events with detail property.
         function _fire(target, name, detail) {
@@ -61,9 +61,14 @@ var AwesompleteUtil = function() {
               suggestion = _suggestion(awe.data(rec, val));  /* call data convert function */
               // if maxItems = 0 we cannot look if the suggestion list is opened to determine if there are still matches,
               // so we call the filter method to see if there are still some options.
-              if (awe.maxItems === 0 && awe.filter(suggestion, val)) {
-                // filter returns true, so there is at least one partial match.
-                opened = true;
+              if (awe.maxItems === 0) {
+                // Awesomplete.FILTER_CONTAINS and Awesomplete.FILTER_STARTSWITH use the toString method.
+                // Normally we don't need the toString. maxItems 0 is most likely combined with limit 0 or 1.
+                suggestion.toString = function() { return '' + this.label; };
+                if (awe.filter(suggestion, val)) {
+                  // filter returns true, so there is at least one partial match.
+                  opened = true;
+                }
               }
               // We don't want to change the real input field, so we emulate a fake one.
               fake = {input: {value: ''}};
