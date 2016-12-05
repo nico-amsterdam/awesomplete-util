@@ -225,7 +225,7 @@
     class: "form-control"
   ],                                                                                                                    
   %{                                                                                                                    
-    url:    "https://api.spotify.com/v1/search?type=artist&limit=15&q=artist:",
+    url:    "https://api.spotify.com/v1/search?type=artist&amp;limit=15&amp;q=artist:",
     urlEnd: "*",
     limit: 15,
     filter: "filterWords",  # javascript functions must be double quoted
@@ -336,7 +336,7 @@ var albumImgFun = function(e, dataField) {
       autocomplete: "off"
      ],
      %{
-        url:    "https://api.spotify.com/v1/search?type=track&limit=10&q=track:",
+        url:    "https://api.spotify.com/v1/search?type=track&amp;limit=10&amp;q=track:",
         urlEnd: "*",
         limit: 10,
         maxItems: 10,
