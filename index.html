@@ -14,11 +14,16 @@
   body { line-heigth: 150%; font-size: 18px; }
 
   /* style navbar */
-  .logo { font-family: "Georgia, serif"; color:brown; font-style:italic }
-  .logo span { font-style:normal }
+  .logo { font-family: "Georgia, serif"; 
+          color: brown; 
+          font-style: italic }
+  .logo span { font-style: normal }
   .navbar { background-color: #64f652 }
   @media screen and (min-width: 768px) { 
-    .navbar { position: fixed; top: 0; width: 100%; opacity: 0.9 }
+    .navbar { position: fixed; 
+              top: 0;
+              width: 100%;
+              opacity: 0.9 }
     header { margin-top: 25px }
     header, section { padding-top: 40px }  
   }
@@ -28,20 +33,27 @@
   .language-markup { margin-top: -4em !important }
   .language-label  { text-align: right;
                      font-weight: bold; 
-                     margin: 1em 1em;
+                     margin: 1.6em 1em;
                      color: brown }
 
   /* fight with bootstrap */
   .table { display: table }
-  h2 { margin-left: -15px; margin-right: -15px }
+  h2 { margin-left:  -15px;
+       margin-right: -15px }
+  thead th { text-align: center }
+  td code { color: inherit;
+            background-color: inherit }
 
   /* style awesomplete-util */
   div.awesomplete { display: block }
   .input-group-btn .dropdown-btn { line-height: 30px }
   div.awesomplete ul { font-size: smaller }
-  div.awesomplete ul li p { display: block; font-size: small; margin-left: 1em; color:#0 }
-  div.awesomplete .awe-found { border: 2px solid green }
-  div.awesomplete .awe-not-found { border: 2px solid red }
+  div.awesomplete ul li p { display: block; 
+                            font-size: small;
+                            margin-left: 1em;
+                            color: #0 }
+  div.awesomplete .awe-found     { border: 2px solid green }
+  div.awesomplete .awe-not-found { border: 2px solid red   }
   .hide-not-found div.awesomplete .awe-not-found { border-color: lightblue }
 
   /* style examples */
@@ -50,10 +62,20 @@
   .album { min-height: 200px }
   .odd  { border-right: thick ridge purple; padding-right: 6px }
   .even { border-left: thick groove purple; padding-left: 6px }
-  .features { font-size: smaller; padding: 1em; margin-bottom: 2em; border: 3px solid green }
+  .features { font-size: smaller;
+              padding: 1em;
+              margin-bottom: 2em;
+              border: 3px solid green }
   .html, .js, .awe { margin-top: 2em }
   th, td { vertical-align: top }
   tbody, td { border: 1px solid black; padding: 5px 8px }
+
+  /* style table */
+  table { border-spacing: 0;
+          border-collapse: collapse }
+  tbody { vertical-align: top }
+  td { padding: 5px 9px; 
+       border: 1px solid black }
 
 </style>
 </head>
@@ -67,17 +89,16 @@
       </div>
         <ul class="nav navbar-nav">
           <li><a href="#examples">Examples</a>
-          <li><a href="#installation">Installation</a>
+          <li><a href="#installation">Installation &amp; CSS style</a>
           <li><a href="#events">Events</a>
-          <li><a href="#style">CSS Style</a>
-          <li><a href="#functions">Functions</a>
+          <li><a href="#api">API</a>
         </ul>
     </div>
   </nav>
   <header class="container">
     <div class="row">
       <div class="col-sm-12">
-        <span class="logo">Awesomplete<span>Util</span></span> is a javascript library enhancing Lea Verou's autocomplete / autosuggest / typeahead / inputsearch <a href="//leaverou.github.io/awesomplete/index.html">Awesomplete widget</a>.
+        <span class="logo">Awesomplete<span>Util</span></span> is a javascript library enhancing Lea Verou's autocomplete / autosuggest / typeahead / inputsearch <a href="https://leaverou.github.io/awesomplete/index.html">Awesomplete widget</a>.
         <p>
         AwesompleteUtil adds the following features:
         <ul>
@@ -86,10 +107,10 @@
           <li>Show when there is an exact match.
           <li>Show when there isn't a match.
           <li>When there is an exact match show related data (supplied in the remote data) in other parts of the page.
-          <li>Select the highlighted item with the tab-key.
+          <li>Select the highlighted item when tab-key is used.
         </ul>
         <p>
-        AwesompleteUtil provides enough hooks to keep the agility that the Awesomplete widget has.
+        AwesompleteUtil provides enough hooks to keep the agility which the Awesomplete widget has.
         <p>
         The only dependency of AwesompleteUtil is Awesomplete. Together it is less than 5KB minified gzipped.
         It runs on modern browsers; IE11, Edge, Safari, Android stock browser, Chrome, Firefox.
@@ -152,7 +173,7 @@
             <pre class="language-markup"><code >&lt;input class="form-control" id="user_artist1" name="user[artist1]" type="text" /&gt;</code></pre>
           </div>
           <div class="col-sm-12 js">
-            The standard supplied 'starts-with' and 'contains' filters don't exactly match with how Spotify searches.
+            The standard supplied 'starts-with' and 'contains' filters don't exactly match with how Spotify searches (Elasticsearch).
             Spotify searches words, you can search for 'Michael Jackson' or 'Jackson Michael' and get the same results.
             Thats why a custom filter called 'filterWords' is used that filters on the words entered. To highlight the
             words we searched for in the list of suggestions a custom item function called 'itemWords' is used.
@@ -188,7 +209,7 @@
             Below the Awesomplete object is created with the filter and item functions defined above.
             At the end of the remote url for the ajax lookup we add the '*' wildcard character.
             A limit of 15 is specified; if 15 or more results are returned by the server the code assumes that there
-            are more results, so it will re-query if more characters are typed in to get more refined results.
+            are more results, so it will re-query if more characters are typed to get more refined results.
             <p class="language-label">Javascript
             <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_artist1',
      {  /* util options */
@@ -780,10 +801,32 @@ AwesompleteUtil.ajax('https://restcountries.eu/rest/v1/all', '', '',
 
   </section>
   <section class="container" id="installation"> 
-    <h2>Installation</h2>
+    <h2>Installation &amp; CSS style</h2>
     <div class="row">
       <div class="col-sm-12">
-      </div>
+         <h3>Installation</h3>
+         In the header of your HTML page add:
+         <p class="language-label">HTML
+         <pre class="language-markup"><code >&lt;link rel="stylesheet" href="https://nico-amsterdam.github.io/awesomplete-util/css/awesomplete.css"&gt;
+         &lt;script src="https://nico-amsterdam.github.io/awesomplete-util/js/awesomplete.min.js"&gt;lt;/script&gt;
+         &lt;script src="https://nico-amsterdam.github.io/awesomplete-util/js/awesomplete-util.min.js"&gt;lt;/script&gt;
+&lt;style&gt;
+  div.awesomplete { display: block }
+
+  div.awesomplete ul li p { display: block; font-size: small; margin-left: 1em }
+
+  div.awesomplete .awe-found { border: 2px solid green }
+
+  .hide-not-found div.awesomplete .awe-not-found { border-color: lightblue }
+
+  div.awesomplete .awe-not-found { border: 2px solid red }
+
+&lt;/style&gt;</code></pre>
+         The awesomplete.css and awesomplete.min.js files are copied from <a href="https://github.com/LeaVerou/awesomplete">Awesomplete</a> and tested in combination with AwesompleteUtil. If you copy these files to your own project, do not forget to also copy the javascript sourcemaps (<a href="https://nico-amsterdam.github.io/awesomplete-util/js/awesomplete.min.js.map">awesomplete.min.js.map</a> and <a href="https://nico-amsterdam.github.io/awesomplete-util/js/awesomplete-util.min.js.map">awesomplete-util.min.js.map</a>).
+         <p>
+         <h3>CSS Style</h3>
+         Customize the above styling for your own needs. The CSS class 'awe-found' is put on the input control when the input exactly matches the value of an list item. The CSS class 'awe-not-found' is put on the input control when the list closes because there are no more matching items.
+     </div>
     </div>
   </section>
 
@@ -791,71 +834,124 @@ AwesompleteUtil.ajax('https://restcountries.eu/rest/v1/all', '', '',
     <h2>Events</h2>
     <div class="row">
       <div class="col-sm-12">
-      </div>
-    </div>
-  </section>
-
-  <section class="container" id="style"> 
-    <h2>CSS</h2>
-    <div class="row">
-      <div class="col-sm-12">
-      </div>
-    </div>
-  </section>
-
-  <section class="container" id="functions"> 
-    <h2>API</h2>
-    <div class="row">
-      <div class="col-sm-12">
+         <a href="https://leaverou.github.io/awesomplete/index.html#events">Events triggered by Awesomplete</a>. AwesompleteUtil adds these events:
          <table>
            <thead>
              <tr>
-               <th>Name
+               <th>Event name
                <th>Description
              </tr>
            </thead>
            <tbody>
              <tr>
-                <td>ajax(url, urlEnd, val, fn, xhr)
-                <td>Default ajax method, available for convenience. It performs a GET request on url + val + urlEnd. fn is the callback method. xhr is optional, you can pass on a preconfigured XMLHttpRequest. 
+                <td>awesomplete-loadcomplete
+                <td>Fired when a new list is assigned to Awesomplete after a succesful ajax call. The event detail property contains the input value that triggered the ajax call. 
              <tr>
-                <td>convertInput(text)
-                <td>Default convertInput available for convenience. It trims spaces and converts text to lowercase.
+                <td>awesomplete-match
+                <td>Fired when a new input value is compared with the item list. The event detail property contains an array with the matching list item(s). The array is empty when there is no match.
              <tr>
-                <td>item(html, input)
-                <td>Item function (as specified in Awesomplete) which create an 'li' element with the given html as innerHTML.
+                <td>awesomplete-prepop
+                <td>Fired when the initial/autofilled value is compared with the item list. The event detail property contains an array with the matching list item(s). The array is empty when there is no match.
+             </tr>
+           </tbody>
+         </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="container" id="api"> 
+    <h2>API</h2>
+    <div class="row">
+      <div class="col-sm-12">
+         <h3>Functions</h3>
+         <table>
+           <thead>
              <tr>
-                <td>load(awe, list, queryValue)
-                <td>Load a new list. queryValue is the value that was used to retrieve the list. 
+               <th>Function name
+               <th>Description
+             </tr>
+           </thead>
+           <tbody>
+             <tr>
+               <td><code>ajax(url, urlEnd, val, fn, xhr)</code>
+               <td>Default ajax method, available for convenience. It performs a GET request on url + val + urlEnd. fn is the callback method. xhr is optional, you can pass on a preconfigured XMLHttpRequest. 
+             <tr>
+               <td><code>convertInput(text)</code>
+               <td>Default convertInput available for convenience. It trims spaces and converts text to lowercase.
+             <tr>
+               <td><code>item(html, input)</code>
+               <td>Item function (as specified in <a href="http://leaverou.github.io/awesomplete/index.html#extensibility">Awesomplete</a>) which create an 'li' element with the given html as innerHTML.
+             <tr>
+               <td><code>load(awe, list, queryValue)</code>
+               <td>Load a new list. queryValue is the value that was used to retrieve the list. 
                     Set to null if for any change a re-query must be done. Set to true if the list contains all values (loadall).
              <tr>
-                <td>mark(text, input, startsWith)
-                <td>returns text with HTML mark elements for matching input. It does not place markers in HTML tags. When startsWith is true it only marks matching begin text.
+               <td><code>mark(text, input, startsWith)</code>
+               <td>returns text with HTML mark elements for matching input. It does not place markers in HTML tags. When startsWith is true it only marks matching begin text.
              <tr>
-                <td>itemStartsWith(text, input)
-                <td>item function (as specified in Awesomplete) which highlights matching begin text.
+               <td><code>itemStartsWith(text, input)</code>
+               <td>item function (as specified in <a href="http://leaverou.github.io/awesomplete/index.html#extensibility">Awesomplete</a>) which highlights matching begin text.
              <tr>
-                <td>update(awe, value, prepop)
-                <td>Update awesomplete input value via javascript. If you do this directly on the input control, no events will fire. If you use this update function, the AwesompleteUtil can check if the value exists in the suggestion list and set classes on the input control and fire it's events. Specify prepop=true if it is an initial value (no user input).
+               <td><code>update(awe, value, prepop)</code>
+               <td>Update awesomplete input value via javascript. If you do this directly on the input control, no events will fire. If you use this update function, the AwesompleteUtil can check if the value exists in the suggestion list and set classes on the input control and fire it's events. Specify prepop=true if it is an initial value (no user input). Default value for prepop: false
              <tr>
-                <td>start(elemId, utilOpts, opts)
-                <td>Create the Awesomplete object and attach event-handlers for AwesompleteUtil. elemId must be either a DOM element or a string with the query for document.querySelector to find the element. In general use '#id_of_element'. utilsOpts is an json object with the options for AwesompleteUtil, which are: 'url', 'urlEnd', 'loadall', 'prepop', 'limit', 'convertInput', 'convertResponse', 'ajax'. opts are the options for Awesomplete and are passed on unchanged.
-When opts is specified with maxItems:0, the Awesomplete.FILTER_CONTAINS and Awesomplete.FILTER_STARTSWITH will not work correctly, please use either AwesompleteUtil.filterContains or AwesompleteUtil.filterStartsWith or your own filter. 
+               <td><code>start(elemId, utilOpts, opts)</code>
+               <td>Create the Awesomplete object and attach event-handlers for AwesompleteUtil. elemId must be either a DOM element or a string with the query for document.querySelector to find the element. In general use '#id_of_element'. utilsOpts is an json object with the options for AwesompleteUtil, see the table below. opts are the options for Awesomplete and are passed on unchanged.
              <tr>
-                <td>startCopy(sourceId, dataField, targetId, prepop)
-                <td>
+               <td><code>startCopy(sourceId, dataField, targetId, prepop)</code>
+               <td>Listens to awesomplete-prepop (when prepop is not false) and awesomplete-match events from the source, and copy the dataField to the DOM element with the given target id. The targetId can also be a javascript function. This function receives two parameters: event and dataField. The event detail property contains an array with the matching list item. The array is empty when there is no match. Default value for prepop: true. dataField must be null if the list items are strings.
              <tr>
-                <td>startClick(btnId, awe)
-                <td>return a function for Open/close the suggestion list. Used for the combobox button.
+               <td><code>startClick(btnId, awe)</code>
+               <td>Listen to click events of a button. Toggles open/close of the suggestion list.
              <tr>
-                <td>filterContains(data, input)
-                <td>filter function (as specified in Awesomplete) to filter suggestions. input is searched in data.value. Notice that Awesomplete.FILTER_CONTAINS by default searches on data.label.
+               <td><code>filterContains(data, input)</code>
+               <td>filter function (as specified in <a href="http://leaverou.github.io/awesomplete/index.html#extensibility">Awesomplete</a>) to filter suggestions. input is searched in data.value. Notice that Awesomplete.FILTER_CONTAINS by default searches on data.label.
              <tr>
-                <td>filterStartsWith(data, input)
-                <td>filter function (as specified in Awesomplete) to filter suggestions. input is searched as start text in data.value. Notice that Awesomplete.FILTER_STARTWITH by default searches on data.label.
+               <td><code>filterStartsWith(data, input)</code>
+               <td>filter function (as specified in <a href="http://leaverou.github.io/awesomplete/index.html#extensibility">Awesomplete</a>) to filter suggestions. input is searched as start text in data.value. Notice that Awesomplete.FILTER_STARTWITH by default searches on data.label.
              <tr>
-                <td>jsonFlatten(data)
-                <td>function to flatten JSON. Notice that you can supply extra options via jsonFlatten.bind(opts) where opts is a json objects with options 'root', 'value' and 'label'.
+               <td><code>jsonFlatten(data)</code>
+               <td>function to flatten JSON. Notice that you can supply extra options via jsonFlatten.bind(opts) where opts is a json objects with options 'root', 'value' and 'label'.
+             </tr>
+           </tbody>
+         </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+         <h3>util options of the start function</h3>
+         <table>
+           <thead>
+             <tr>
+               <th>Option name
+               <th>Description
+             </tr>
+           </thead>
+           <tbody>
+             <tr>
+                <td>ajax 
+                <td>Replace ajax function. Supplied function receives these parameters: (url, urlEnd, val, fn, xhr). fn is the callback function. Default: AwesompleteUtil.ajax. 
+             <tr>
+                <td>convertInput
+                <td>Convert input function. Internally convert input for comparison with the data list items. By default it trims the input and converts it to lowercase for a case-insensitive comparison. 
+             <tr>
+                <td>convertResponse
+                <td>Convert JSON response from ajax calls. This function is called with the parsed JSON, and allows conversion of the data before further processing. Default: nil - no conversion.
+             <tr>
+                <td>limit
+                <td>number. If a limit is specified, and the number of items returned by the server is equal or more as this limit, the AwesompleteUtil code assumes that there are more results, so it will re-query if more characters are typed to get more refined results. The limit:1 tells that not more than 1 result is expected, so the json service doesn’t have to return an array. With limit:0 it will always re-query if more characters are typed. Default: no limit 
+             <tr>
+                <td>loadall
+                <td>true/false. true if the data list contains all items. The input value will not be used in ajax calls. Default: false 
+             <tr>
+                <td>prepop
+                <td>true/false. If true do lookup initial/autofilled value and send awesomplete-prepop event. Default: false
+             <tr>
+                <td>url
+                <td>url for ajax calls.
+             <tr>
+                <td>urlEnd
+                <td>Addition at the end of the url of the ajax call, after the input value.
              </tr>
            </tbody>
          </table>
@@ -867,6 +963,8 @@ When opts is specified with maxItems:0, the Awesomplete.FILTER_CONTAINS and Awes
     <h2>Anything else that comes to mind</h2>
     <div class="row">
       <div class="col-sm-12">
+        License: MIT
+        <p>
         <a href="https://lea.verou.me/2015/02/awesomplete-2kb-autocomplete-with-zero-dependencies/">Lea's blog about the creation of Awesomplete</a>
       </div>
     </div>

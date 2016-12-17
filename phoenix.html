@@ -46,7 +46,7 @@
   .language-markup { margin-top: -4em !important }
   .language-label  { text-align: right;
                      font-weight: bold; 
-                     margin: 1.5em 1em;
+                     margin: 1.6em 1em;
                      color: brown }
   .generated { padding: 1em 1em 0 1em;
                font-size: smaller }
@@ -61,12 +61,12 @@
     transition: max-height 0.8s ease-in-out;
   }
   .slide-down {            
-    max-height: 750px;
+    max-height: 860px;
   }
 
   /* fight with bootstrap */
   .table { display: table }
-  h2 { margin-left: -15px;
+  h2 { margin-left:  -15px;
        margin-right: -15px }
 
   /* style awesomplete-util */
@@ -108,16 +108,14 @@
         <ul class="nav navbar-nav">
           <li><a href="#examples">Examples</a>
           <li><a href="#installation">Installation</a>
-          <li><a href="#events">Events</a>
-          <li><a href="#style">CSS Style</a>
-          <li><a href="#functions">Functions</a>
+          <li><a href="https://hexdocs.pm/phoenix_form_awesomplete/api-reference.html" target="api">API</a>
         </ul>
     </div>
   </nav>
   <header class="container">
     <div class="row">
       <div class="col-sm-12">
-        <span class="logo">PhoenixFormAwesomplete</span> is a <a href="https://www.phoenixframework.org">Phoenix</a> form helper that utilises Lea Verou's autocomplete/autosuggest/typeahead/inputsearch <a href="https://leaverou.github.io/awesomplete/index.html">Awesomplete widget</a>. 
+        <span class="logo">PhoenixFormAwesomplete</span> is a <a href="https://www.phoenixframework.org">Phoenix</a> form helper that utilizes Lea Verou's autocomplete / autosuggest / typeahead / inputsearch <a href="https://leaverou.github.io/awesomplete/index.html">Awesomplete widget</a>. 
         <p>
         It comes with an <a href="index.html">AwesompleteUtil javascript library</a> which adds the following features:
         <ul>
@@ -126,7 +124,7 @@
           <li>Show when there is an exact match.
           <li>Show when there isn't a match.
           <li>When there is an exact match show related data (supplied in the remote data) in other parts of the page.
-          <li>Select the highlighted item with the tab-key.
+          <li>Select the highlighted item when the tab key is used.
         </ul>
       </div>
     </div>
@@ -180,7 +178,7 @@
 
     <div class="row even">
       <div class="col-sm-12 js">
-        The standard supplied 'starts-with' and 'contains' filters don't exactly match with how Spotify searches.
+        The standard supplied 'starts-with' and 'contains' filters don't exactly match with how Spotify searches (Elasticsearch).
         Spotify searches words, you can search for 'Michael Jackson' or 'Jackson Michael' and get the same results.
         Thats why a custom filter called 'filterWords' is used that filters on the words entered. To highlight the
         words we searched for in the list of suggestions a custom item function called 'itemWords' is used.
@@ -216,7 +214,7 @@
         Below the Awesomplete widget is created with the filter and item functions defined above.
         At the end of the remote url for the ajax lookup we add the '*' wildcard character.
         A limit of 15 is specified; if 15 or more results are returned by the server the code assumes that there
-        are more results, so it will re-query if more characters are typed in to get more refined results.
+        are more results, so it will re-query if more characters are typed to get more refined results.
         <p class="language-label">EEx
         <pre class="language-markup"><code >&lt;%= awesomplete(
   :user,
@@ -329,25 +327,25 @@ var albumImgFun = function(e, dataField) {
 &lt;%= copy_to_id(:user, :track1, "album.images", "albumImgFun") %&gt;
 &lt;%= copy_to_id(:user, :track1, "artists",      "artistsFun") %&gt;
 &lt;%= awesomplete(
-     :user,
-     :track1,
-     [       # input_text options
-      class: "form-control",
-      autocomplete: "off"
-     ],
-     %{
-        url:    "https://api.spotify.com/v1/search?type=track&amp;limit=10&amp;q=track:",
-        urlEnd: "*",
-        limit: 10,
-        maxItems: 10,
-        minChars: 3,
-        value: "name",
-        prepop: true,
-        descr: "album.name",
-        filter: "filterWords",
-        item: "itemWords",
-        convertResponse: "AwesompleteUtil.jsonFlatten.bind({value: 'name'})"
-      }
+ :user,
+ :track1,
+ [       # input_text options
+  class: "form-control",
+  autocomplete: "off"
+ ],
+ %{
+    url:    "https://api.spotify.com/v1/search?type=track&amp;limit=10&amp;q=track:",
+    urlEnd: "*",
+    limit: 10,
+    maxItems: 10,
+    minChars: 3,
+    value: "name",
+    prepop: true,
+    descr: "album.name",
+    filter: "filterWords",
+    item: "itemWords",
+    convertResponse: "AwesompleteUtil.jsonFlatten.bind({value: 'name'})"
+  }
 ) %&gt;</code></pre>
         Unfortunetly we cannot instruct to Spotify to sort on song title length. If you search for songs with only one or
         two words, it might be that the desired song is not in the first 10 shown results.
@@ -498,19 +496,19 @@ AwesompleteUtil.start('#user_track1',
       <div class="col-sm-12 eex">
         <p class="language-label">EEx
         <pre class="language-markup"><code >&lt;%= awesomplete(
-     :user,
-     :host1,
-     [
-      class: "form-control"
-     ],
-     %{
-        url:    "/js/host.json",
-        loadall: true,
-        filter: "Awesomplete.FILTER_STARTSWITH",
-        value: "value",
-        descr: "label",
-        data:   "function (data, input) { var before = input.slice(0, input.indexOf('@')) + '@'; return {label: before + data.label, value: before + data.value}; }"
-      }
+ :user,
+ :host1,
+ [
+  class: "form-control"
+ ],
+ %{
+    url:    "/js/host.json",
+    loadall: true,
+    filter: "Awesomplete.FILTER_STARTSWITH",
+    value: "value",
+    descr: "label",
+    data:   "function (data, input) { var before = input.slice(0, input.indexOf('@')) + '@'; return {label: before + data.label, value: before + data.value}; }"
+  }
 ) %&gt;</code></pre>
         <p class="generated"><a href="#" onclick="return toggle('#awe-user-host');">show/hide generated code</a>
       </div>
@@ -607,7 +605,7 @@ AwesompleteUtil.start('#user_track1',
         <p class="language-label">Generated HTML
         <pre class="language-markup"><code >&lt;input id="user_country_iso" class="form-control" autocomplete="off"
      name="user[iso-country]" type="text" /&gt;
-&lt;span id="awe-country-name"&gt;&lt;/span&gt;</code></pre>
+&lt;span  id="awe-country-name"&gt;&lt;/span&gt;</code></pre>
         <p class="language-label">Generated javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.startCopy('#user_country_iso', 'name', '#awe-country-name');
 AwesompleteUtil.start('#user_country_iso',
@@ -660,28 +658,28 @@ AwesompleteUtil.start('#user_country_iso',
 &lt;div&gt;&lt;span id="awe-color-result"&gt;&lt;/span&gt; &amp;#x21B2;&lt;/div&gt;
 &lt;%= copy_to_id(:user, :color, "label", "#awe-color-result") %&gt; 
 &lt;%= awesomplete_script(
-     :user, 
-     :color, 
-     %{ 
-        minChars: 1, 
-        filter: "AwesompleteUtil.filterContains",
-        list: "[
-               { label: \"<b style='color:black'>black</b>\",   value: 'black' },
-               { label: \"<b style='color:blue'>blue</b>\",     value: 'blue'  },
-               { label: \"<b style='color:brown'>brown</b>\",   value: 'brown' },
-               { label: \"<b style='color:green'>green</b>\",   value: 'green' },
-               { label: \"<b style='color:orange'>orange</b>\", value: 'orange'},
-               { label: \"<b style='color:pink'>pink</b>\",     value: 'pink'  },
-               { label: \"<b style='color:purple'>purple</b>\", value: 'purple'},
-               { label: \"<b style='color:red'>red</b>\",       value: 'red'   },
-               { label: \"<b style='color:yellow'>yellow</b>\", value: 'yellow'}
-        ]"
-      }
+ :user, 
+ :color, 
+ %{ 
+    minChars: 1, 
+    filter: "AwesompleteUtil.filterContains",
+    list: "[
+           { label: \"&lt;b style='color:black'&gt;black&lt;/b&gt;\",   value: 'black' },
+           { label: \"&lt;b style='color:blue'&gt;blue&lt;/b&gt;\",     value: 'blue'  },
+           { label: \"&lt;b style='color:brown'&gt;brown&lt;/b&gt;\",   value: 'brown' },
+           { label: \"&lt;b style='color:green'&gt;green&lt;/b&gt;\",   value: 'green' },
+           { label: \"&lt;b style='color:orange'&gt;orange&lt;/b&gt;\", value: 'orange'},
+           { label: \"&lt;b style='color:pink'&gt;pink&lt;/b&gt;\",     value: 'pink'  },
+           { label: \"&lt;b style='color:purple'&gt;purple&lt;/b&gt;\", value: 'purple'},
+           { label: \"&lt;b style='color:red'&gt;red&lt;/b&gt;\",       value: 'red'   },
+           { label: \"&lt;b style='color:yellow'&gt;yellow&lt;/b&gt;\", value: 'yellow'}
+    ]"
+  }
 ) %&gt;</code></pre>
       Notice the prepop property and the startCopy function call. The initial/autofilled value of input-control triggers the copy action, and the label is copied to the span-tag with id 'awe-color-result' during page load. The order of the HTML elements and the inline script is important here. The startCopy function must be called before the startAwesomplete function, because the latter can immediately fire the 'awesomplete-prepop' event which should be handled by the former.
 The startCopy inline script should preferable be placed after the HTML element which is the target. If you do, it only has to lookup the target element once, but if you don't do this it will lookup the target element with each event.
 <p>
-If u use remote data loading and combine prepop:true with loadall:true the remote call will happen during page load. If prepop:false, the loadall will be done lazely, e.g. if the user makes changes and the input size >= minChars.
+If you use remote data loading and combine prepop:true with loadall:true the remote call will happen during page load. If prepop:false, the loadall will be done lazely, e.g. if the user makes changes and the input size >= minChars.
         <p class="generated"><a href="#" onclick="return toggle('#awe-colors');">show/hide generated code</a>
       </div>
       <div class="col-sm-12 awe slide-up" id="awe-colors">
@@ -746,33 +744,33 @@ AwesompleteUtil.start('#user_color',
       <div class="col-sm-12 eex">
         <p class="language-label">EEx
         <pre class="language-markup"><code>&lt;%= copy_to_field(:user, :country, "capital", :user, :capital) %&gt;
-      &lt;%= copy_to_field(:user, :capital, "name", :user, :country) %&gt;
-      &lt;%= label(:user, :country, "Country", class: "control-label col-sm-2") %&gt;
-      &lt;div class="col-sm-4"&gt;
-        &lt;%= awesomplete(:user, :country, 
-            [class: "form-control",
-             autocomplete: "off"
-            ], 
-            [ 
-              assign: true,
-              minChars: 1, 
-              maxItems: 7, 
-              value: "name" 
-            ]) %&gt;
-      &lt;/div&gt;
-      &lt;%= label(:user, :capital, "Capital", class: "control-label col-sm-2") %&gt;
-      &lt;div class="col-sm-4"&gt;
-        &lt;%= awesomplete(:user, :capital,
-            [class: "form-control",
-             autocomplete: "off"
-            ], 
-            [ 
-              assign: true,
-              minChars: 1, 
-              maxItems: 7, 
-              value: "capital" 
-            ]) %&gt;
-      &lt;/div&gt;</code></pre>
+&lt;%= copy_to_field(:user, :capital, "name", :user, :country) %&gt;
+&lt;%= label(:user, :country, "Country", class: "control-label col-sm-2") %&gt;
+&lt;div class="col-sm-4"&gt;
+  &lt;%= awesomplete(:user, :country, 
+      [class: "form-control",
+       autocomplete: "off"
+      ], 
+      [ 
+        assign: true,
+        minChars: 1, 
+        maxItems: 7, 
+        value: "name" 
+      ]) %&gt;
+&lt;/div&gt;
+&lt;%= label(:user, :capital, "Capital", class: "control-label col-sm-2") %&gt;
+&lt;div class="col-sm-4"&gt;
+  &lt;%= awesomplete(:user, :capital,
+      [class: "form-control",
+       autocomplete: "off"
+      ], 
+      [ 
+        assign: true,
+        minChars: 1, 
+        maxItems: 7, 
+        value: "capital" 
+      ]) %&gt;
+&lt;/div&gt;</code></pre>
         <p class="generated"><a href="#" onclick="return toggle('#awe-capital');">show/hide generated code</a>
       </div>
       <div class="col-sm-12 awe slide-up" id="awe-capital">
@@ -846,16 +844,16 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
         Notice that you can enter multiple toppings, seperated by , or ;
         <p class="language-label">EEx
         <pre class="language-markup"><code >&lt;%= awesomplete(
-     :user,
-     :seafood,
-     [
-        class: "form-control",
-       "data-list": "Anchovies, Cajun Prawn, Crayfish, Lobster, Oysters, Prawns, Salmon, Shrimps, Smoked Salmon, Squid, Tuna, Whitebait"
-     ],
-     %{
-        minChars: 1,
-        multiple: ",;"
-      }
+ :user,
+ :seafood,
+ [
+    class: "form-control",
+   "data-list": "Anchovies, Cajun Prawn, Crayfish, Lobster, Oysters, Prawns, Salmon, Shrimps, Smoked Salmon, Squid, Tuna, Whitebait"
+ ],
+ %{
+    minChars: 1,
+    multiple: ",;"
+  }
 ) %&gt;</code></pre>
         <p class="generated"><a href="#" onclick="return toggle('#awe-seafood');">show/hide generated code</a>
       </div>
@@ -920,23 +918,23 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
         Below the Awesomplete object and input control created 
         <p class="language-label">EEx
         <pre class="language-markup"><code>&lt;%= awesomplete(
-              :user,
-              :multimail,
-              [
-               class: "form-control"
-              %{
-                 url:    "js/uinames.json",
-                 convertResponse: "uinames2contacts",
-                 loadall : true,
-                 minChars: 1,
-                 maxItems: 7,
-                 multiple: ";,",
-                 value:  "value",
-                 label:  "name",
-                 descr:  "email",
-                 item:   "AwesompleteUtil.itemMarkAll"
-               }
-         ) %&gt;</code></pre>
+  :user,
+  :multimail,
+  [
+   class: "form-control"
+  %{
+     url:    "js/uinames.json",
+     convertResponse: "uinames2contacts",
+     loadall : true,
+     minChars: 1,
+     maxItems: 7,
+     multiple: ";,",
+     value:  "value",
+     label:  "name",
+     descr:  "email",
+     item:   "AwesompleteUtil.itemMarkAll"
+   }
+ ) %&gt;</code></pre>
         In this example the 'value' field contains both name (label) and email address (descr).
         By default the description is not highlighted. The itemMarkAll function above
         highlights all matching text in the suggestion list, including the description.
@@ -1007,87 +1005,16 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
     <h2>Installation</h2>
     <div class="row">
       <div class="col-sm-12">
+         Instructions are on the <a href="https://github.com/nico-amsterdam/phoenix_form_awesomplete/#installation">github projects</a> homepage.
       </div>
     </div>
   </section>
 
-  <section class="container" id="events"> 
-    <h2>Events</h2>
+  <section class="container" id="other"> 
     <div class="row">
       <div class="col-sm-12">
-      </div>
-    </div>
-  </section>
-
-  <section class="container" id="style"> 
-    <h2>CSS</h2>
-    <div class="row">
-      <div class="col-sm-12">
-      </div>
-    </div>
-  </section>
-
-  <section class="container" id="functions"> 
-    <h2>API</h2>
-    <div class="row">
-      <div class="col-sm-12">
-         <table>
-           <thead>
-             <tr>
-               <th>name
-               <th>description
-             </tr>
-           </thead>
-           <tbody>
-             <tr>
-                <td>ajax(url, urlEnd, val, fn, xhr)
-                <td>Default ajax method, available for convenience. It performs a GET request on url + val + urlEnd. fn is the callback method. xhr is optional, you can pass on a preconfigured XMLHttpRequest. 
-             <tr>
-                <td>convertInput(text)
-                <td>Default convertInput available for convenience. It trims spaces and converts text to lowercase.
-             <tr>
-                <td>item(html, input)
-                <td>Item function (as specified in Awesomplete) which create an 'li' element with the given html as innerHTML.
-             <tr>
-                <td>mark(text, input, startsWith)
-                <td>returns text with html mark elements for matching input. It does not place markers in HTML tags. When startsWith is true it only marks matching begin text.
-             <tr>
-                <td>itemStartsWith(text, input)
-                <td>item function (as specified in Awesomplete) which highlights matching begin text.
-             <tr>
-                <td>update(awe, value, prepop)
-                <td>Update awesomplete input value via javascript. If you do this directly on the input control, no events will fire. If you use this update function, the AwesompleteUtil can check if the value exists in the suggestion list and set classes on the input control and fire it's events. Specify prepop=true if it is an initial value (no user input).
-             <tr>
-                <td>start(elemId, utilOpts, opts)
-                <td>Create the Awesomplete object and attach event-handlers for AwesompleteUtil. elemId must be either a DOM element or a string with the query for document.querySelector to find the element. In general use '#id_of_element'. utilsOpts is an json object with the options for AwesompleteUtil, which are: 'url', 'urlEnd', 'loadall', 'prepop', 'limit', 'convertInput', 'convertResponse', 'ajax'. opts are the options for Awesomplete and are passed on unchanged.
-When opts is specified with maxItems:0, the Awesomplete.FILTER_CONTAINS and Awesomplete.FILTER_STARTSWITH will not work correctly, please use either AwesompleteUtil.filterContains or AwesompleteUtil.filterStartsWith or your own filter. 
-             <tr>
-                <td>startCopy(sourceId, dataField, targetId, prepop)
-                <td>
-             <tr>
-                <td>startClick(btnId, awe)
-                <td>return a function for Open/close the suggestion list. Used for the combobox button.
-             <tr>
-                <td>filterContains(data, input)
-                <td>filter function (as specified in Awesomplete) to filter suggestions. input is searched in data.value. Notice that Awesomplete.FILTER_CONTAINS by default searches on data.label.
-             <tr>
-                <td>filterStartsWith(data, input)
-                <td>filter function (as specified in Awesomplete) to filter suggestions. input is searched as start text in data.value. Notice that Awesomplete.FILTER_STARTWITH by default searches on data.label.
-             <tr>
-                <td>jsonFlatten(data)
-                <td>function to flatten JSON. Notice that you can supply extra options via jsonFlatten.bind(opts) where opts is a json objects with options 'root', 'value' and 'label'.
-             </tr>
-           </tbody>
-         </table>
-      </div>
-    </div>
-  </section>
-
-  <section class="container" id="epilogue"> 
-    <h2>Anything else that comes to mind</h2>
-    <div class="row">
-      <div class="col-sm-12">
-        <a href="https://lea.verou.me/2015/02/awesomplete-2kb-autocomplete-with-zero-dependencies/">Lea's blog about the creation of Awesomplete</a>
+         <p><a href="https://hexdocs.pm/phoenix_form_awesomplete/api-reference.html" target="api">API</a>
+         <p>License: MIT
       </div>
     </div>
   </section>
