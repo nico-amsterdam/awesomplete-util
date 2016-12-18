@@ -176,7 +176,7 @@
             The standard supplied 'starts-with' and 'contains' filters don't exactly match with how Spotify searches (Elasticsearch).
             Spotify searches words, you can search for 'Michael Jackson' or 'Jackson Michael' and get the same results.
             Thats why a custom filter called 'filterWords' is used that filters on the words entered. To highlight the
-            words we searched for in the list of suggestions a custom item function called 'itemWords' is used.
+            words in the list of suggestions a custom function called 'itemWords' is used.
             <p class="language-label">Javascript
             <pre class="language-javascript"><code><script>
       var filterWords = function(data, input) {
@@ -207,29 +207,29 @@
           </div>
           <div class="col-sm-12 awe">
             Below the Awesomplete object is created with the filter and item functions defined above.
-            At the end of the remote url for the ajax lookup we add the '*' wildcard character.
+            The '*' wildcard character is added at the end of the remote url.
             A limit of 15 is specified; if 15 or more results are returned by the server the code assumes that there
             are more results, so it will re-query if more characters are typed to get more refined results.
             <p class="language-label">Javascript
             <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_artist1',
-     {  /* util options */
-      url: 'https://api.spotify.com/v1/search?type=artist&limit=15&q=artist:', 
-      urlEnd: '*', 
-      limit: 15, 
-      convertResponse: AwesompleteUtil.jsonFlatten.bind({value: 'name'})
-     }, 
-     {  /* awesomplete options */
-      minChars: 3,
-      filter: filterWords,
-      item: itemWords
-     }
-    );</script></code></pre>
+ {  /* util options */
+  url: 'https://api.spotify.com/v1/search?type=artist&limit=15&q=artist:', 
+  urlEnd: '*', 
+  limit: 15, 
+  convertResponse: AwesompleteUtil.jsonFlatten.bind({value: 'name'})
+ }, 
+ {  /* awesomplete options */
+  minChars: 3,
+  filter: filterWords,
+  item: itemWords
+ }
+);</script></code></pre>
             Look at the convertResponse property.
             AwesompleteUtil accepts a JSON response object with an array of objects to feed the list of suggestions, e.g.
             something like:<pre><code>{ "artists":[ "Adele", "U2" ] }</code></pre>However Spotify returns a deeper structure.
             The jsonFlatten function flattens JSON:<p><code>{ "a":{"b":{"c":[{"d":{"e":1}}]}}}</code> becomes <code>{"a.b.c":[{"d.e":1}]}</code>.
             <p>
-            You can pass-on extra option via the bind method. 
+            You can pass on extra options via the bind method. 
             Awesomplete by default accepts strings or objects with 'value' and 'label' properties.
             In the example it's specified that within the array, the 'name' property should also be added as 'value' property and implicitly also as 'label' property.
           </div>
@@ -435,7 +435,7 @@
  {
    data: function(rec, input) {
      var data = { label: rec['value']+'<p>'+(rec['label'] || ''), value: rec['value'] }, 
-       before = input.slice(0, input.indexOf('@')) + '@'; 
+       before = (input.slice(0, input.indexOf('@')) + '@').trim(); 
      return {label: before + data.label, value: before + data.value}; 
    },
    filter: AwesompleteUtil.filterStartsWith, 
@@ -457,7 +457,7 @@
         <ul>
           <li>Use remote service that doesn't return a list but a single entry to verify input.
           <li>Show related data if entry found.
-          <li>Flatten json.
+          <li>Handle HTTP 404 status with custom ajax function.
         </ul>
       </div>
       <div class="col-sm-12">
@@ -480,7 +480,9 @@
 &lt;span id="awe-country-name"&gt;&lt;/span&gt;</code></pre>
       </div>
       <div class="col-sm-12 awe">
-        Below the Awesomplete object is created:
+        The remote service returns a HTTP status 404 if the searched value is not found. The default ajax
+        function only processes responses with HTTP OK status 200.
+        The ajax404 function below replaces the onload function to set the empty list if a 404 is received. 
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>var ajax404 = function(url, urlEnd, val, fn, xhr) {
     var awe = this;
@@ -505,7 +507,7 @@ AwesompleteUtil.start('#user_country_iso',
   filter: Awesomplete.FILTER_STARTSWITH
  }
 );</script></code></pre>
-        The limit:1 tells that not more than 1 result is expected, so the json service doesn't have to return an array. 
+        A limit:1 tells that not more than 1 result is expected, so the json service doesn't have to return an array. 
         With limit:0 it will always re-query if more characters are typed. 
       </div>
     </div>
@@ -521,7 +523,7 @@ AwesompleteUtil.start('#user_country_iso',
         Example demonstrates:
         <ul>
           <li>Suggestion list with value and label as part of page source.
-          <li>Label with HTML markup..
+          <li>Label with HTML markup.
           <li>Show data of initial/autofill value; Prepopulation event during page load
         </ul>
       </div>
@@ -605,13 +607,13 @@ If you use remote data loading and combine prepop:true with loadall:true the rem
 
     <div class="row even">
       <div class="col-sm-12 html">
-        Input control:
+        Input controls:
         <p class="language-label">HTML
         <pre class="language-markup"><code>&lt;input id="user_country" class="form-control" name="user[country]" autocomplete="off" type="text" /&gt;
 &lt;input id="user_capital" class="form-control" name="user[capital]" autocomplete="off" type="text" /&gt;</code></pre>
       </div>
       <div class="col-sm-12 awe">
-        Below the Awesomplete object is created 
+        Below the Awesomplete objects are created 
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.startCopy('#user_country', 'capital', '#user_capital');
 AwesompleteUtil.startCopy('#user_capital', 'name', '#user_country');
@@ -761,10 +763,10 @@ AwesompleteUtil.ajax('https://restcountries.eu/rest/v1/all', '', '',
 };</script></code></pre>
       </div>
       <div class="col-sm-12 awe">
-        In this example the 'value' field contains both name (label) and email address (descr).
-        By default the description field is not highlighted. The itemMarkAll function 
-        highlights all matching text in the suggestion list, including the description.
-        Try for example to search on @acme.com to see what it highlights with or without this function. 
+        In this example the 'value' field contains both name and email address.
+        By default only the matching text in the first line of the label is highlighted. 
+        The itemMarkAll function highlights all matching text in the suggestion list.
+        Try for example to search on '@acme.com' to see what it highlights with or without this function. 
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_multimail',
  { 
@@ -808,8 +810,8 @@ AwesompleteUtil.ajax('https://restcountries.eu/rest/v1/all', '', '',
          In the header of your HTML page add:
          <p class="language-label">HTML
          <pre class="language-markup"><code >&lt;link rel="stylesheet" href="https://nico-amsterdam.github.io/awesomplete-util/css/awesomplete.css"&gt;
-         &lt;script src="https://nico-amsterdam.github.io/awesomplete-util/js/awesomplete.min.js"&gt;lt;/script&gt;
-         &lt;script src="https://nico-amsterdam.github.io/awesomplete-util/js/awesomplete-util.min.js"&gt;lt;/script&gt;
+&lt;script src="https://nico-amsterdam.github.io/awesomplete-util/js/awesomplete.min.js"&gt;&lt;/script&gt;
+&lt;script src="https://nico-amsterdam.github.io/awesomplete-util/js/awesomplete-util.min.js"&gt;&lt;/script&gt;
 &lt;style&gt;
   div.awesomplete { display: block }
 
@@ -881,6 +883,15 @@ AwesompleteUtil.ajax('https://restcountries.eu/rest/v1/all', '', '',
              <tr>
                <td><code>item(html, input)</code>
                <td>Item function (as specified in <a href="http://leaverou.github.io/awesomplete/index.html#extensibility">Awesomplete</a>) which create an 'li' element with the given html as innerHTML.
+             <tr>
+               <td><code>itemContains(html, input)</code>
+               <td>Item function (as specified in <a href="http://leaverou.github.io/awesomplete/index.html#extensibility">Awesomplete</a>) that highlights occurrences of the input text in the first line (until &lt;p&gt;). This function is used by default.
+             <tr>
+               <td><code>itemMarkAll(html, input)</code>
+               <td>Item function (as specified in <a href="http://leaverou.github.io/awesomplete/index.html#extensibility">Awesomplete</a>) that highlights all occurrences of the input text.
+             <tr>
+               <td><code>itemStartsWith(html, input)</code>
+               <td>Item function (as specified in <a href="http://leaverou.github.io/awesomplete/index.html#extensibility">Awesomplete</a>) that highlights the input text in the start text.
              <tr>
                <td><code>load(awe, list, queryValue)</code>
                <td>Load a new list. queryValue is the value that was used to retrieve the list. 

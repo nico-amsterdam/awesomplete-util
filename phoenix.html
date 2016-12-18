@@ -181,7 +181,7 @@
         The standard supplied 'starts-with' and 'contains' filters don't exactly match with how Spotify searches (Elasticsearch).
         Spotify searches words, you can search for 'Michael Jackson' or 'Jackson Michael' and get the same results.
         Thats why a custom filter called 'filterWords' is used that filters on the words entered. To highlight the
-        words we searched for in the list of suggestions a custom item function called 'itemWords' is used.
+        words in the list of suggestions a custom function called 'itemWords' is used.
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>
   var filterWords = function(data, input) {
@@ -212,7 +212,7 @@
       </div>
       <div class="col-sm-12 eex">
         Below the Awesomplete widget is created with the filter and item functions defined above.
-        At the end of the remote url for the ajax lookup we add the '*' wildcard character.
+        The '*' wildcard character is added at the end of the remote url.
         A limit of 15 is specified; if 15 or more results are returned by the server the code assumes that there
         are more results, so it will re-query if more characters are typed to get more refined results.
         <p class="language-label">EEx
@@ -237,7 +237,7 @@
         something like:<pre><code>{ "artists":[ "Adele", "U2" ] }</code></pre>However Spotify returns a deeper structure.
         The jsonFlatten function flattens JSON:<p><code>{ "a":{"b":{"c":[{"d":{"e":1}}]}}}</code> becomes <code>{"a.b.c":[{"d.e":1}]}</code>.
         <p>
-        You can pass-on extra option via the bind method. 
+        You can pass on extra options via the bind method. 
         Awesomplete by default accepts strings or objects with 'value' and 'label' properties.
         In the example it's specified that within the array, the 'name' property should also be added as 'value' property and implicitly also as 'label' property.
         <p class="generated"><a href="#" onclick="return toggle('#awe-artist');">show/hide generated code</a>
@@ -507,7 +507,7 @@ AwesompleteUtil.start('#user_track1',
     filter: "Awesomplete.FILTER_STARTSWITH",
     value: "value",
     descr: "label",
-    data:   "function (data, input) { var before = input.slice(0, input.indexOf('@')) + '@'; return {label: before + data.label, value: before + data.value}; }"
+    data:   "function (data, input) { var before = (input.slice(0, input.indexOf('@')) + '@').trim(); return {label: before + data.label, value: before + data.value}; }"
   }
 ) %&gt;</code></pre>
         <p class="generated"><a href="#" onclick="return toggle('#awe-user-host');">show/hide generated code</a>
@@ -547,7 +547,7 @@ AwesompleteUtil.start('#user_track1',
         <ul>
           <li>Use remote service that doesn't return a list but a single entry to verify input.
           <li>Show related data if entry found.
-          <li>Flatten json.
+          <li>Handle HTTP 404 status with custom ajax function.
         </ul>
       </div>
       <div class="col-sm-12">
@@ -563,9 +563,9 @@ AwesompleteUtil.start('#user_track1',
 
     <div class="row even">
       <div class="col-sm-12 js">
-        The web service does returns HTTP status 404 if the search value is not found. AwesompleteUtil
-        only reacts on HTTP OK status 200, and prefers an empty list if no values are found.
-        The function ajax404 is defined to intercept the onload method.
+        The remote service returns a HTTP status 404 if the searched value is not found. The default ajax
+        function only processes responses with HTTP OK status 200.
+        The ajax404 function below replaces the onload function to set the empty list if a 404 is received. 
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>var ajax404 = function(url, urlEnd, val, fn, xhr) {
     var awe = this;
@@ -597,7 +597,7 @@ AwesompleteUtil.start('#user_track1',
     ajax: ajax404
  }
 ) %&gt;</code></pre>
-        The limit:1 tells that not more than 1 result is expected, so the json service doesn't have to return an array. 
+        A limit:1 tells that not more than 1 result is expected, so the json service doesn't have to return an array. 
         With limit:0 it will always re-query if more characters are typed. 
         <p class="generated"><a href="#" onclick="return toggle('#awe-country-iso');">show/hide generated code</a>
       </div>
@@ -635,7 +635,7 @@ AwesompleteUtil.start('#user_country_iso',
         Example demonstrates:
         <ul>
           <li>Suggestion list with value and label as part of page source.
-          <li>Label with HTML markup..
+          <li>Label with HTML markup.
           <li>Show related data of initial/autofill value; Prepopulation event during page load
         </ul>
       </div>
