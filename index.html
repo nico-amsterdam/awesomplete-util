@@ -98,7 +98,7 @@
   <header class="container">
     <div class="row">
       <div class="col-sm-12">
-        <span class="logo">Awesomplete<span>Util</span></span> is a javascript library enhancing Lea Verou's autocomplete / autosuggest / typeahead / inputsearch <a href="https://leaverou.github.io/awesomplete/index.html">Awesomplete widget</a>.
+        <span class="logo">Awesomplete<span>Util</span></span> is a javascript library enhancing Lea Verou's autocomplete / autosuggest / typeahead / inputsearch <a href="https://leaverou.github.io/awesomplete/index.html" target="awe">Awesomplete widget</a>.
         <p>
         AwesompleteUtil adds the following features:
         <ul>
@@ -115,7 +115,7 @@
         The only dependency of AwesompleteUtil is Awesomplete. Together it is less than 5KB minified gzipped.
         It runs on modern browsers; IE11, Edge, Safari, Android stock browser, Chrome, Firefox.
         <p>
-        The lucky users of <a href="https://www.phoenixframework.org">Phoenix</a> can use the <a href="phoenix.html">Awesomplete form helper</a> to generate most of the javascript code. 
+        The lucky users of <a href="https://www.phoenixframework.org" target="phoe">Phoenix</a> can use the <a href="phoenix.html">Awesomplete form helper</a> to generate most of the javascript code. 
       </div>
     </div>
   </header>
@@ -824,7 +824,7 @@ AwesompleteUtil.ajax('https://restcountries.eu/rest/v1/all', '', '',
   div.awesomplete .awe-not-found { border: 2px solid red }
 
 &lt;/style&gt;</code></pre>
-         The awesomplete.css and awesomplete.min.js files are copied from <a href="https://github.com/LeaVerou/awesomplete">Awesomplete</a> and tested in combination with AwesompleteUtil. If you copy these files to your own project, do not forget to also copy the javascript sourcemaps (<a href="https://nico-amsterdam.github.io/awesomplete-util/js/awesomplete.min.js.map">awesomplete.min.js.map</a> and <a href="https://nico-amsterdam.github.io/awesomplete-util/js/awesomplete-util.min.js.map">awesomplete-util.min.js.map</a>).
+         The awesomplete.css and awesomplete.min.js files are copied from <a href="https://github.com/LeaVerou/awesomplete" target="awe">Awesomplete</a> and tested in combination with AwesompleteUtil. If you copy these files to your own project, do not forget to also copy the javascript sourcemaps (<a href="https://nico-amsterdam.github.io/awesomplete-util/js/awesomplete.min.js.map" target=_blank>awesomplete.min.js.map</a> and <a href="https://nico-amsterdam.github.io/awesomplete-util/js/awesomplete-util.min.js.map" target=_blank>awesomplete-util.min.js.map</a>).
          <p>
          <h3>CSS Style</h3>
          Customize the above styling for your own needs. The CSS class 'awe-found' is put on the input control when the input exactly matches the value of an list item. The CSS class 'awe-not-found' is put on the input control when the list closes because there are no more matching items.
@@ -836,7 +836,7 @@ AwesompleteUtil.ajax('https://restcountries.eu/rest/v1/all', '', '',
     <h2>Events</h2>
     <div class="row">
       <div class="col-sm-12">
-         <a href="https://leaverou.github.io/awesomplete/index.html#events">Events triggered by Awesomplete</a>. AwesompleteUtil adds these events:
+         <a href="https://leaverou.github.io/awesomplete/index.html#events" target="awe">Events triggered by Awesomplete</a>. AwesompleteUtil adds these events:
          <table>
            <thead>
              <tr>
@@ -882,16 +882,16 @@ AwesompleteUtil.ajax('https://restcountries.eu/rest/v1/all', '', '',
                <td>Default convertInput available for convenience. It trims spaces and converts text to lowercase.
              <tr>
                <td><code>item(html, input)</code>
-               <td>Item function (as specified in <a href="http://leaverou.github.io/awesomplete/index.html#extensibility">Awesomplete</a>) which create an 'li' element with the given html as innerHTML.
+               <td>Item function (as specified in <a href="http://leaverou.github.io/awesomplete/index.html#extensibility" target="awe">Awesomplete</a>) which create an 'li' element with the given html as innerHTML.
              <tr>
                <td><code>itemContains(html, input)</code>
-               <td>Item function (as specified in <a href="http://leaverou.github.io/awesomplete/index.html#extensibility">Awesomplete</a>) that highlights occurrences of the input text in the first line (until &lt;p&gt;). This function is used by default.
+               <td>Item function (as specified in <a href="http://leaverou.github.io/awesomplete/index.html#extensibility" target="awe">Awesomplete</a>) that highlights occurrences of the input text in the first line (until &lt;p&gt;). This function is used by default.
              <tr>
                <td><code>itemMarkAll(html, input)</code>
-               <td>Item function (as specified in <a href="http://leaverou.github.io/awesomplete/index.html#extensibility">Awesomplete</a>) that highlights all occurrences of the input text.
+               <td>Item function (as specified in <a href="http://leaverou.github.io/awesomplete/index.html#extensibility" target="awe">Awesomplete</a>) that highlights all occurrences of the input text.
              <tr>
                <td><code>itemStartsWith(html, input)</code>
-               <td>Item function (as specified in <a href="http://leaverou.github.io/awesomplete/index.html#extensibility">Awesomplete</a>) that highlights the input text in the start text.
+               <td>Item function (as specified in <a href="http://leaverou.github.io/awesomplete/index.html#extensibility" target="awe">Awesomplete</a>) that highlights the input text in the start text.
              <tr>
                <td><code>load(awe, list, queryValue)</code>
                <td>Load a new list. queryValue is the value that was used to retrieve the list. 
@@ -901,7 +901,7 @@ AwesompleteUtil.ajax('https://restcountries.eu/rest/v1/all', '', '',
                <td>returns text with HTML mark elements for matching input. It does not place markers in HTML tags. When startsWith is true it only marks matching begin text.
              <tr>
                <td><code>itemStartsWith(text, input)</code>
-               <td>item function (as specified in <a href="http://leaverou.github.io/awesomplete/index.html#extensibility">Awesomplete</a>) which highlights matching begin text.
+               <td>item function (as specified in <a href="http://leaverou.github.io/awesomplete/index.html#extensibility" target="awe">Awesomplete</a>) which highlights matching begin text.
              <tr>
                <td><code>update(awe, value, prepop)</code>
                <td>Update awesomplete input value via javascript. If you do this directly on the input control, no events will fire. If you use this update function, the AwesompleteUtil can check if the value exists in the suggestion list and set classes on the input control and fire it's events. Specify prepop=true if it is an initial value (no user input). Default value for prepop: false
@@ -916,7 +916,7 @@ AwesompleteUtil.ajax('https://restcountries.eu/rest/v1/all', '', '',
                <td>Listen to click events of a button. Toggles open/close of the suggestion list.
              <tr>
                <td><code>filterContains(data, input)</code>
-               <td>filter function (as specified in <a href="http://leaverou.github.io/awesomplete/index.html#extensibility">Awesomplete</a>) to filter suggestions. input is searched in data.value. Notice that Awesomplete.FILTER_CONTAINS by default searches on data.label.
+               <td>filter function (as specified in <a href="http://leaverou.github.io/awesomplete/index.html#extensibility" target="awe">Awesomplete</a>) to filter suggestions. input is searched in data.value. Notice that Awesomplete.FILTER_CONTAINS by default searches on data.label.
              <tr>
                <td><code>filterStartsWith(data, input)</code>
                <td>filter function (as specified in <a href="http://leaverou.github.io/awesomplete/index.html#extensibility">Awesomplete</a>) to filter suggestions. input is searched as start text in data.value. Notice that Awesomplete.FILTER_STARTWITH by default searches on data.label.
@@ -976,7 +976,7 @@ AwesompleteUtil.ajax('https://restcountries.eu/rest/v1/all', '', '',
       <div class="col-sm-12">
         License: MIT
         <p>
-        <a href="https://lea.verou.me/2015/02/awesomplete-2kb-autocomplete-with-zero-dependencies/">Lea's blog about the creation of Awesomplete</a>
+        <a href="https://lea.verou.me/2015/02/awesomplete-2kb-autocomplete-with-zero-dependencies/" target="awe">Lea's blog about the creation of Awesomplete</a>
       </div>
     </div>
   </section>
