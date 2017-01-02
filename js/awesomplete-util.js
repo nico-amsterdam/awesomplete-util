@@ -8,7 +8,7 @@
  * - labels with HTML markup
  * - events and styling for exact matches
  * - events and styling for mismatches
- * - select item with TAB key
+ * - select item when TAB key is used
  *
  * (c) Nico Hoogervorst
  * License: MIT
@@ -135,7 +135,7 @@ var AwesompleteUtil = function() {
           }
         }
 
-        // Select currently selected item if tab or shift-tab key is typed.
+        // Select currently selected item if tab or shift-tab key is used.
         function _onKeydown(ev) {
           var awe = this;
           if (ev.target === awe.input && ev.keyCode === 9) { // TAB key
@@ -338,6 +338,7 @@ var AwesompleteUtil = function() {
               awe, 
               minChars;
           if (e.target === $(t.btnId)) {
+            e.preventDefault();
             awe = t.awe;
             // toggle open/close
             if (awe.ul.childNodes.length === 0 || awe.ul.hasAttribute('hidden')) {
@@ -550,50 +551,62 @@ var AwesompleteUtil = function() {
         // Create function to copy a field from the selected autocomplete item to another DOM element.
         // dataField can be null.
         createCopyFun: function(sourceId, dataField, targetId) {
-          return _copyFun.bind({sourceId: $(sourceId) || sourceId, dataField: dataField, targetId: $(targetId) || targetId});
+          return _copyFun.bind({sourceId: sourceId, dataField: dataField, targetId: $(targetId) || targetId});
         },
 
         // attach copy function to event listeners. prepop is optional and by default true.
         // if true the copy function will also listen to awesomplete-prepop events.
-        attachCopyFun: function(fun, prepop) {
+        // The optional listenEl is the element that listens, defaults to document.body.
+        attachCopyFun: function(fun, prepop, listenEl) {
           // prepop parameter defaults to true
           prepop = 'boolean' === typeof prepop ? prepop : true;
-          addEventListener(_AWE_MATCH, fun);
-          if (prepop) addEventListener(_AWE_PREPOP, fun);
+          listenEl = listenEl || document.body;
+          listenEl.addEventListener(_AWE_MATCH, fun);
+          if (prepop) listenEl.addEventListener(_AWE_PREPOP, fun);
           return fun;
         },
 
         // Create and attach copy function.
         startCopy: function(sourceId, dataField, targetId, prepop) {
-          return this.attachCopyFun(this.createCopyFun(sourceId, dataField, targetId), prepop);
+          var sourceEl = $(sourceId);
+          return this.attachCopyFun(this.createCopyFun(sourceEl || sourceId, dataField, targetId), prepop, sourceEl);
         },
 
         // Stop copy function. Detach it from event listeners.
-        detachCopyFun: function(fun) {
-          removeEventListener(_AWE_PREPOP, fun);
-          removeEventListener(_AWE_MATCH, fun);
+        // The optional listenEl must be the same element that was used during startCopy/attachCopyFun; 
+        // in general: Awesomplete.$(sourceId). listenEl defaults to document.body.
+        detachCopyFun: function(fun, listenEl) {
+          listenEl = listenEl || document.body;
+          listenEl.removeEventListener(_AWE_PREPOP, fun);
+          listenEl.removeEventListener(_AWE_MATCH, fun);
           return fun;
         },
 
         // Create function for combobox button (btnId) to toggle dropdown list.
         createClickFun: function(btnId, awe) {
-          return _clickFun.bind({btnId: $(btnId) || btnId, awe : awe});
+          return _clickFun.bind({btnId: btnId, awe : awe});
         },
 
         // Attach click function for combobox to click event.
-        attachClickFun: function(fun) {
-          addEventListener('click', fun); 
+        // The optional listenEl is the element that listens, defaults to document.body.
+        attachClickFun: function(fun, listenEl) {
+          listenEl = listenEl || document.body;
+          listenEl.addEventListener('click', fun); 
           return fun;
         },
 
         // Create and attach click function for combobox button. Toggles open/close of suggestion list.
         startClick: function(btnId, awe) {
-          return this.attachClickFun(this.createClickFun(btnId, awe));
+          var btnEl = $(btnId);
+          return this.attachClickFun(this.createClickFun(btnEl || btnId, awe), btnEl);
         },
 
         // Stop click function. Detach it from event listeners.
-        detachClickFun: function(fun) {
-          removeEventListener('click', fun); 
+        // The optional listenEl must be the same element that was used during startClick/attachClickFun;
+        // in general: Awesomplete.$(btnId). listenEl defaults to document.body.
+        detachClickFun: function(fun, listenEl) {
+          listenEl = listenEl || document.body;
+          listenEl.removeEventListener('click', fun); 
           return fun;
         },
 
