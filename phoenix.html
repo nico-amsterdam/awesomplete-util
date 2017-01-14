@@ -26,6 +26,21 @@
   body { line-heigth: 150%; 
          font-size: 18px; }
 
+  /* hide/show generated code */
+  .slide-up {
+    max-height: 0;            
+    overflow-y: hidden;
+  }
+  .slide-down {            
+    max-height: 1000px;
+    overflow-y: hidden;
+    -webkit-transition:  max-height 0.8s;
+    -moz-transition: max-height 0.8s;
+    -o-transition: max-height 0.8s;
+    transition: max-height 0.8s;
+  }
+  #other { margin-bottom: 1000px; }
+
   /* style navbar */
   .logo span { font-family: "Georgia, serif"; 
                color: brown; 
@@ -50,19 +65,6 @@
                      color: brown }
   .generated { padding: 1em 1em 0 1em;
                font-size: smaller }
-
-  /* hide/show generated code */
-  .slide-up, .slide-down {
-    max-height: 0;            
-    overflow-y: hidden;
-    -webkit-transition: max-height 0.8s ease-in-out;
-    -moz-transition: max-height 0.8s ease-in-out;
-    -o-transition: max-height 0.8s ease-in-out;
-    transition: max-height 0.8s ease-in-out;
-  }
-  .slide-down {            
-    max-height: 1000px;
-  }
 
   /* fight with bootstrap */
   .table { display: table }
@@ -135,6 +137,11 @@
 
     <div class="row">
       <div class="col-sm-12 html">
+         In the examples below the Awesomplete widget calls are put directly in the EEx templates. However I do recommend to put most of the code in input helpers like explained in
+         <a href="http://blog.plataformatec.com.br/2016/09/dynamic-forms-with-phoenix/" target=_blank>this guide</a> resulting in much cleaner templates with code like this:
+         <p class="language-label">EEx
+         <pre class="language-markup"><code >&lt;%= input f, :country, using: :search_country %&gt;</code ></pre>
+         <p>&nbsp;
          <ol>
             <li><a href="#spotify-artist">Spotify artist search</a>
             <li><a href="#spotify-track">Spotify track search</a>
