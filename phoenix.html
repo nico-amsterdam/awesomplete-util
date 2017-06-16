@@ -143,8 +143,6 @@
          <pre class="language-markup"><code >&lt;%= input f, :country, using: :search_country %&gt;</code ></pre>
          <p>&nbsp;
          <ol>
-            <li><a href="#spotify-artist">Spotify artist search</a>
-            <li><a href="#spotify-track">Spotify track search</a>
             <li><a href="#combobox">Combobox with countries</a>
             <li><a href="#user-host">Connect as user to host</a>
             <li><a href="#iso-country">Country iso code</a>
@@ -152,243 +150,11 @@
             <li><a href="#capital">Country capitals</a>
             <li><a href="#seafood">Seafood pizza toppings</a>
             <li><a href="#multimail">Email address</a>
+            <li><a href="#spotify-track">Spotify track search</a>
+            <li><a href="#spotify-artist">Spotify artist search</a>
          </ol>
       </div>
     </div>
-
-  <!-- BEGIN spotify artist example -->
-  <fieldset id="spotify-artist" class="example">
-    <legend class="h3">
-    Spotify artist search
-    </legend>
-    <div class="row even">
-      <div class="col-xs-11 col-xs-offset-1 features">
-        Example demonstrates:
-        <ul>
-          <li>Dynamic data loading.
-          <li>Flatten json.
-          <li>Custom search filter.
-          <li>Custom text highlighter.
-        </ul>
-        Obviously we cannot load all artists known by spotify in the browsers memory, so that's why we use here
-        dynamic data loading. The search starts if 3 characters are entered.
-      </div>
-      <div class="col-sm-12">
-         Enter an artist name:
-      </div>
-      <label class="control-label col-sm-2" for="user_artist1">Artist</label>
-      <div class="col-sm-10 au">
-         <input class="form-control" id="user_artist1" name="user[artist1]" type="text">
-      </div>
-    </div>
-  </fieldset>
-
-    <div class="row even">
-      <div class="col-sm-12 js">
-        The standard supplied 'starts-with' and 'contains' filters don't exactly match with how Spotify searches (Elasticsearch).
-        Spotify searches words, you can search for 'Michael Jackson' or 'Jackson Michael' and get the same results.
-        Thats why a custom filter called 'filterWords' is used that filters on the words entered. To highlight the
-        words in the list of suggestions a custom function called 'itemWords' is used.
-        <p class="language-label">Javascript
-        <pre class="language-javascript"><code><script>
-  var filterWords = function(data, input) {
-    var words = input.split(/\s+/), result = true, j;
-    /* iterate words */
-    for (j = 0; result && j < words.length; j++) {
-      /* all entered words must be found */
-      result = Awesomplete.FILTER_CONTAINS(data, words[j]); 
-    }
-    return result;
-  },
-  itemWords = function(text, input) {
-    var arr, words = input.split(/\s+/), j;
-    if (input.trim() !== '') {
-      /* Label contains value and optional extra HTML markup 
-         which starts with the <p> tag. 
-         Do not mark text after the first <p> */
-      arr = ('' + text).split('<p>');
-      /* iterate words */
-      for (j = 0; j < words.length; j++) {
-        /* highlight word with <mark> </mark> tags */
-        arr[0] = AwesompleteUtil.mark(arr[0], words[j]);
-      }
-      text = arr.join('<p>');           
-    } 
-    return AwesompleteUtil.item(text, input);
-  };</script></code></pre>
-      </div>
-      <div class="col-sm-12 eex">
-        Below the Awesomplete widget is created with the filter and item functions defined above.
-        The '*' wildcard character is added at the end of the remote url.
-        A limit of 15 is specified; if 15 or more results are returned by the server the code assumes that there
-        are more results, so it will re-query if more characters are typed to get more refined results.
-        <p class="language-label">EEx
-        <pre class="language-markup"><code >&lt;%= awesomplete(
-  :user,
-  :artist1,
-  [       # input_text options
-    class: "form-control"
-  ],                                                                                                                    
-  %{                                                                                                                    
-    url:    "https://api.spotify.com/v1/search?type=artist&amp;limit=15&amp;q=artist:",
-    urlEnd: "*",
-    limit: 15,
-    filter: "filterWords",  # javascript functions must be double quoted
-    item: "itemWords",
-    convertResponse: "AwesompleteUtil.jsonFlatten.bind({value: 'name'})"
-  }
-) %&gt;</code
-></pre>
-        Look at the convertResponse property.
-        AwesompleteUtil accepts a JSON response object with an array of objects to feed the list of suggestions, e.g.
-        something like:<pre><code>{ "artists":[ "Adele", "U2" ] }</code></pre>However Spotify returns a deeper structure.
-        The jsonFlatten function flattens JSON:<p><code>{ "a":{"b":{"c":[{"d":{"e":1}}]}}}</code> becomes <code>{"a.b.c":[{"d.e":1}]}</code>.
-        <p>
-        You can pass on extra options via the bind method. 
-        Awesomplete by default accepts strings or objects with 'value' and 'label' properties.
-        In the example it's specified that within the array, the 'name' property should also be added as 'value' property and implicitly also as 'label' property.
-        <p class="generated"><a href="#" onclick="return toggle('#awe-artist');">show/hide generated code</a>
-      </div>
-      <div class="col-sm-12 awe slide-up" id="awe-artist">
-        <p class="language-label">Generated HTML
-        <pre class="language-markup"><code >&lt;input class="form-control" id="user_artist1" name="user[artist1]" type="text" /&gt;</code></pre>
-        <p class="language-label">Generated javascript
-        <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_artist1',
- {  /* util options */
-  url: 'https://api.spotify.com/v1/search?type=artist&limit=15&q=artist:', 
-  urlEnd: '*', 
-  limit: 15, 
-  convertResponse: AwesompleteUtil.jsonFlatten.bind({value: 'name'})
- }, 
- {  /* awesomplete options */
-  minChars: 3,
-  filter: filterWords,
-  item: itemWords
- }
-);</script></code></pre>
-      </div>
-    </div>
-  <!-- END spotify artist example -->
-
-  <!-- BEGIN spotify track example -->
-  <fieldset id="spotify-track" class="example">
-    <legend class="h3">
-    Spotify track search
-    </legend>
-    <div class="row odd">
-      <div class="col-xs-11 col-xs-offset-1 features">
-        Example demonstrates:
-        <ul>
-          <li>Dynamic data loading.
-          <li>Show related data of selected item.
-          <li>Custom render functions for copy action.
-        </ul>
-      </div>
-      <div class="col-sm-12">
-         Enter a song title:
-      </div>
-      <label class="control-label text-right col-sm-2" for="user_track1">Track</label>
-      <div class="col-sm-10 au">
-        <input id="user_track1" class="form-control" autocomplete="off" name="user[track1]" type="text">
-      </div>
-    </div>
-    <div class="row odd artists">
-       <label class="control-label text-right col-sm-2">Artists</label>
-       <div class="col-sm-10" id="awe-track-artists"></div>
-    </div>
-    <div class="row odd album"> 
-       <label class="control-label text-right col-sm-2">Album</label>
-       <div class="col-sm-3" id="awe-track-album"></div>
-       <div class="col-sm-7" id="awe-track-album-img"></div>
-    </div>
-  </fieldset>
-
-    <div class="row odd">
-      <div class="col-sm-12 js">
-        The artistsFun function below shows the artists of the selected track as list items.
-        The albumImgFun function displays an image of the album of the selected track. These functions are used by the copy_to_id methods. 
-        <p class="language-label">Javascript
-        <pre class="language-javascript"><code><script>var artistsFun = function(e, dataField) { 
-   var arrArtists = e.detail.length === 1 ? e.detail[0][dataField] : [],
-       html = '', 
-       i; 
-   for (i=0; i < arrArtists.length; i++) {
-     html = html + '<li>' + arrArtists[i].name;
-   } 
-   Awesomplete.$('#awe-track-artists').innerHTML = '<ul>' + html + '</ul>'; 
-};
-
-var albumImgFun = function(e, dataField) {
-   var arrImages = e.detail.length === 1 ? e.detail[0][dataField] : [],
-       html = ''; 
-   if (arrImages.length > 0) {
-     html = '<img src="' + arrImages[0].url + '" alt="album image" width="200"/>';
-   }  
-   Awesomplete.$('#awe-track-album-img').innerHTML = html;
-};</script></code></pre>
-      </div>
-      <div class="col-sm-12 eex">
-        The creation of the Awesomplete object below is almost the same as in the 'spotify artist search' example.
-        <p class="language-label">EEx
-        <pre class="language-markup"><code >&lt;%= copy_to_id(:user, :track1, "album.name", "#awe-track-album") %&gt;
-&lt;%= copy_to_id(:user, :track1, "album.images", "albumImgFun") %&gt;
-&lt;%= copy_to_id(:user, :track1, "artists",      "artistsFun") %&gt;
-&lt;%= awesomplete(
- :user,
- :track1,
- [       # input_text options
-  class: "form-control",
-  autocomplete: "off"
- ],
- %{
-    url:    "https://api.spotify.com/v1/search?type=track&amp;limit=10&amp;q=track:",
-    urlEnd: "*",
-    limit: 10,
-    maxItems: 10,
-    minChars: 3,
-    value: "name",
-    prepop: true,
-    descr: "album.name",
-    filter: "filterWords",
-    item: "itemWords",
-    convertResponse: "AwesompleteUtil.jsonFlatten.bind({value: 'name'})"
-  }
-) %&gt;</code></pre>
-        Unfortunetly we cannot instruct to Spotify to sort on song title length. If you search for songs with only one or
-        two words, it might be that the desired song is not in the first 10 shown results.
-        <p class="generated"><a href="#" onclick="return toggle('#awe-track');">show/hide generated code</a>
-      </div>
-      <div class="col-sm-12 awe slide-up" id="awe-track">
-        <p class="language-label">Generated HTML
-        <pre class="language-markup"><code >&lt;input id="user_track1" class="form-control" autocomplete="off" 
-     name="user[track1]" type="text" /&gt;</code></pre>
-        <p class="language-label">Generated javascript
-        <pre class="language-javascript"><code><script>AwesompleteUtil.startCopy('#user_track1', 'album.name', '#awe-track-album');
-AwesompleteUtil.startCopy('#user_track1', 'artists',      artistsFun);
-AwesompleteUtil.startCopy('#user_track1', 'album.images', albumImgFun);
-
-AwesompleteUtil.start('#user_track1', 
- {
-  url: 'https://api.spotify.com/v1/search?type=track&limit=10&q=track:', 
-  urlEnd: '*', 
-  limit: 10, 
-  convertResponse: AwesompleteUtil.jsonFlatten.bind({value: 'name'})
- },
- {
-  minChars: 4, 
-  data: function(rec, input) { 
-         return { 
-           label: rec['name']+'<p>'+(rec['album.name'] || ''), 
-           value: rec['name'] 
-          }; 
-        }, 
-  filter: filterWords,
-  item: itemWords
- }
-);</script></code></pre>
-      </div>
-    </div>
-  <!-- END spotify track example -->
 
   <!-- BEGIN combobox example -->
   <fieldset id="combobox" class="example">
@@ -1006,6 +772,239 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
     </div>
   <!-- END multimail example -->
 
+  <!-- BEGIN spotify track example -->
+  <fieldset id="spotify-track" class="example">
+    <legend class="h3">
+    Spotify track search
+    </legend>
+    <div class="row odd">
+      <div class="col-xs-11 col-xs-offset-1 features">
+        Example demonstrates:
+        <ul>
+          <li>Dynamic data loading.
+          <li>Show related data of selected item.
+          <li>Custom render functions for copy action.
+        </ul>
+      </div>
+      <div class="col-sm-12">
+         Unfortunately since June 2016 an API key is needed, so the live demo doesn't work anymore.
+      </div>
+      <label class="control-label text-right col-sm-2" for="user_track1">Track</label>
+      <div class="col-sm-10 au">
+        <input id="user_track1" class="form-control" autocomplete="off" name="user[track1]" type="text">
+      </div>
+    </div>
+    <div class="row odd artists">
+       <label class="control-label text-right col-sm-2">Artists</label>
+       <div class="col-sm-10" id="awe-track-artists"></div>
+    </div>
+    <div class="row odd album"> 
+       <label class="control-label text-right col-sm-2">Album</label>
+       <div class="col-sm-3" id="awe-track-album"></div>
+       <div class="col-sm-7" id="awe-track-album-img"></div>
+    </div>
+  </fieldset>
+
+    <div class="row odd">
+      <div class="col-sm-12 js">
+        The artistsFun function below shows the artists of the selected track as list items.
+        The albumImgFun function displays an image of the album of the selected track. These functions are used by the copy_to_id methods. 
+        <p class="language-label">Javascript
+        <pre class="language-javascript"><code><script>var artistsFun = function(e, dataField) { 
+   var arrArtists = e.detail.length === 1 ? e.detail[0][dataField] : [],
+       html = '', 
+       i; 
+   for (i=0; i < arrArtists.length; i++) {
+     html = html + '<li>' + arrArtists[i].name;
+   } 
+   Awesomplete.$('#awe-track-artists').innerHTML = '<ul>' + html + '</ul>'; 
+};
+
+var albumImgFun = function(e, dataField) {
+   var arrImages = e.detail.length === 1 ? e.detail[0][dataField] : [],
+       html = ''; 
+   if (arrImages.length > 0) {
+     html = '<img src="' + arrImages[0].url + '" alt="album image" width="200"/>';
+   }  
+   Awesomplete.$('#awe-track-album-img').innerHTML = html;
+};</script></code></pre>
+      </div>
+      <div class="col-sm-12 eex">
+        The creation of the Awesomplete object below is almost the same as in the 'spotify artist search' example.
+        <p class="language-label">EEx
+        <pre class="language-markup"><code >&lt;%= copy_to_id(:user, :track1, "album.name", "#awe-track-album") %&gt;
+&lt;%= copy_to_id(:user, :track1, "album.images", "albumImgFun") %&gt;
+&lt;%= copy_to_id(:user, :track1, "artists",      "artistsFun") %&gt;
+&lt;%= awesomplete(
+ :user,
+ :track1,
+ [       # input_text options
+  class: "form-control",
+  autocomplete: "off"
+ ],
+ %{
+    url:    "https://api.spotify.com/v1/search?type=track&amp;limit=10&amp;q=track:",
+    urlEnd: "*",
+    limit: 10,
+    maxItems: 10,
+    minChars: 3,
+    value: "name",
+    prepop: true,
+    descr: "album.name",
+    filter: "filterWords",
+    item: "itemWords",
+    convertResponse: "AwesompleteUtil.jsonFlatten.bind({value: 'name'})"
+  }
+) %&gt;</code></pre>
+        Unfortunetly we cannot instruct to Spotify to sort on song title length. If you search for songs with only one or
+        two words, it might be that the desired song is not in the first 10 shown results.
+        <p class="generated"><a href="#" onclick="return toggle('#awe-track');">show/hide generated code</a>
+      </div>
+      <div class="col-sm-12 awe slide-up" id="awe-track">
+        <p class="language-label">Generated HTML
+        <pre class="language-markup"><code >&lt;input id="user_track1" class="form-control" autocomplete="off" 
+     name="user[track1]" type="text" /&gt;</code></pre>
+        <p class="language-label">Generated javascript
+        <pre class="language-javascript"><code><script>AwesompleteUtil.startCopy('#user_track1', 'album.name', '#awe-track-album');
+AwesompleteUtil.startCopy('#user_track1', 'artists',      artistsFun);
+AwesompleteUtil.startCopy('#user_track1', 'album.images', albumImgFun);
+
+AwesompleteUtil.start('#user_track1', 
+ {
+  url: 'https://api.spotify.com/v1/search?type=track&limit=10&q=track:', 
+  urlEnd: '*', 
+  limit: 10, 
+  convertResponse: AwesompleteUtil.jsonFlatten.bind({value: 'name'})
+ },
+ {
+  minChars: 4, 
+  data: function(rec, input) { 
+         return { 
+           label: rec['name']+'<p>'+(rec['album.name'] || ''), 
+           value: rec['name'] 
+          }; 
+        }, 
+  filter: filterWords,
+  item: itemWords
+ }
+);</script></code></pre>
+      </div>
+    </div>
+  <!-- END spotify track example -->
+
+  <!-- BEGIN spotify artist example -->
+  <fieldset id="spotify-artist" class="example">
+    <legend class="h3">
+    Spotify artist search
+    </legend>
+    <div class="row even">
+      <div class="col-xs-11 col-xs-offset-1 features">
+        Example demonstrates:
+        <ul>
+          <li>Dynamic data loading.
+          <li>Flatten json.
+          <li>Custom search filter.
+          <li>Custom text highlighter.
+        </ul>
+        Obviously we cannot load all artists known by spotify in the browsers memory, so that's why we use here
+        dynamic data loading. The search starts if 3 characters are entered.
+      </div>
+      <div class="col-sm-12">
+        Unfortunately since June 2016 an API key is needed, so the live demo doesn't work anymore.
+      </div>
+      <label class="control-label col-sm-2" for="user_artist1">Artist</label>
+      <div class="col-sm-10 au">
+         <input class="form-control" id="user_artist1" name="user[artist1]" type="text">
+      </div>
+    </div>
+  </fieldset>
+
+    <div class="row even">
+      <div class="col-sm-12 js">
+        The standard supplied 'starts-with' and 'contains' filters don't exactly match with how Spotify searches (Elasticsearch).
+        Spotify searches words, you can search for 'Michael Jackson' or 'Jackson Michael' and get the same results.
+        Thats why a custom filter called 'filterWords' is used that filters on the words entered. To highlight the
+        words in the list of suggestions a custom function called 'itemWords' is used.
+        <p class="language-label">Javascript
+        <pre class="language-javascript"><code><script>
+  var filterWords = function(data, input) {
+    var words = input.split(/\s+/), result = true, j;
+    /* iterate words */
+    for (j = 0; result && j < words.length; j++) {
+      /* all entered words must be found */
+      result = Awesomplete.FILTER_CONTAINS(data, words[j]); 
+    }
+    return result;
+  },
+  itemWords = function(text, input) {
+    var arr, words = input.split(/\s+/), j;
+    if (input.trim() !== '') {
+      /* Label contains value and optional extra HTML markup 
+         which starts with the <p> tag. 
+         Do not mark text after the first <p> */
+      arr = ('' + text).split('<p>');
+      /* iterate words */
+      for (j = 0; j < words.length; j++) {
+        /* highlight word with <mark> </mark> tags */
+        arr[0] = AwesompleteUtil.mark(arr[0], words[j]);
+      }
+      text = arr.join('<p>');           
+    } 
+    return AwesompleteUtil.item(text, input);
+  };</script></code></pre>
+      </div>
+      <div class="col-sm-12 eex">
+        Below the Awesomplete widget is created with the filter and item functions defined above.
+        The '*' wildcard character is added at the end of the remote url.
+        A limit of 15 is specified; if 15 or more results are returned by the server the code assumes that there
+        are more results, so it will re-query if more characters are typed to get more refined results.
+        <p class="language-label">EEx
+        <pre class="language-markup"><code >&lt;%= awesomplete(
+  :user,
+  :artist1,
+  [       # input_text options
+    class: "form-control"
+  ],                                                                                                                    
+  %{                                                                                                                    
+    url:    "https://api.spotify.com/v1/search?type=artist&amp;limit=15&amp;q=artist:",
+    urlEnd: "*",
+    limit: 15,
+    filter: "filterWords",  # javascript functions must be double quoted
+    item: "itemWords",
+    convertResponse: "AwesompleteUtil.jsonFlatten.bind({value: 'name'})"
+  }
+) %&gt;</code
+></pre>
+        Look at the convertResponse property.
+        AwesompleteUtil accepts a JSON response object with an array of objects to feed the list of suggestions, e.g.
+        something like:<pre><code>{ "artists":[ "Adele", "U2" ] }</code></pre>However Spotify returns a deeper structure.
+        The jsonFlatten function flattens JSON:<p><code>{ "a":{"b":{"c":[{"d":{"e":1}}]}}}</code> becomes <code>{"a.b.c":[{"d.e":1}]}</code>.
+        <p>
+        You can pass on extra options via the bind method. 
+        Awesomplete by default accepts strings or objects with 'value' and 'label' properties.
+        In the example it's specified that within the array, the 'name' property should also be added as 'value' property and implicitly also as 'label' property.
+        <p class="generated"><a href="#" onclick="return toggle('#awe-artist');">show/hide generated code</a>
+      </div>
+      <div class="col-sm-12 awe slide-up" id="awe-artist">
+        <p class="language-label">Generated HTML
+        <pre class="language-markup"><code >&lt;input class="form-control" id="user_artist1" name="user[artist1]" type="text" /&gt;</code></pre>
+        <p class="language-label">Generated javascript
+        <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_artist1',
+ {  /* util options */
+  url: 'https://api.spotify.com/v1/search?type=artist&limit=15&q=artist:', 
+  urlEnd: '*', 
+  limit: 15, 
+  convertResponse: AwesompleteUtil.jsonFlatten.bind({value: 'name'})
+ }, 
+ {  /* awesomplete options */
+  minChars: 3,
+  filter: filterWords,
+  item: itemWords
+ }
+);</script></code></pre>
+      </div>
+    </div>
+  <!-- END spotify artist example -->
 
   </section>
   <section class="container" id="installation"> 
