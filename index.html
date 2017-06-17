@@ -133,8 +133,8 @@
             <li><a href="#capital">Country capitals</a>
             <li><a href="#seafood">Seafood pizza toppings</a>
             <li><a href="#multimail">Email address</a>
-            <li><a href="#spotify-track">Spotify track search</a>
             <li><a href="#spotify-artist">Spotify artist search</a>
+            <li><a href="#spotify-track">Spotify track search</a>
          </ol>
       </div>
     </div>
@@ -608,107 +608,12 @@ AwesompleteUtil.ajax('https://restcountries.eu/rest/v1/all', '', '',
     </div>
   <!-- END multimail example -->
 
-      <!-- BEGIN spotify track example -->
-      <fieldset id="spotify-track" class="example">
-        <legend class="h3">
-        Spotify track search
-        </legend>
-        <div class="row odd">
-          <div class="col-xs-11 col-xs-offset-1 features">
-            Example demonstrates:
-            <ul>
-              <li>Dynamic data loading.
-              <li>Show related data of selected item.
-              <li>Custom render functions for copy action.
-            </ul>
-          </div>
-          <div class="col-sm-12">
-             Unfortunately since June 2017 an API key is needed, so the live demo doesn't work anymore.
-          </div>
-          <label class="control-label text-right col-sm-2" for="user_track1">Track</label>
-          <div class="col-sm-10 au">
-            <input id="user_track1" class="form-control" autocomplete="off" name="user[track1]" type="text">
-          </div>
-        </div>
-        <div class="row odd artists">
-           <label class="control-label text-right col-sm-2">Artists</label>
-           <div class="col-sm-10" id="awe-track-artists"></div>
-        </div>
-        <div class="row odd album"> 
-           <label class="control-label text-right col-sm-2">Album</label>
-           <div class="col-sm-3" id="awe-track-album"></div>
-           <div class="col-sm-7" id="awe-track-album-img"></div>
-        </div>
-      </fieldset>
-
-        <div class="row odd">
-          <div class="col-sm-12 html">
-            <p class="language-label">HTML
-            <pre class="language-markup"><code >&lt;input id="user_track1" class="form-control" autocomplete="off" 
-         name="user[track1]" type="text" /&gt;</code></pre>
-          </div>
-          <div class="col-sm-12 js">
-            The artistsFun function below shows the artists of the selected track as list items.
-            The albumImgFun function displays an image of the album of the selected track. These functions are used by the startCopy methods. 
-            <p class="language-label">Javascript
-            <pre class="language-javascript"><code><script>var artistsFun = function(e, dataField) { 
-       var arrArtists = e.detail.length === 1 ? e.detail[0][dataField] : [],
-           html = '', 
-           i; 
-       for (i=0; i < arrArtists.length; i++) {
-         html = html + '<li>' + arrArtists[i].name;
-       } 
-       Awesomplete.$('#awe-track-artists').innerHTML = '<ul>' + html + '</ul>'; 
-    };
-
-    var albumImgFun = function(e, dataField) {
-       var arrImages = e.detail.length === 1 ? e.detail[0][dataField] : [],
-           html = ''; 
-       if (arrImages.length > 0) {
-         html = '<img src="' + arrImages[0].url + '" alt="album image" width="200"/>';
-       }  
-       Awesomplete.$('#awe-track-album-img').innerHTML = html;
-    };
-
-    AwesompleteUtil.startCopy('#user_track1', 'album.name', '#awe-track-album');
-    AwesompleteUtil.startCopy('#user_track1', 'artists',      artistsFun);
-    AwesompleteUtil.startCopy('#user_track1', 'album.images', albumImgFun);</script></code></pre>
-          </div>
-          <div class="col-sm-12 js">
-            The creation of the Awesomplete object below is almost the same as in the 'spotify artist search' example.
-            <p class="language-label">Javascript
-            <pre class="language-javascript"><code><script>
-    AwesompleteUtil.start('#user_track1', 
-     {
-      url: 'https://api.spotify.com/v1/search?type=track&limit=10&q=track:', 
-      urlEnd: '*', 
-      limit: 10, 
-      convertResponse: AwesompleteUtil.jsonFlatten.bind({value: 'name'})
-     },
-     {
-      minChars: 4, 
-      data: function(rec, input) { 
-             return { 
-               label: rec['name']+'<p>'+(rec['album.name'] || ''), 
-               value: rec['name'] 
-              }; 
-            }, 
-      filter: filterWords,
-      item: itemWords
-     }
-    );</script></code></pre>
-      Unfortunetly we cannot instruct to Spotify to sort on song title length. If you search for songs with only one or
-      two words, it might be that the desired song is not in the first 10 shown results.
-          </div>
-        </div>
-      <!-- END spotify track example -->
-
       <!-- BEGIN spotify artist example -->
       <fieldset id="spotify-artist" class="example">
         <legend class="h3">
         Spotify artist search.
         </legend>
-        <div class="row even">
+        <div class="row odd">
           <div class="col-xs-11 col-xs-offset-1 features">
             Example demonstrates:
             <ul>
@@ -730,7 +635,7 @@ AwesompleteUtil.ajax('https://restcountries.eu/rest/v1/all', '', '',
         </div>
       </fieldset>
 
-        <div class="row even">
+        <div class="row odd">
           <div class="col-sm-12 html">
             Nothing unusal in the input control:
             <p class="language-label">HTML
@@ -799,6 +704,101 @@ AwesompleteUtil.ajax('https://restcountries.eu/rest/v1/all', '', '',
           </div>
         </div>
       <!-- END spotify artist example -->
+
+      <!-- BEGIN spotify track example -->
+      <fieldset id="spotify-track" class="example">
+        <legend class="h3">
+        Spotify track search
+        </legend>
+        <div class="row even">
+          <div class="col-xs-11 col-xs-offset-1 features">
+            Example demonstrates:
+            <ul>
+              <li>Dynamic data loading.
+              <li>Show related data of selected item.
+              <li>Custom render functions for copy action.
+            </ul>
+          </div>
+          <div class="col-sm-12">
+             Unfortunately since June 2017 an API key is needed, so the live demo doesn't work anymore.
+          </div>
+          <label class="control-label text-right col-sm-2" for="user_track1">Track</label>
+          <div class="col-sm-10 au">
+            <input id="user_track1" class="form-control" autocomplete="off" name="user[track1]" type="text">
+          </div>
+        </div>
+        <div class="row even artists">
+           <label class="control-label text-right col-sm-2">Artists</label>
+           <div class="col-sm-10" id="awe-track-artists"></div>
+        </div>
+        <div class="row even album"> 
+           <label class="control-label text-right col-sm-2">Album</label>
+           <div class="col-sm-3" id="awe-track-album"></div>
+           <div class="col-sm-7" id="awe-track-album-img"></div>
+        </div>
+      </fieldset>
+
+        <div class="row even">
+          <div class="col-sm-12 html">
+            <p class="language-label">HTML
+            <pre class="language-markup"><code >&lt;input id="user_track1" class="form-control" autocomplete="off" 
+         name="user[track1]" type="text" /&gt;</code></pre>
+          </div>
+          <div class="col-sm-12 js">
+            The artistsFun function below shows the artists of the selected track as list items.
+            The albumImgFun function displays an image of the album of the selected track. These functions are used by the startCopy methods. 
+            <p class="language-label">Javascript
+            <pre class="language-javascript"><code><script>var artistsFun = function(e, dataField) { 
+       var arrArtists = e.detail.length === 1 ? e.detail[0][dataField] : [],
+           html = '', 
+           i; 
+       for (i=0; i < arrArtists.length; i++) {
+         html = html + '<li>' + arrArtists[i].name;
+       } 
+       Awesomplete.$('#awe-track-artists').innerHTML = '<ul>' + html + '</ul>'; 
+    };
+
+    var albumImgFun = function(e, dataField) {
+       var arrImages = e.detail.length === 1 ? e.detail[0][dataField] : [],
+           html = ''; 
+       if (arrImages.length > 0) {
+         html = '<img src="' + arrImages[0].url + '" alt="album image" width="200"/>';
+       }  
+       Awesomplete.$('#awe-track-album-img').innerHTML = html;
+    };
+
+    AwesompleteUtil.startCopy('#user_track1', 'album.name', '#awe-track-album');
+    AwesompleteUtil.startCopy('#user_track1', 'artists',      artistsFun);
+    AwesompleteUtil.startCopy('#user_track1', 'album.images', albumImgFun);</script></code></pre>
+          </div>
+          <div class="col-sm-12 js">
+            The creation of the Awesomplete object below is almost the same as in the 'spotify artist search' example.
+            <p class="language-label">Javascript
+            <pre class="language-javascript"><code><script>
+    AwesompleteUtil.start('#user_track1', 
+     {
+      url: 'https://api.spotify.com/v1/search?type=track&limit=10&q=track:', 
+      urlEnd: '*', 
+      limit: 10, 
+      convertResponse: AwesompleteUtil.jsonFlatten.bind({value: 'name'})
+     },
+     {
+      minChars: 4, 
+      data: function(rec, input) { 
+             return { 
+               label: rec['name']+'<p>'+(rec['album.name'] || ''), 
+               value: rec['name'] 
+              }; 
+            }, 
+      filter: filterWords,
+      item: itemWords
+     }
+    );</script></code></pre>
+      Unfortunetly we cannot instruct to Spotify to sort on song title length. If you search for songs with only one or
+      two words, it might be that the desired song is not in the first 10 shown results.
+          </div>
+        </div>
+      <!-- END spotify track example -->
 
   </section>
   <section class="container" id="installation"> 
