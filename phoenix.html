@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://leaverou.github.io/awesomplete/prism/prism.css"/>
 <link rel="stylesheet" href="https://getbootstrap.com/dist/css/bootstrap.min.css"/>
-<link rel="stylesheet" href="https://nico-amsterdam.github.io/awesomplete-util/css/awesomplete.css"/>
+<link rel="stylesheet" href="css/awesomplete.css"/>
 <script src="js/awesomplete.min.js"></script>
 <script src="js/awesomplete-util.min.js"></script>
 <script>
@@ -24,36 +24,19 @@
 </script>
 <style>
   body { line-heigth: 150%; 
-         font-size: 18px; }
-
-  /* hide/show generated code */
-  .slide-up {
-    max-height: 0;            
-    overflow-y: hidden;
-  }
-  .slide-down {            
-    max-height: 1000px;
-    overflow-y: hidden;
-    -webkit-transition:  max-height 0.8s;
-    -moz-transition: max-height 0.8s;
-    -o-transition: max-height 0.8s;
-    transition: max-height 0.8s;
-  }
-  #other { margin-bottom: 1000px; }
+    font-size: 18px;
+         display: flex;
+         flex-direction: column;
+         height: 100vh; }
 
   /* style navbar */
-  .logo span { font-family: "Georgia, serif"; 
-               color: brown; 
-               font-style: italic }
-  .logo   { font-style:normal }
-  .navbar { background-color: lightblue  }
+  nav { background-color: lightblue; }
+  ul.navbar-nav li .nav-link { padding: 0 1em; }
+    
+  header, section { padding-top: 40px; }
   @media screen and (min-width: 768px) { 
-    .navbar { position: fixed; 
-              top: 0;
-              width: 100%;
-              opacity: 0.9 }
-    header  { margin-top: 25px }
-    header, section { padding-top: 40px }  
+    main { overflow-y: scroll;
+           flex: 1; }  
   }
 
   /* style html and javascript code blocks */
@@ -65,6 +48,19 @@
                      color: brown }
   .generated { padding: 1em 1em 0 1em;
                font-size: smaller }
+
+  /* hide/show generated code */
+  .slide-up, .slide-down {
+    max-height: 0;            
+    overflow-y: hidden;
+    -webkit-transition: max-height 0.8s ease-in-out;
+    -moz-transition: max-height 0.8s ease-in-out;
+    -o-transition: max-height 0.8s ease-in-out;
+    transition: max-height 0.8s ease-in-out;
+  }
+  .slide-down {            
+    max-height: 1000px;
+  }
 
   /* fight with bootstrap */
   .table { display: table }
@@ -100,88 +96,280 @@
 </style>
 </head>
 <body>
-
   <!-- Static navbar -->
-  <nav class="navbar navbar-default navbar-static-top">
-    <div class="container-fluid">
-      <div class="navbar-header">
-          <a class="navbar-brand logo" href="#">PhoenixFormAwesomplete</a>
-      </div>
-        <ul class="nav navbar-nav">
-          <li><a href="#examples">Examples</a>
-          <li><a href="#installation">Installation</a>
-          <li><a href="https://hexdocs.pm/phoenix_form_awesomplete/PhoenixFormAwesomplete.html#content" target="api">API</a>
+  <nav class="navbar navbar-expand-sm navbar-light bg-faded">
+    <a class="navbar-brand logo" href="#top">Phoenix Form Awesomplete</a>
+    <div class="navbar-collapse justify-content-end">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="#examples">Examples</a>
+          <li class="nav-item"><a class="nav-link" href="https://github.com/nico-amsterdam/phoenix_form_awesomplete/#installation" target="github">Installation</a>.
+          <li class="nav-item"><a class="nav-link" href="https://hexdocs.pm/phoenix_form_awesomplete/api-reference.html" target="api">API</a>
         </ul>
     </div>
   </nav>
-  <header class="container">
-    <div class="row">
-      <div class="col-sm-12">
-        <span class="logo">PhoenixFormAwesomplete</span> is a <a href="http://www.phoenixframework.org" target="phoe">Phoenix</a> form helper that utilizes Lea Verou's autocomplete / autosuggest / typeahead / inputsearch <a href="https://leaverou.github.io/awesomplete/index.html" target="awe">Awesomplete widget</a>. 
-        <p>
-        It comes with an <a href="index.html">AwesompleteUtil javascript library</a> which adds the following features:
-        <ul>
-          <li>Dynamic remote data loading; based on what is typed-in it performs an ajax lookup.
-          <li>Allow HTML markup in the shown items. Show value with description. Optionally search in the description text.
-          <li>Show when there is an exact match.
-          <li>Show when there isn't a match.
-          <li>When there is an exact match show related data (supplied in the remote data) in other parts of the page.
-          <li>Select the highlighted item when the tab key is used.
-        </ul>
+  <main>
+    <header class="container" id="top">
+      <div class="row">
+        <div class="col-sm-12">
+          <span class="logo">PhoenixFormAwesomplete</span> is a <a href="http://www.phoenixframework.org" target="phoe">Phoenix</a> form helper that utilizes Lea Verou's autocomplete / autosuggest / typeahead / inputsearch <a href="https://leaverou.github.io/awesomplete/index.html" target="awe">Awesomplete widget</a>. 
+          <p>
+          It comes with an <a href="index.html">AwesompleteUtil javascript library</a> which adds the following features:
+          <ul>
+            <li>Dynamic remote data loading; based on what is typed-in it performs an ajax lookup.
+            <li>Allow HTML markup in the shown items. Show value with description. Optionally search in the description text.
+            <li>Show when there is an exact match.
+            <li>Show when there isn't a match.
+            <li>When there is an exact match show related data (supplied in the remote data) in other parts of the page.
+            <li>Select the highlighted item when the tab key is used.
+          </ul>
+        </div>
       </div>
-    </div>
-  </header>
+    </header>
 
-  <section class="container" id="examples">
-    <h2>Examples</h2>
+    <section class="container" id="examples">
+      <h2>Examples</h2>
 
-    <div class="row">
-      <div class="col-sm-12 html">
-         In the examples below the Awesomplete widget calls are put directly in the EEx templates. However I do recommend to put most of the code in input helpers like explained in
-         <a href="http://blog.plataformatec.com.br/2016/09/dynamic-forms-with-phoenix/" target=_blank>this guide</a> resulting in much cleaner templates with code like this:
-         <p class="language-label">EEx
-         <pre class="language-markup"><code >&lt;%= input f, :country, using: :search_country %&gt;</code ></pre>
-         <p>&nbsp;
-         <ol>
-            <li><a href="#combobox">Combobox with countries</a>
-            <li><a href="#user-host">Connect as user to host</a>
-            <li><a href="#iso-country">Country iso code</a>
-            <li><a href="#colors">Colors</a>
-            <li><a href="#capital">Country capitals</a>
-            <li><a href="#seafood">Seafood pizza toppings</a>
-            <li><a href="#multimail">Email address</a>
-            <li><a href="#spotify-artist">Spotify artist search</a>
-            <li><a href="#spotify-track">Spotify track search</a>
-         </ol>
+      <div class="row">
+        <div class="col-sm-12 html">
+           <ol>
+              <li><a href="#itunes-artist">iTunes artist search</a>
+              <li><a href="#itunes-track">iTunes track search</a>
+              <li><a href="#combobox">Combobox with countries</a>
+              <li><a href="#user-host">Connect as user to host</a>
+              <li><a href="#iso-country">Country iso code</a>
+              <li><a href="#colors">Colors</a>
+              <li><a href="#capital">Country capitals</a>
+              <li><a href="#seafood">Seafood pizza toppings</a>
+              <li><a href="#multimail">Email address</a>
+           </ol>
+        </div>
       </div>
-    </div>
 
-  <!-- BEGIN combobox example -->
-  <fieldset id="combobox" class="example">
-    <legend class="h3">
-    Combobox with countries
-    </legend>
+    <!-- BEGIN itunes artist example -->
+    <fieldset id="itunes-artist" class="example">
+      <legend class="h3">
+      iTunes artist search
+      </legend>
+      <div class="row even">
+        <div class="col-xs-11 col-xs-offset-1 features">
+          Example demonstrates:
+          <ul>
+            <li>Dynamic data loading.
+            <li>Flatten json.
+            <li>Custom search filter.
+            <li>Custom text highlighter.
+          </ul>
+          Obviously we cannot load all artists known by itunes in the browsers memory, so that's why we use here
+          dynamic data loading. The search starts if 3 characters are entered.
+        </div>
+        <div class="col-sm-12">
+           Enter an artist name:
+        </div>
+        <label class="control-label col-sm-2" for="user_artist1">Artist</label>
+        <div class="col-sm-10 au">
+           <input class="form-control" id="user_artist1" name="user[artist1]" type="text">
+        </div>
+      </div>
+    </fieldset>
+
     <div class="row even">
-      <div class="col-xs-11 col-xs-offset-1 features">
-        Example demonstrates:
-        <ul>
-          <li>Combobox.
-          <li>Use remote service which returns everything; load all.
-        </ul>
+      <div class="col-sm-12 js">
+        The standard supplied 'starts-with' and 'contains' filters don't exactly match with how iTunes searches.
+        iTunes searches words, you can search for 'Michael Jackson' or 'Jackson Michael' and get the same results.
+        Thats why a custom filter called 'filterWords' is used that filters on the words entered. To highlight the
+        words in the list of suggestions a custom function called 'itemWords' is used.
+        <p class="language-label">Javascript
+        <pre class="language-javascript"><code><script>
+  var filterWords = function(data, input) {
+    var words = input.split(/\s+/), result = true, j;
+    /* iterate words */
+    for (j = 0; result && j < words.length; j++) {
+      /* all entered words must be found */
+      result = Awesomplete.FILTER_CONTAINS(data, words[j]); 
+    }
+    return result;
+  },
+  itemWords = function(text, input) {
+    var arr, words = input.split(/\s+/), j;
+    if (input.trim() !== '') {
+      /* Label contains value and optional extra HTML markup 
+         which starts with the <p> tag. 
+         Do not mark text after the first <p> */
+      arr = ('' + text).split('<p>');
+      /* iterate words */
+      for (j = 0; j < words.length; j++) {
+        /* highlight word with <mark> </mark> tags */
+        arr[0] = AwesompleteUtil.mark(arr[0], words[j]);
+      }
+      text = arr.join('<p>');           
+    } 
+    return AwesompleteUtil.item(text, input);
+  };</script></code></pre>
       </div>
-      <label class="control-label col-sm-2" for="user_combocountry">Country</label>
-      <div class="col-sm-10 au">
-         <span class="table">
-            <input class="form-control" id="user_combocountry" name="user[combocountry]" type="text">
-            <span class="input-group-btn">
-               <button class="dropdown-btn" id="awe_btn_user_combocountry" type="button">
-                  <span class="caret"></span>
-               </button>
-            </span>
-         </span>
+      <div class="col-sm-12 eex">
+        Below the Awesomplete widget is created with the filter and item functions defined above.
+        A limit of 15 is specified; if 15 or more results are returned by the server the code assumes that there
+        are more results, so it will re-query if more characters are typed to get more refined results.
+        <p class="language-label">EEx
+        <pre class="language-markup"><code >&lt;%= awesomplete(
+  :user,
+  :artist1,
+  [       # input_text options
+    class: "form-control"
+  ],                                                                                                                    
+  %{                                                                                                                    
+    url:    "https://itunes.apple.com/search?entity=musicArtist&amp;attribute=artistTerm&amp;media=music&amp;limit=15&amp;country=gb&amp;sort=artistTerm&amp;term=",
+    limit: 15,
+    filter: "filterWords",  # javascript functions must be double quoted
+    item: "itemWords",
+    value: "artistName"
+  }
+) %&gt;</code
+></pre>
+        <p class="generated"><a href="#" onclick="return toggle('#awe-artist');">show/hide generated code</a>
+      </div>
+      <div class="col-sm-12 awe slide-up" id="awe-artist">
+        <p class="language-label">Generated HTML
+        <pre class="language-markup"><code >&lt;input class="form-control" id="user_artist1" name="user[artist1]" type="text" /&gt;</code></pre>
+        <p class="language-label">Generated javascript
+        <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_artist1',
+ {  /* util options */
+    url:    "https://itunes.apple.com/search?entity=musicArtist&attribute=artistTerm&media=music&limit=15&country=gb&sort=artistTerm&term=",
+  limit: 15 
+ }, 
+ {  /* awesomplete options */
+  minChars: 3,
+  filter: filterWords,
+  item: itemWords,
+  data: function(rec, input) { return rec['artistName']; }
+ }
+);</script></code></pre>
       </div>
     </div>
-  </fieldset>
+    <!-- END itunes artist example -->
+
+    <!-- BEGIN itunes track example -->
+    <fieldset id="itunes-track" class="example">
+      <legend class="h3">
+      iTunes track search
+      </legend>
+      <div class="row odd">
+        <div class="col-xs-11 col-xs-offset-1 features">
+          Example demonstrates:
+          <ul>
+            <li>Dynamic data loading.
+            <li>Show related data of selected item.
+          </ul>
+        </div>
+        <div class="col-sm-12">
+           Enter a song title:
+        </div>
+        <label class="control-label text-right col-sm-2" for="user_track1">Track</label>
+        <div class="col-sm-10 au">
+          <input id="user_track1" class="form-control" autocomplete="off" name="user[track1]" type="text">
+        </div>
+      </div>
+      <div class="row odd artists">
+         <label class="control-label text-right col-sm-2">Artists</label>
+         <div class="col-sm-10" id="awe-track-artists"></div>
+      </div>
+      <div class="row odd album"> 
+         <label class="control-label text-right col-sm-2">Album</label>
+         <div class="col-sm-3" id="awe-track-album"></div>
+         <img src="" id="awe-track-album-img" alt="album image" width="200px"/>
+      </div>
+    </fieldset>
+
+    <div class="row odd">
+      <div class="col-sm-12 eex">
+        The creation of the Awesomplete object below is almost the same as in the 'itunes artist search' example.
+        <p class="language-label">EEx
+        <pre class="language-markup"><code >&lt;%= copy_to_id(:user, :track1, "collectionName", "#awe-track-album") %&gt;
+&lt;%= copy_to_id(:user, :track1, "artistName", "#awe-track-artists") %&gt;
+&lt;%= copy_to_id(:user, :track1, "artworkUrl100", "#awe-track-album-img") %&gt;
+&lt;%= awesomplete(
+ :user,
+ :track1,
+ [       # input_text options
+  class: "form-control",
+  autocomplete: "off"
+ ],
+ %{
+    url: "http://itunes.apple.com/search?entity=song&amp;attribute=songTerm&amp;media=music&amp;limit=10&amp;country=gb&amp;sort=songTerm&amp;term=",
+    limit: 10,
+    maxItems: 10,
+    minChars: 4,
+    value: "trackName",
+    descr: "artistName",
+    filter: "filterWords",
+    item: "itemWords"
+  }
+) %&gt;</code></pre>
+        Unfortunetly we cannot instruct to iTunes to sort on song title length.
+        If you search for songs with only one or two words, it might be that the desired song is not in the first 
+        10 shown results.
+        <p>
+        Duplicates are shown in the suggestion list if the song occurs on multiple albums.
+        <p class="generated"><a href="#" onclick="return toggle('#awe-track');">show/hide generated code</a>
+      </div>
+      <div class="col-sm-12 awe slide-up" id="awe-track">
+        <p class="language-label">Generated HTML
+        <pre class="language-markup"><code >&lt;input id="user_track1" class="form-control" autocomplete="off" 
+     name="user[track1]" type="text" /&gt;</code></pre>
+        <p class="language-label">Generated javascript
+        <pre class="language-javascript"><code><script>AwesompleteUtil.startCopy('#user_track1', 'collectionName', '#awe-track-album');
+AwesompleteUtil.startCopy('#user_track1', 'artistName',    '#awe-track-artists');
+AwesompleteUtil.startCopy('#user_track1', 'artworkUrl100', '#awe-track-album-img');
+
+AwesompleteUtil.start('#user_track1', 
+ {
+  url: 'http://itunes.apple.com/search?entity=song&attribute=songTerm&media=music&limit=10&country=gb&sort=songTerm&term=',
+  limit: 10
+ },
+ {
+  minChars: 4, 
+  data: function(rec, input) { 
+         return { 
+           label: rec['trackName']+'<p>'+(rec['artistName'] || ''), 
+           value: rec['trackName'] 
+          }; 
+        }, 
+  filter: filterWords,
+  item: itemWords
+ }
+);</script></code></pre>
+      </div>
+    </div>
+    <!-- END itunes track example -->
+
+    <!-- BEGIN combobox example -->
+    <fieldset id="combobox" class="example">
+      <legend class="h3">
+      Combobox with countries
+      </legend>
+      <div class="row even">
+        <div class="col-xs-11 col-xs-offset-1 features">
+          Example demonstrates:
+          <ul>
+            <li>Combobox.
+            <li>Use remote service which returns everything; load all.
+          </ul>
+        </div>
+        <div class="col-sm-12">
+        </div>
+        <label class="control-label col-sm-2" for="user_combocountry">Country</label>
+        <div class="col-sm-10 au">
+           <span class="table">
+              <input class="form-control" id="user_combocountry" name="user[combocountry]" type="text">
+              <span class="input-group-btn">
+                 <button class="dropdown-btn" id="awe_btn_user_combocountry" type="button">
+                    <span class="caret"></span>
+                 </button>
+              </span>
+           </span>
+        </div>
+      </div>
+    </fieldset>
 
     <div class="row even">
       <div class="col-sm-12 html">
@@ -239,31 +427,31 @@
 );</script></code></pre>
       </div>
     </div>
-  <!-- END combobox example -->
+    <!-- END combobox example -->
 
-  <!-- BEGIN user_host example -->
-  <fieldset id="user-host" class="example">
-    <legend class="h3">
-    Connect as user to host
-    </legend>
-    <div class="row odd">
-      <div class="col-xs-11 col-xs-offset-1 features">
-        Example demonstrates:
-        <ul>
-          <li>Type user name and get suggestions for hostnames; autocomplete after a certain character.
-          <li>Show descriptions in the suggestion list.
-          <li>Load suggestions from static json file.
-        </ul>
+    <!-- BEGIN user_host example -->
+    <fieldset id="user-host" class="example">
+      <legend class="h3">
+      Connect as user to host
+      </legend>
+      <div class="row odd">
+        <div class="col-xs-11 col-xs-offset-1 features">
+          Example demonstrates:
+          <ul>
+            <li>Type user name and get suggestions for hostnames; autocomplete after a certain character.
+            <li>Show descriptions in the suggestion list.
+            <li>Load suggestions from static json file.
+          </ul>
+        </div>
+        <div class="col-sm-12">
+           Enter for example 'root@192.168.1.1'
+        </div>
+        <label class="control-label col-sm-2" for="user_host">User@host</label>
+        <div class="col-sm-10 au hide-not-found">
+           <input class="form-control" id="user_host" name="user[host]" type="text">
+        </div>
       </div>
-      <div class="col-sm-12">
-         Enter for example 'root@192.168.1.1'
-      </div>
-      <label class="control-label col-sm-2" for="user_host">User@host</label>
-      <div class="col-sm-10 au hide-not-found">
-         <input class="form-control" id="user_host" name="user[host]" type="text">
-      </div>
-    </div>
-  </fieldset>
+    </fieldset>
 
     <div class="row odd">
       <div class="col-sm-12 eex">
@@ -307,32 +495,32 @@
 );</script></code></pre>
       </div>
     </div>
-  <!-- END user_host example -->
+    <!-- END user_host example -->
 
-  <!-- BEGIN iso-country example -->
-  <fieldset id="iso-country" class="example">
-    <legend class="h3">
-    Country iso code
-    </legend>
-    <div class="row even">
-      <div class="col-xs-11 col-xs-offset-1 features">
-        Example demonstrates:
-        <ul>
-          <li>Use remote service that doesn't return a list but a single entry to verify input.
-          <li>Show related data if entry found.
-          <li>Handle HTTP 404 status with custom ajax function.
-        </ul>
+    <!-- BEGIN iso-country example -->
+    <fieldset id="iso-country" class="example">
+      <legend class="h3">
+      Country iso code
+      </legend>
+      <div class="row even">
+        <div class="col-xs-11 col-xs-offset-1 features">
+          Example demonstrates:
+          <ul>
+            <li>Use remote service that doesn't return a list but a single entry to verify input.
+            <li>Show related data if entry found.
+            <li>Handle HTTP 404 status with custom ajax function.
+          </ul>
+        </div>
+        <div class="col-sm-12">
+           Enter for example 'usa'
+        </div>
+        <label class="control-label col-sm-2" for="user_country_iso">Country iso three letter code</label>
+        <div class="col-sm-10 au">
+            <input class="form-control" id="user_country_iso" name="user[country_iso]" autocomplete="off" type="text">
+           <span id="awe-country-name"></span>
+        </div>
       </div>
-      <div class="col-sm-12">
-         Enter for example 'usa'
-      </div>
-      <label class="control-label col-sm-2" for="user_country_iso">Country iso three letter code</label>
-      <div class="col-sm-10 au">
-          <input class="form-control" id="user_country_iso" name="user[country_iso]" autocomplete="off" type="text">
-         <span id="awe-country-name"></span>
-      </div>
-    </div>
-  </fieldset>
+    </fieldset>
 
     <div class="row even">
       <div class="col-sm-12 js">
@@ -396,32 +584,32 @@ AwesompleteUtil.start('#user_country_iso',
 );</script></code></pre>
       </div>
     </div>
-  <!-- END iso-country example -->
+    <!-- END iso-country example -->
 
-  <!-- BEGIN colors example -->
-  <fieldset id="colors" class="example">
-    <legend class="h3">
-    Colors
-    </legend>
-    <div class="row odd">
-      <div class="col-xs-11 col-xs-offset-1 features">
-        Example demonstrates:
-        <ul>
-          <li>Suggestion list with value and label as part of page source.
-          <li>Label with HTML markup.
-          <li>Show related data of initial/autofill value; Prepopulation event during page load
-        </ul>
+    <!-- BEGIN colors example -->
+    <fieldset id="colors" class="example">
+      <legend class="h3">
+      Colors
+      </legend>
+      <div class="row odd">
+        <div class="col-xs-11 col-xs-offset-1 features">
+          Example demonstrates:
+          <ul>
+            <li>Suggestion list with value and label as part of page source.
+            <li>Label with HTML markup.
+            <li>Show related data of initial/autofill value; Prepopulation event during page load
+          </ul>
+        </div>
+        <div class="col-sm-12">
+           Enter a color:
+        </div>
+        <label class="control-label col-sm-2" for="user_color">Color</label>
+        <div class="col-sm-10 au">
+           <input id="user_color" class="form-control" name="user[color]" value="purple" type="text">
+        </div>
+        <div class="col-sm-2 text-right"><span id="awe-color-result"></span> &#x21B2;</div>
       </div>
-      <div class="col-sm-12">
-         Enter a color:
-      </div>
-      <label class="control-label col-sm-2" for="user_color">Color</label>
-      <div class="col-sm-10 au">
-         <input id="user_color" class="form-control" name="user[color]" value="purple" type="text">
-      </div>
-      <div class="col-sm-2 text-right"><span id="awe-color-result"></span> &#x21B2;</div>
-    </div>
-  </fieldset>
+    </fieldset>
 
     <div class="row odd">
       <div class="col-sm-12 html">
@@ -484,34 +672,34 @@ AwesompleteUtil.start('#user_color',
 );</script></code></pre>
       </div>
     </div>
-  <!-- END colors example -->
+    <!-- END colors example -->
 
-  <!-- BEGIN capital example -->
-  <fieldset id="capital" class="example">
-    <legend class="h3">
-    Country capitals
-    </legend>
-    <div class="row even">
-      <div class="col-xs-11 col-xs-offset-1 features">
-        Example demonstrates:
-        <ul>
-          <li>One remote call (load all) resulting in one response list shared by multiple controls.
-          <li>Copy related data of selected item to other input field, in two directions!
-        </ul>
+    <!-- BEGIN capital example -->
+    <fieldset id="capital" class="example">
+      <legend class="h3">
+      Country capitals
+      </legend>
+      <div class="row even">
+        <div class="col-xs-11 col-xs-offset-1 features">
+          Example demonstrates:
+          <ul>
+            <li>One remote call (load all) resulting in one response list shared by multiple controls.
+            <li>Copy related data of selected item to other input field, in two directions!
+          </ul>
+        </div>
+        <div class="col-sm-12">
+            Enter either country or capital, and look what happens in the other field.
+        </div>
+        <label class="control-label col-sm-2" for="user_country">Country</label>
+        <div class="col-sm-4 au">
+           <input id="user_country" class="form-control" name="user[country]" autocomplete="off" type="text">
+        </div>
+        <label class="control-label col-sm-2" for="user_capital">Capital</label>
+        <div class="col-sm-4 au">
+           <input id="user_capital" class="form-control" name="user[capital]" autocomplete="off" type="text">
+        </div>
       </div>
-      <div class="col-sm-12">
-          Enter either country or capital, and look what happens in the other field.
-      </div>
-      <label class="control-label col-sm-2" for="user_country">Country</label>
-      <div class="col-sm-4 au">
-         <input id="user_country" class="form-control" name="user[country]" autocomplete="off" type="text">
-      </div>
-      <label class="control-label col-sm-2" for="user_capital">Capital</label>
-      <div class="col-sm-4 au">
-         <input id="user_capital" class="form-control" name="user[capital]" autocomplete="off" type="text">
-      </div>
-    </div>
-  </fieldset>
+    </fieldset>
 
     <div class="row even">
       <div class="col-sm-12 eex">
@@ -586,31 +774,31 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
 );</script></code></pre>
       </div>
     </div>
-  <!-- END capital example -->
+    <!-- END capital example -->
 
-  <!-- BEGIN seafood example -->
-  <fieldset id="seafood" class="example">
-    <legend class="h3">
-    Seafood toppings
-    </legend>
-    <div class="row odd">
-      <div class="col-xs-11 col-xs-offset-1 features">
-        Example demonstrates:
-        <ul>
-          <li>Data list in page source.
-          <li>Select multiple items.
-        </ul>
+    <!-- BEGIN seafood example -->
+    <fieldset id="seafood" class="example">
+      <legend class="h3">
+      Seafood toppings
+      </legend>
+      <div class="row odd">
+        <div class="col-xs-11 col-xs-offset-1 features">
+          Example demonstrates:
+          <ul>
+            <li>Data list in page source.
+            <li>Select multiple items.
+          </ul>
+        </div>
+        <div class="col-sm-12">
+           Enter for example 'Crayfish, Oysters'
+        </div>
+        <label class="control-label col-sm-2" for="user_seafood">Seafood toppings</label>
+        <div class="col-sm-10 au">
+           <input class="form-control" id="user_seafood" name="user[seafood]" type="text"
+            data-list="Anchovies, Cajun Prawn, Crayfish, Lobster, Oysters, Prawns, Salmon, Shrimps, Smoked Salmon, Squid, Tuna, Whitebait">
+        </div>
       </div>
-      <div class="col-sm-12">
-         Enter for example 'Crayfish, Oysters'
-      </div>
-      <label class="control-label col-sm-2" for="user_seafood">Seafood toppings</label>
-      <div class="col-sm-10 au">
-         <input class="form-control" id="user_seafood" name="user[seafood]" type="text"
-          data-list="Anchovies, Cajun Prawn, Crayfish, Lobster, Oysters, Prawns, Salmon, Shrimps, Smoked Salmon, Squid, Tuna, Whitebait">
-      </div>
-    </div>
-  </fieldset>
+    </fieldset>
 
     <div class="row odd">
       <div class="col-sm-12 eex">
@@ -659,32 +847,31 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
         The regular expressions are used to extract the last part of the input from the rest.
       </div>
     </div>
-  <!-- END seafood example -->
+    <!-- END seafood example -->
 
 
-  <!-- BEGIN multimail example -->
-  <fieldset id="multimail" class="example">
-    <legend class="h3">
-    Email address
-    </legend>
-    <div class="row even">
-      <div class="col-xs-11 col-xs-offset-1 features">
-        Example demonstrates:
-        <ul>
-          <li>In the shown suggestions the email address is shown below the name. The value contains both.
-          <li>Multiple input values.
-          <li>Load suggestions from json file.
-        </ul>
+    <!-- BEGIN multimail example -->
+    <fieldset id="multimail" class="example">
+      <legend class="h3">
+      Email address
+      </legend>
+      <div class="row even">
+        <div class="col-xs-11 col-xs-offset-1 features">
+          Example demonstrates:
+          <ul>
+            <li>In the shown suggestions the email address is shown below the name. The value contains both.
+            <li>Multiple input values.
+          </ul>
+        </div>
+        <div class="col-sm-12">
+           Enter an email address (they are all from acme.com):
+        </div>
+        <label class="control-label col-sm-2" for="user_multimail">Email</label>
+        <div class="col-sm-10 au">
+           <input class="form-control" id="user_multimail" name="user[multimail]" type="text">
+        </div>
       </div>
-      <div class="col-sm-12">
-         Enter an email address (they are all from acme.com):
-      </div>
-      <label class="control-label col-sm-2" for="user_multimail">Email</label>
-      <div class="col-sm-10 au">
-         <input class="form-control" id="user_multimail" name="user[multimail]" type="text">
-      </div>
-    </div>
-  </fieldset>
+    </fieldset>
 
     <div class="row even">
       <div class="col-sm-12 eex">
@@ -695,9 +882,8 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
   :multimail,
   [
    class: "form-control"
-  ],
   %{
-     url:    "js/uinames.json",
+     url:    "https://uinames.com/api/?amount=100",
      convertResponse: "uinames2contacts",
      loadall : true,
      minChars: 1,
@@ -715,8 +901,7 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
         Try for example to search on '@acme.com' to see what it highlights with or without this function. 
       </div>
       <div class="col-sm-12 js">
-          This examples uses random names from <a href="http://uinames.com/api/" target=_blank>http://uinames.com/api/</a>
-        saved in the 'js/uinames.json' file.
+          This examples uses random names from <a href="http://uinames.com/api/" target=_blank>http://uinames.com/api/</a>.
         The uinames2contacts function below constructs email addresses and a value that contains both name and email address.
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>var uinames2contacts = function(names) {
@@ -743,7 +928,7 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
         <p class="language-label">Generated javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_multimail',
  { 
-  url: 'js/uinames.json',
+  url: 'https://uinames.com/api/?amount=100',
   convertResponse: uinames2contacts,
   loadall: true,
   convertInput: function(input) {
@@ -770,260 +955,20 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
 );</script></code></pre>
       </div>
     </div>
-  <!-- END multimail example -->
+    <!-- END multimail example -->
 
-  <!-- BEGIN spotify artist example -->
-  <fieldset id="spotify-artist" class="example">
-    <legend class="h3">
-    Spotify artist search
-    </legend>
-    <div class="row odd">
-      <div class="col-xs-11 col-xs-offset-1 features">
-        Example demonstrates:
-        <ul>
-          <li>Dynamic data loading.
-          <li>Flatten json.
-          <li>Custom search filter.
-          <li>Custom text highlighter.
-        </ul>
-        Obviously we cannot load all artists known by spotify in the browsers memory, so that's why we use here
-        dynamic data loading. The search starts if 3 characters are entered.
-      </div>
-      <div class="col-sm-12">
-        Unfortunately since June 2017 an API key is needed, so the live demo doesn't work anymore.
-      </div>
-      <label class="control-label col-sm-2" for="user_artist1">Artist</label>
-      <div class="col-sm-10 au">
-         <input class="form-control" id="user_artist1" name="user[artist1]" type="text">
-      </div>
-    </div>
-  </fieldset>
+    </section>
 
-    <div class="row odd">
-      <div class="col-sm-12 js">
-        The standard supplied 'starts-with' and 'contains' filters don't exactly match with how Spotify searches (Elasticsearch).
-        Spotify searches words, you can search for 'Michael Jackson' or 'Jackson Michael' and get the same results.
-        Thats why a custom filter called 'filterWords' is used that filters on the words entered. To highlight the
-        words in the list of suggestions a custom function called 'itemWords' is used.
-        <p class="language-label">Javascript
-        <pre class="language-javascript"><code><script>
-  var filterWords = function(data, input) {
-    var words = input.split(/\s+/), result = true, j;
-    /* iterate words */
-    for (j = 0; result && j < words.length; j++) {
-      /* all entered words must be found */
-      result = Awesomplete.FILTER_CONTAINS(data, words[j]); 
-    }
-    return result;
-  },
-  itemWords = function(text, input) {
-    var arr, words = input.split(/\s+/), j;
-    if (input.trim() !== '') {
-      /* Label contains value and optional extra HTML markup 
-         which starts with the <p> tag. 
-         Do not mark text after the first <p> */
-      arr = ('' + text).split('<p>');
-      /* iterate words */
-      for (j = 0; j < words.length; j++) {
-        /* highlight word with <mark> </mark> tags */
-        arr[0] = AwesompleteUtil.mark(arr[0], words[j]);
-      }
-      text = arr.join('<p>');           
-    } 
-    return AwesompleteUtil.item(text, input);
-  };</script></code></pre>
+    <section class="container" id="other"> 
+      <div class="row">
+        <div class="col-sm-12">
+           <p><a href="https://github.com/nico-amsterdam/phoenix_form_awesomplete/#installation" target="github">Installation</a>.
+           <p><a href="https://hexdocs.pm/phoenix_form_awesomplete/api-reference.html" target="api">API</a>
+           <p>License: MIT
+        </div>
       </div>
-      <div class="col-sm-12 eex">
-        Below the Awesomplete widget is created with the filter and item functions defined above.
-        The '*' wildcard character is added at the end of the remote url.
-        A limit of 15 is specified; if 15 or more results are returned by the server the code assumes that there
-        are more results, so it will re-query if more characters are typed to get more refined results.
-        <p class="language-label">EEx
-        <pre class="language-markup"><code >&lt;%= awesomplete(
-  :user,
-  :artist1,
-  [       # input_text options
-    class: "form-control"
-  ],                                                                                                                    
-  %{                                                                                                                    
-    url:    "https://api.spotify.com/v1/search?type=artist&amp;limit=15&amp;q=artist:",
-    urlEnd: "*",
-    limit: 15,
-    filter: "filterWords",  # javascript functions must be double quoted
-    item: "itemWords",
-    convertResponse: "AwesompleteUtil.jsonFlatten.bind({value: 'name'})"
-  }
-) %&gt;</code
-></pre>
-        Look at the convertResponse property.
-        AwesompleteUtil accepts a JSON response object with an array of objects to feed the list of suggestions, e.g.
-        something like:<pre><code>{ "artists":[ "Adele", "U2" ] }</code></pre>However Spotify returns a deeper structure.
-        The jsonFlatten function flattens JSON:<p><code>{ "a":{"b":{"c":[{"d":{"e":1}}]}}}</code> becomes <code>{"a.b.c":[{"d.e":1}]}</code>.
-        <p>
-        You can pass on extra options via the bind method. 
-        Awesomplete by default accepts strings or objects with 'value' and 'label' properties.
-        In the example it's specified that within the array, the 'name' property should also be added as 'value' property and implicitly also as 'label' property.
-        <p class="generated"><a href="#" onclick="return toggle('#awe-artist');">show/hide generated code</a>
-      </div>
-      <div class="col-sm-12 awe slide-up" id="awe-artist">
-        <p class="language-label">Generated HTML
-        <pre class="language-markup"><code >&lt;input class="form-control" id="user_artist1" name="user[artist1]" type="text" /&gt;</code></pre>
-        <p class="language-label">Generated javascript
-        <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_artist1',
- {  /* util options */
-  url: 'https://api.spotify.com/v1/search?type=artist&limit=15&q=artist:', 
-  urlEnd: '*', 
-  limit: 15, 
-  convertResponse: AwesompleteUtil.jsonFlatten.bind({value: 'name'})
- }, 
- {  /* awesomplete options */
-  minChars: 3,
-  filter: filterWords,
-  item: itemWords
- }
-);</script></code></pre>
-      </div>
-    </div>
-  <!-- END spotify artist example -->
+    </section>
 
-  <!-- BEGIN spotify track example -->
-  <fieldset id="spotify-track" class="example">
-    <legend class="h3">
-    Spotify track search
-    </legend>
-    <div class="row even">
-      <div class="col-xs-11 col-xs-offset-1 features">
-        Example demonstrates:
-        <ul>
-          <li>Dynamic data loading.
-          <li>Show related data of selected item.
-          <li>Custom render functions for copy action.
-        </ul>
-      </div>
-      <div class="col-sm-12">
-         Unfortunately since June 2017 an API key is needed, so the live demo doesn't work anymore.
-      </div>
-      <label class="control-label text-right col-sm-2" for="user_track1">Track</label>
-      <div class="col-sm-10 au">
-        <input id="user_track1" class="form-control" autocomplete="off" name="user[track1]" type="text">
-      </div>
-    </div>
-    <div class="row even artists">
-       <label class="control-label text-right col-sm-2">Artists</label>
-       <div class="col-sm-10" id="awe-track-artists"></div>
-    </div>
-    <div class="row even album"> 
-       <label class="control-label text-right col-sm-2">Album</label>
-       <div class="col-sm-3" id="awe-track-album"></div>
-       <div class="col-sm-7" id="awe-track-album-img"></div>
-    </div>
-  </fieldset>
-
-    <div class="row even">
-      <div class="col-sm-12 js">
-        The artistsFun function below shows the artists of the selected track as list items.
-        The albumImgFun function displays an image of the album of the selected track. These functions are used by the copy_to_id methods. 
-        <p class="language-label">Javascript
-        <pre class="language-javascript"><code><script>var artistsFun = function(e, dataField) { 
-   var arrArtists = e.detail.length === 1 ? e.detail[0][dataField] : [],
-       html = '', 
-       i; 
-   for (i=0; i < arrArtists.length; i++) {
-     html = html + '<li>' + arrArtists[i].name;
-   } 
-   Awesomplete.$('#awe-track-artists').innerHTML = '<ul>' + html + '</ul>'; 
-};
-
-var albumImgFun = function(e, dataField) {
-   var arrImages = e.detail.length === 1 ? e.detail[0][dataField] : [],
-       html = ''; 
-   if (arrImages.length > 0) {
-     html = '<img src="' + arrImages[0].url + '" alt="album image" width="200"/>';
-   }  
-   Awesomplete.$('#awe-track-album-img').innerHTML = html;
-};</script></code></pre>
-      </div>
-      <div class="col-sm-12 eex">
-        The creation of the Awesomplete object below is almost the same as in the 'spotify artist search' example.
-        <p class="language-label">EEx
-        <pre class="language-markup"><code >&lt;%= copy_to_id(:user, :track1, "album.name", "#awe-track-album") %&gt;
-&lt;%= copy_to_id(:user, :track1, "album.images", "albumImgFun") %&gt;
-&lt;%= copy_to_id(:user, :track1, "artists",      "artistsFun") %&gt;
-&lt;%= awesomplete(
- :user,
- :track1,
- [       # input_text options
-  class: "form-control",
-  autocomplete: "off"
- ],
- %{
-    url:    "https://api.spotify.com/v1/search?type=track&amp;limit=10&amp;q=track:",
-    urlEnd: "*",
-    limit: 10,
-    maxItems: 10,
-    minChars: 3,
-    value: "name",
-    prepop: true,
-    descr: "album.name",
-    filter: "filterWords",
-    item: "itemWords",
-    convertResponse: "AwesompleteUtil.jsonFlatten.bind({value: 'name'})"
-  }
-) %&gt;</code></pre>
-        Unfortunetly we cannot instruct to Spotify to sort on song title length. If you search for songs with only one or
-        two words, it might be that the desired song is not in the first 10 shown results.
-        <p class="generated"><a href="#" onclick="return toggle('#awe-track');">show/hide generated code</a>
-      </div>
-      <div class="col-sm-12 awe slide-up" id="awe-track">
-        <p class="language-label">Generated HTML
-        <pre class="language-markup"><code >&lt;input id="user_track1" class="form-control" autocomplete="off" 
-     name="user[track1]" type="text" /&gt;</code></pre>
-        <p class="language-label">Generated javascript
-        <pre class="language-javascript"><code><script>AwesompleteUtil.startCopy('#user_track1', 'album.name', '#awe-track-album');
-AwesompleteUtil.startCopy('#user_track1', 'artists',      artistsFun);
-AwesompleteUtil.startCopy('#user_track1', 'album.images', albumImgFun);
-
-AwesompleteUtil.start('#user_track1', 
- {
-  url: 'https://api.spotify.com/v1/search?type=track&limit=10&q=track:', 
-  urlEnd: '*', 
-  limit: 10, 
-  convertResponse: AwesompleteUtil.jsonFlatten.bind({value: 'name'})
- },
- {
-  minChars: 4, 
-  data: function(rec, input) { 
-         return { 
-           label: rec['name']+'<p>'+(rec['album.name'] || ''), 
-           value: rec['name'] 
-          }; 
-        }, 
-  filter: filterWords,
-  item: itemWords
- }
-);</script></code></pre>
-      </div>
-    </div>
-  <!-- END spotify track example -->
-
-  </section>
-  <section class="container" id="installation"> 
-    <h2>Installation</h2>
-    <div class="row">
-      <div class="col-sm-12">
-         Instructions are on the <a href="https://github.com/nico-amsterdam/phoenix_form_awesomplete/#installation" target="github">github projects</a> homepage.
-      </div>
-    </div>
-  </section>
-
-  <section class="container" id="other"> 
-    <div class="row">
-      <div class="col-sm-12">
-         <p><a href="https://hexdocs.pm/phoenix_form_awesomplete/PhoenixFormAwesomplete.html#content" target="api">API</a>
-         <p>License: MIT
-      </div>
-    </div>
-  </section>
-
-  <script src="https://leaverou.github.io/awesomplete/prism/prism.js"></script>
+    <script src="https://leaverou.github.io/awesomplete/prism/prism.js"></script>
+  </main>
 </body>
