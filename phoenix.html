@@ -111,7 +111,7 @@
     <header class="container" id="top">
       <div class="row">
         <div class="col-sm-12">
-          <span class="logo">PhoenixFormAwesomplete</span> is a <a href="http://www.phoenixframework.org" target="phoe">Phoenix</a> form helper that utilizes Lea Verou's autocomplete / autosuggest / typeahead / inputsearch <a href="https://leaverou.github.io/awesomplete/index.html" target="awe">Awesomplete widget</a>. 
+          <span class="logo">PhoenixFormAwesomplete</span> is a <a href="https://www.phoenixframework.org" target="phoe">Phoenix</a> form helper that utilizes Lea Verou's autocomplete / autosuggest / typeahead / inputsearch <a href="https://leaverou.github.io/awesomplete/index.html" target="awe">Awesomplete widget</a>. 
           <p>
           It comes with an <a href="index.html">AwesompleteUtil javascript library</a> which adds the following features:
           <ul>
@@ -155,7 +155,6 @@
           Example demonstrates:
           <ul>
             <li>Dynamic data loading.
-            <li>Flatten json.
             <li>Custom search filter.
             <li>Custom text highlighter.
           </ul>
@@ -295,7 +294,7 @@
   autocomplete: "off"
  ],
  %{
-    url: "http://itunes.apple.com/search?entity=song&amp;attribute=songTerm&amp;media=music&amp;limit=10&amp;country=gb&amp;sort=songTerm&amp;term=",
+    url: "https://itunes.apple.com/search?entity=song&amp;attribute=songTerm&amp;media=music&amp;limit=10&amp;country=gb&amp;sort=songTerm&amp;term=",
     limit: 10,
     maxItems: 10,
     minChars: 4,
@@ -323,7 +322,7 @@ AwesompleteUtil.startCopy('#user_track1', 'artworkUrl100', '#awe-track-album-img
 
 AwesompleteUtil.start('#user_track1', 
  {
-  url: 'http://itunes.apple.com/search?entity=song&attribute=songTerm&media=music&limit=10&country=gb&sort=songTerm&term=',
+  url: 'https://itunes.apple.com/search?entity=song&attribute=songTerm&media=music&limit=10&country=gb&sort=songTerm&term=',
   limit: 10
  },
  {
@@ -901,7 +900,7 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
         Try for example to search on '@acme.com' to see what it highlights with or without this function. 
       </div>
       <div class="col-sm-12 js">
-          This examples uses random names from <a href="http://uinames.com/api/" target=_blank>http://uinames.com/api/</a>.
+          This examples uses random names from <a href="https://uinames.com/api/" target=_blank>https://uinames.com/api/</a>.
         The uinames2contacts function below constructs email addresses and a value that contains both name and email address.
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>var uinames2contacts = function(names) {
