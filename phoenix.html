@@ -30,13 +30,15 @@
          height: 100vh; }
 
   /* style navbar */
-  nav { background-color: lightblue; }
+  nav { background-color: lightblue;
+        min-height: 135px; }
   ul.navbar-nav li .nav-link { padding: 0 1em; }
     
   header, section { padding-top: 40px; }
   @media screen and (min-width: 768px) { 
     main { overflow-y: scroll;
-           flex: 1; }  
+           flex: 1; }
+    nav { min-height: 40px; }
   }
 
   /* style html and javascript code blocks */
@@ -109,7 +111,7 @@
     <div class="navbar-collapse justify-content-end">
         <ul class="navbar-nav">
           <li class="nav-item"><a class="nav-link" href="#examples">Examples</a>
-          <li class="nav-item"><a class="nav-link" href="https://github.com/nico-amsterdam/phoenix_form_awesomplete/#installation" target="github">Installation</a>.
+          <li class="nav-item"><a class="nav-link" href="https://github.com/nico-amsterdam/phoenix_form_awesomplete/#installation" target="github">Installation</a>
           <li class="nav-item"><a class="nav-link" href="https://hexdocs.pm/phoenix_form_awesomplete/api-reference.html" target="api">API</a>
         </ul>
     </div>
@@ -968,7 +970,7 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
     <section class="container" id="other"> 
       <div class="row">
         <div class="col-sm-12">
-           <p><a href="https://github.com/nico-amsterdam/phoenix_form_awesomplete/#installation" target="github">Installation</a>.
+           <p><a href="https://github.com/nico-amsterdam/phoenix_form_awesomplete/#installation" target="github">Installation</a>
            <p><a href="https://hexdocs.pm/phoenix_form_awesomplete/api-reference.html" target="api">API</a>
            <p>License: MIT
         </div>
