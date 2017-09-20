@@ -24,24 +24,22 @@
 </script>
 <style>
   body { line-heigth: 150%; 
-    font-size: 18px;
+         font-size: 18px;
          display: flex;
          flex-direction: column;
          height: 100vh; }
 
   /* style navbar */
   nav { background-color: lightblue;
-        height: 135px;
-        flex: 0 0 135px; }
+        min-height: 135px; }
   ul.navbar-nav li .nav-link { padding: 0 1em; }
     
   header, section { padding-top: 40px; }
   @media screen and (min-width: 576px) { 
     main { overflow-y: scroll;
            -webkit-overflow-scrolling: touch;
-           flex: 1 1 auto; }
-    nav { height: 40px;
-          flex: 0 0 40px; }
+           flex: 1; }
+    nav { min-height: 40px; }
   }
 
   /* style html and javascript code blocks */
