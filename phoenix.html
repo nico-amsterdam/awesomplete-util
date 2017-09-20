@@ -84,6 +84,8 @@
   .hide-not-found div.awesomplete .awe-not-found { border-color: lightblue }
 
   /* style examples */
+  .au   { margin-top: -6px; }
+  .hint { margin-bottom: 10px; }
   .example { margin-top: 40px }
   #awe-track-artists ul { margin-top: 0 }
   .album { min-height: 200px }
@@ -171,7 +173,7 @@
           Obviously we cannot load all artists known by itunes in the browsers memory, so that's why we use here
           dynamic data loading. The search starts if 3 characters are entered.
         </div>
-        <div class="col-sm-12">
+        <div class="col-sm-12 hint">
            Enter an artist name:
         </div>
         <label class="control-label col-sm-2" for="user_artist1">Artist</label>
@@ -270,7 +272,7 @@
             <li>Show related data of selected item.
           </ul>
         </div>
-        <div class="col-sm-12">
+        <div class="col-sm-12 hint">
            Enter a song title:
         </div>
         <label class="control-label text-right col-sm-2" for="user_track1">Track</label>
@@ -309,7 +311,7 @@
     maxItems: 10,
     minChars: 4,
     value: "trackName",
-    descr: "artistName",
+    descr: "collectionName",
     filter: "filterWords",
     item: "itemWords"
   }
@@ -317,8 +319,6 @@
         Unfortunetly we cannot instruct to iTunes to sort on song title length.
         If you search for songs with only one or two words, it might be that the desired song is not in the first 
         10 shown results.
-        <p>
-        Duplicates are shown in the suggestion list if the song occurs on multiple albums.
         <p class="generated"><a href="#" onclick="return toggle('#awe-track');">show/hide generated code</a>
       </div>
       <div class="col-sm-12 awe slide-up" id="awe-track">
@@ -339,7 +339,7 @@ AwesompleteUtil.start('#user_track1',
   minChars: 4, 
   data: function(rec, input) { 
          return { 
-           label: rec['trackName']+'<p>'+(rec['artistName'] || ''), 
+           label: rec['trackName']+'<p>'+(rec['collectionName'] || ''), 
            value: rec['trackName'] 
           }; 
         }, 
@@ -364,7 +364,7 @@ AwesompleteUtil.start('#user_track1',
             <li>Use remote service which returns everything; load all.
           </ul>
         </div>
-        <div class="col-sm-12">
+        <div class="col-sm-12 hint">
         </div>
         <label class="control-label col-sm-2" for="user_combocountry">Country</label>
         <div class="col-sm-10 au">
@@ -452,7 +452,7 @@ AwesompleteUtil.start('#user_track1',
             <li>Load suggestions from static json file.
           </ul>
         </div>
-        <div class="col-sm-12">
+        <div class="col-sm-12 hint">
            Enter for example 'root@192.168.1.1'
         </div>
         <label class="control-label col-sm-2" for="user_host">User@host</label>
@@ -520,7 +520,7 @@ AwesompleteUtil.start('#user_track1',
             <li>Handle HTTP 404 status with custom ajax function.
           </ul>
         </div>
-        <div class="col-sm-12">
+        <div class="col-sm-12 hint">
            Enter for example 'usa'
         </div>
         <label class="control-label col-sm-2" for="user_country_iso">Country iso three letter code</label>
@@ -609,7 +609,7 @@ AwesompleteUtil.start('#user_country_iso',
             <li>Show related data of initial/autofill value; Prepopulation event during page load
           </ul>
         </div>
-        <div class="col-sm-12">
+        <div class="col-sm-12 hint">
            Enter a color:
         </div>
         <label class="control-label col-sm-2" for="user_color">Color</label>
@@ -696,7 +696,7 @@ AwesompleteUtil.start('#user_color',
             <li>Copy related data of selected item to other input field, in two directions!
           </ul>
         </div>
-        <div class="col-sm-12">
+        <div class="col-sm-12 hint">
             Enter either country or capital, and look what happens in the other field.
         </div>
         <label class="control-label col-sm-2" for="user_country">Country</label>
@@ -798,7 +798,7 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
             <li>Select multiple items.
           </ul>
         </div>
-        <div class="col-sm-12">
+        <div class="col-sm-12 hint">
            Enter for example 'Crayfish, Oysters'
         </div>
         <label class="control-label col-sm-2" for="user_seafood">Seafood toppings</label>
@@ -872,7 +872,7 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
             <li>Multiple input values.
           </ul>
         </div>
-        <div class="col-sm-12">
+        <div class="col-sm-12 hint">
            Enter an email address (they are all from acme.com):
         </div>
         <label class="control-label col-sm-2" for="user_multimail">Email</label>
