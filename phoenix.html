@@ -32,7 +32,7 @@
   /* style navbar */
   nav { background-color: lightblue;
         height: 135px;
-        flex-shrink: 0; }
+        flex: 0 0 135px; }
   ul.navbar-nav li .nav-link { padding: 0 1em; }
     
   header, section { padding-top: 40px; }
@@ -40,7 +40,8 @@
     main { overflow-y: scroll;
            -webkit-overflow-scrolling: touch;
            flex: 1 1 auto; }
-    nav { height: 40px; }
+    nav { height: 40px;
+          flex: 0 0 40px; }
   }
 
   /* style html and javascript code blocks */
