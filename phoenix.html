@@ -27,19 +27,19 @@
          font-size: 18px;
          display: flex;
          flex-direction: column;
-         height: 100vh; }
+         height: 100vh }
 
   /* style navbar */
   nav { background-color: lightblue;
-        min-height: 135px; }
-  ul.navbar-nav li .nav-link { padding: 0 1em; }
+        min-height: 135px }
+  ul.navbar-nav li .nav-link { padding: 0 1em }
     
-  header, section { padding-top: 40px; }
+  header, section { padding-top: 40px }
   @media screen and (min-width: 576px) { 
     main { overflow-y: scroll;
            -webkit-overflow-scrolling: touch;
-           flex: 1; }
-    nav { min-height: 40px; }
+           flex: 1 }
+    nav { min-height: 40px }
   }
 
   /* style html and javascript code blocks */
@@ -59,7 +59,7 @@
     -webkit-transition: max-height 0.8s ease-in-out;
     -moz-transition: max-height 0.8s ease-in-out;
     -o-transition: max-height 0.8s ease-in-out;
-    transition: max-height 0.8s ease-in-out;
+    transition: max-height 0.8s ease-in-out
   }
   .slide-down {            
     max-height: 1000px;
@@ -72,7 +72,8 @@
 
   /* style awesomplete-util */
   div.awesomplete { display: block }
-  .input-group-btn .dropdown-btn { line-height: 30px }
+  .input-group-btn .dropdown-btn { line-height: 30px; 
+                                   vertical-align: bottom }
   .input-group-btn { display: table-cell }
   div.awesomplete ul { font-size: smaller }
   div.awesomplete ul li p { display: block; 
@@ -84,8 +85,8 @@
   .hide-not-found div.awesomplete .awe-not-found { border-color: lightblue }
 
   /* style examples */
-  .au   { margin-top: -6px; }
-  .hint { margin-bottom: 10px; }
+  .au   { margin-top: -6px }
+  .hint { margin-bottom: 10px }
   .example { margin-top: 40px }
   #awe-track-artists ul { margin-top: 0 }
   .album { min-height: 200px }
@@ -101,9 +102,8 @@
   .caret {
 	  border-top: 4px dashed;
 	  border-right: 4px solid transparent;
-	  border-left: 4px solid transparent;
+	  border-left: 4px solid transparent
   }
-  
 
 </style>
 </head>
@@ -170,7 +170,7 @@
             <li>Custom search filter.
             <li>Custom text highlighter.
           </ul>
-          Obviously we cannot load all artists known by itunes in the browsers memory, so that's why we use here
+          Obviously we cannot load all artists known by iTunes in the browsers memory, so that's why we use here
           dynamic data loading. The search starts if 3 characters are entered.
         </div>
         <div class="col-sm-12 hint">
@@ -293,7 +293,7 @@
 
     <div class="row odd">
       <div class="col-sm-12 eex">
-        The creation of the Awesomplete object below is almost the same as in the 'itunes artist search' example.
+        The creation of the Awesomplete object below is almost the same as in the 'iTunes artist search' example.
         <p class="language-label">EEx
         <pre class="language-markup"><code >&lt;%= copy_to_id(:user, :track1, "collectionName", "#awe-track-album") %&gt;
 &lt;%= copy_to_id(:user, :track1, "artistName", "#awe-track-artists") %&gt;
@@ -363,8 +363,6 @@ AwesompleteUtil.start('#user_track1',
             <li>Combobox.
             <li>Use remote service which returns everything; load all.
           </ul>
-        </div>
-        <div class="col-sm-12 hint">
         </div>
         <label class="control-label col-sm-2" for="user_combocountry">Country</label>
         <div class="col-sm-10 au">
