@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>AwesompleteUtil</title>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AwesompleteUtil</title>
 <link rel="stylesheet" href="https://leaverou.github.io/awesomplete/prism/prism.css"/>
 <link rel="stylesheet" href="https://getbootstrap.com/dist/css/bootstrap.min.css"/>
 <link rel="stylesheet" href="css/awesomplete.css"/>
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <script src="js/awesomplete.min.js"></script>
 <script src="js/awesomplete-util.min.js"></script>
 <style>
@@ -725,7 +726,8 @@ AwesompleteUtil.start('#user_track1',
        name="user[multimail]" type="text" /&gt;</code></pre>
         </div>
         <div class="col-sm-12 js">
-          This examples uses random names from <a href="https://uinames.com/api/" target=_blank>https://uinames.com/api/</a>.
+          This examples uses random names from <a href="https://uinames.com/api/" target=_blank
+                                                   rel="noopener noreferrer">https://uinames.com/api/</a>.
           The uinames2contacts function below constructs email addresses and a value that contains both name and email address.
           <p class="language-label">Javascript
           <pre class="language-javascript"><code><script>var uinames2contacts = function(names) {
@@ -806,7 +808,7 @@ AwesompleteUtil.start('#user_track1',
     div.awesomplete .awe-not-found { border: 2px solid red }
 
   &lt;/style&gt;</code></pre>
-           The awesomplete.css and awesomplete.min.js files are copied from <a href="https://github.com/LeaVerou/awesomplete" target="awe">Awesomplete</a> and tested in combination with AwesompleteUtil. If you copy these files to your own project, do not forget to also copy the javascript sourcemaps (<a href="https://nico-amsterdam.github.io/awesomplete-util/js/awesomplete.min.js.map" target=_blank>awesomplete.min.js.map</a> and <a href="https://nico-amsterdam.github.io/awesomplete-util/js/awesomplete-util.min.js.map" target=_blank>awesomplete-util.min.js.map</a>).
+           The awesomplete.css and awesomplete.min.js files are copied from <a href="https://github.com/LeaVerou/awesomplete" target="awe">Awesomplete</a> and tested in combination with AwesompleteUtil. If you copy these files to your own project, do not forget to also copy the javascript sourcemaps (<a href="https://nico-amsterdam.github.io/awesomplete-util/js/awesomplete.min.js.map" target=_blank rel="noopener noreferrer">awesomplete.min.js.map</a> and <a href="https://nico-amsterdam.github.io/awesomplete-util/js/awesomplete-util.min.js.map" target=_blank rel="noopener noreferrer">awesomplete-util.min.js.map</a>).
            <p>
            <h3>CSS Style</h3>
            Customize the above styling for your own needs. The CSS class 'awe-found' is put on the input control when the input exactly matches the value of an list item. The CSS class 'awe-not-found' is put on the input control when the list closes because there are no more matching items.
