@@ -363,7 +363,7 @@ AwesompleteUtil.start('#user_track1',
           <pre class="language-javascript"><code><script>AwesompleteUtil.startClick('#awe_btn_user_combocountry',
     AwesompleteUtil.start('#user_combocountry',
      {
-      url: 'https://restcountries.eu/rest/v1/all', 
+      url: 'restcountries.com/v3.1/all', 
       loadall: true, 
       prepop: true
      }, 
@@ -481,7 +481,7 @@ AwesompleteUtil.start('#user_track1',
   AwesompleteUtil.startCopy('#user_country_iso', 'name', '#awe-country-name');
   AwesompleteUtil.start('#user_country_iso',
    {
-    url: 'https://restcountries.eu/rest/v1/alpha/',
+    url: 'restcountries.com/v3.1/alpha/',
     limit: 0,
     ajax: ajax404
    }, 
@@ -620,7 +620,7 @@ AwesompleteUtil.start('#user_track1',
    }
   );
 
-  AwesompleteUtil.ajax('https://restcountries.eu/rest/v1/all', '', '', 
+  AwesompleteUtil.ajax('https://restcountries.com/v3.1/all', '', '', 
     function(e) {
       var xhr = this, list;
       if (xhr.status === 200) {
@@ -726,18 +726,18 @@ AwesompleteUtil.start('#user_track1',
        name="user[multimail]" type="text" /&gt;</code></pre>
         </div>
         <div class="col-sm-12 js">
-          This examples uses random names from <a href="https://uinames.com/api/" target=_blank
-                                                   rel="noopener noreferrer">https://uinames.com/api/</a>.
+          This examples uses random names from <a href="http://names.drycodes.com/" target=_blank
+                                                   rel="noopener noreferrer">http://names.drycodes.com/</a>.
           The uinames2contacts function below constructs email addresses and a value that contains both name and email address.
           <p class="language-label">Javascript
           <pre class="language-javascript"><code><script>var uinames2contacts = function(names) {
     var email_result = {},
         result_list = [],
-        transform_names = function(item) {
+        transform_names = function(name) {
           var contact = {};
-          contact.name = item.name + ' ' + item.surname;
-          contact.email = item.name.toLowerCase() + '.' + 
-                          item.surname.toLowerCase() + '@acme.com';
+          contact.name = name.replace('_', ' ');
+          contact.email = name.toLowerCase().replace('_', '.') + 
+                          '@acme.com';
           contact.value = contact.name + ' <' + contact.email + '>';
           result_list.push(contact);
         };
@@ -754,7 +754,7 @@ AwesompleteUtil.start('#user_track1',
           <p class="language-label">Javascript
           <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_multimail',
    { 
-    url: 'https://uinames.com/api/?amount=100',
+    url: 'http://names.drycodes.com/100?nameOptions=girl_names',
     convertResponse: uinames2contacts,
     loadall: true,
     convertInput: function(input) {
