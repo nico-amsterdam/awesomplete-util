@@ -709,7 +709,7 @@ AwesompleteUtil.start('#user_track1',
             </ul>
           </div>
           <div class="col-sm-12 hint">
-             Enter an email address (they are all from acme.com):
+             Enter an email address (they are all from starwars.com):
           </div>
           <label class="control-label col-sm-2" for="user_multimail">Email</label>
           <div class="col-sm-10 au">
@@ -726,18 +726,17 @@ AwesompleteUtil.start('#user_track1',
        name="user[multimail]" type="text" /&gt;</code></pre>
         </div>
         <div class="col-sm-12 js">
-          This examples uses random names from <a href="http://names.drycodes.com/" target=_blank
-                                                   rel="noopener noreferrer">http://names.drycodes.com/</a>.
-          The uinames2contacts function below constructs email addresses and a value that contains both name and email address.
+          This examples uses Starwars names from a github repository.
+          The names2contacts function below constructs email addresses and a value that contains both name and email address.
           <p class="language-label">Javascript
-          <pre class="language-javascript"><code><script>var uinames2contacts = function(names) {
+          <pre class="language-javascript"><code><script>var names2contacts = function(names) {
     var email_result = {},
         result_list = [],
         transform_names = function(name) {
           var contact = {};
           contact.name = name;
           contact.email = name.toLowerCase().replace(' ', '.') + 
-                          '@acme.com';
+                          '@starwars.com';
           contact.value = contact.name + ' <' + contact.email + '>';
           result_list.push(contact);
         };
@@ -750,12 +749,12 @@ AwesompleteUtil.start('#user_track1',
           In this example the 'value' field contains both name and email address.
           By default only the matching text in the first line of the label is highlighted. 
           The itemMarkAll function highlights all matching text in the suggestion list.
-          Try for example to search on '@acme.com' to see what it highlights with or without this function. 
+          Try for example to search on '@starwars.com' to see what it highlights with or without this function. 
           <p class="language-label">Javascript
           <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_multimail',
    { 
     url: 'https://raw.githubusercontent.com/kentcdodds/starwars-names/main/src/starwars-names.json',
-    convertResponse: uinames2contacts,
+    convertResponse: names2contacts,
     loadall: true,
     convertInput: function(input) {
       return input.replace(/[;,]\s*$/, '').match(/[^;,]*$/)[0].trim().toLowerCase();
