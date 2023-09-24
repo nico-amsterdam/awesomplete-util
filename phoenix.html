@@ -876,7 +876,7 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
           </ul>
         </div>
         <div class="col-sm-12 hint">
-           Enter an email address (they are all from acme.com):
+           Enter an email address (they are all from starwars.com):
         </div>
         <label class="control-label col-sm-2" for="user_multimail">Email</label>
         <div class="col-sm-10 au">
@@ -896,8 +896,8 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
    class: "form-control"
   ],
   %{
-     url:    "https://uinames.com/api/?amount=100",
-     convertResponse: "uinames2contacts",
+     url:    "https://raw.githubusercontent.com/kentcdodds/starwars-names/main/src/starwars-names.json",
+     convertResponse: "names2contacts",
      loadall : true,
      minChars: 1,
      maxItems: 7,
@@ -911,21 +911,19 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
         In this example the 'value' field contains both name (label) and email address (descr).
         By default the description is not highlighted. The itemMarkAll function above
         highlights all matching text in the suggestion list, including the description.
-        Try for example to search on '@acme.com' to see what it highlights with or without this function. 
+        Try for example to search on '@starwars.com' to see what it highlights with or without this function. 
       </div>
       <div class="col-sm-12 js">
-          This examples uses random names from <a href="https://uinames.com/api/" target=_blank
-                                                   rel="noopener noreferrer">https://uinames.com/api/</a>.
-        The uinames2contacts function below constructs email addresses and a value that contains both name and email address.
+          This example uses Star Wars names from a github repository.
+        The names2contacts function below constructs email addresses and a value that contains both name and email address.
         <p class="language-label">Javascript
-        <pre class="language-javascript"><code><script>var uinames2contacts = function(names) {
+        <pre class="language-javascript"><code><script>var names2contacts = function(names) {
   var email_result = {},
       result_list = [],
-      transform_names = function(item) {
+      transform_names = function(name) {
         var contact = {};
-        contact.name = item.name + ' ' + item.surname;
-        contact.email = item.name.toLowerCase() + '.' + 
-                        item.surname.toLowerCase() + '@acme.com';
+        contact.name = name;
+        contact.email = name.toLowerCase().replace(' ', '.') + '@starwars.com';
         contact.value = contact.name + ' <' + contact.email + '>';
         result_list.push(contact);
       };
@@ -942,8 +940,8 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
         <p class="language-label">Generated javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_multimail',
  { 
-  url: 'https://uinames.com/api/?amount=100',
-  convertResponse: uinames2contacts,
+  url: 'https://raw.githubusercontent.com/kentcdodds/starwars-names/main/src/starwars-names.json',
+  convertResponse: names2contacts,
   loadall: true,
   convertInput: function(input) {
     return input.replace(/[;,]\s*$/, '').match(/[^;,]*$/)[0].trim().toLowerCase();
