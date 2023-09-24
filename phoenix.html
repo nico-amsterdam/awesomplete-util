@@ -406,7 +406,7 @@ AwesompleteUtil.start('#user_track1',
     class: "form-control"
   ],                                                                                                                    
   %{                                                                                                                    
-    url: "https://restcountries.eu/rest/v1/all",
+    url: "https://restcountries.com/v2/all",
     loadall: true,
     prepop: true,
     minChars: 1,
@@ -426,7 +426,7 @@ AwesompleteUtil.start('#user_track1',
         <pre class="language-javascript"><code><script>AwesompleteUtil.startClick('#awe_btn_user_combocountry',
   AwesompleteUtil.start('#user_combocountry',
    {
-    url: 'https://restcountries.eu/rest/v1/all', 
+    url: 'https://restcountries.com/v2/all', 
     loadall: true, 
     prepop: true
    }, 
@@ -561,7 +561,7 @@ AwesompleteUtil.start('#user_track1',
     autocomplete: "off"
  ],
  %{
-    url: "https://restcountries.eu/rest/v1/alpha/",
+    url: "https://restcountries.com/v2/alpha/",
     value: "alpha3Code",
     limit: 0,
     minChars: 3,
@@ -583,7 +583,7 @@ AwesompleteUtil.start('#user_track1',
         <pre class="language-javascript"><code><script>AwesompleteUtil.startCopy('#user_country_iso', 'name', '#awe-country-name');
 AwesompleteUtil.start('#user_country_iso',
  {
-  url: 'https://restcountries.eu/rest/v1/alpha/',
+  url: 'https://restcountries.com/v2/alpha/',
   limit: 0,
   ajax: ajax404
  }, 
@@ -774,7 +774,7 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
       <div class="col-sm-12 js">
         The script below loads all countries and fills both Awesomplete objects with the result.
         <p class="language-label">Javascript
-        <pre class="language-javascript"><code><script>AwesompleteUtil.ajax('https://restcountries.eu/rest/v1/all', '', '', 
+        <pre class="language-javascript"><code><script>AwesompleteUtil.ajax('https://restcountries.com/v2/all', '', '', 
   function(e) {
     var xhr = this, list;
     if (xhr.status === 200) {
