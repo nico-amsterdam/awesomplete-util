@@ -735,8 +735,8 @@ AwesompleteUtil.start('#user_track1',
         result_list = [],
         transform_names = function(name) {
           var contact = {};
-          contact.name = name.replace('_', ' ');
-          contact.email = name.toLowerCase().replace('_', '.') + 
+          contact.name = name;
+          contact.email = name.toLowerCase().replace(' ', '.') + 
                           '@acme.com';
           contact.value = contact.name + ' <' + contact.email + '>';
           result_list.push(contact);
@@ -754,7 +754,7 @@ AwesompleteUtil.start('#user_track1',
           <p class="language-label">Javascript
           <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_multimail',
    { 
-    url: 'https://names.drycodes.com/100?nameOptions=girl_names',
+    url: 'https://raw.githubusercontent.com/kentcdodds/starwars-names/main/src/starwars-names.json',
     convertResponse: uinames2contacts,
     loadall: true,
     convertInput: function(input) {
