@@ -103,7 +103,7 @@
               border: 3px solid blue }
   .html, .js, .eex { margin-top: 1em }
   .caret {
-	  border-top: 4px dashed;
+	  /* border-top: 4px dashed; */
 	  border-right: 4px solid transparent;
 	  border-left: 4px solid transparent;
 	  pointer-events: none
@@ -285,11 +285,11 @@
         </div>
       </div>
       <div class="row odd artists">
-         <label class="control-label text-sm-right col-sm-2">Artists</label>
+         <span class="control-label text-sm-right col-sm-2">Artists</span>
          <div class="col-sm-10" id="awe-track-artists"></div>
       </div>
       <div class="row odd album"> 
-         <label class="control-label text-sm-right col-sm-2">Album</label>
+         <span class="control-label text-sm-right col-sm-2">Album</span>
          <div class="col-sm-3" id="awe-track-album"></div>
          <img src="" id="awe-track-album-img" alt="album image" width="200px"/>
       </div>
@@ -376,7 +376,7 @@ AwesompleteUtil.start('#user_track1',
               <input class="form-control" id="user_combocountry" name="user[combocountry]" type="text">
               <span class="input-group-btn">
                  <button class="dropdown-btn" id="awe_btn_user_combocountry" type="button">
-                    <span class="caret"></span>
+                    <span class="caret">˅</span>
                  </button>
               </span>
            </span>
