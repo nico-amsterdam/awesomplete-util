@@ -103,12 +103,8 @@
               border: 3px solid blue }
   .html, .js, .eex { margin-top: 1em }
   .caret {
-	  /* border-top: 4px dashed; */
-	  border-right: 4px solid transparent;
-	  border-left: 4px solid transparent;
-	  pointer-events: none
-  }
-
+	  border: 3px solid lightgray;
+	  pointer-events: none }
 </style>
 </head>
 <body>
@@ -375,7 +371,7 @@ AwesompleteUtil.start('#user_track1',
            <span class="table">
               <input class="form-control" id="user_combocountry" name="user[combocountry]" type="text">
               <span class="input-group-btn">
-                 <button class="dropdown-btn" id="awe_btn_user_combocountry" type="button">
+                 <button class="dropdown-btn" id="awe_btn_user_combocountry" type="button" tabindex="-1">
                     <span class="caret">&#9660;</span>
                  </button>
               </span>
@@ -389,7 +385,7 @@ AwesompleteUtil.start('#user_track1',
         Add a combobox button after the awesomplete control:
         <p class="language-label">HTML
         <pre class="language-markup"><code >&lt;span class="input-group-btn"&gt;
-   &lt;button class="dropdown-btn" id="awe_btn_user_combocountry" type="button"&gt;
+   &lt;button class="dropdown-btn" id="awe_btn_user_combocountry" type="button" tabindex="-1"&gt;
       &lt;span class="caret"&gt;&amp;#9660;&lt;/span&gt;
    &lt;/button&gt;
 &lt;/span&gt;</code></pre>

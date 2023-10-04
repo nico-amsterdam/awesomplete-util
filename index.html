@@ -84,11 +84,8 @@
               border: 3px solid blue }
   .html, .js, .awe, h3 { margin-top: 1em }
   .caret {
-	  /* border-top:   4px dashed; */
-	  border-right: 4px solid transparent;
-	  border-left:  4px solid transparent;
-	  pointer-events: none
-  }
+	  border: 3px solid lightgray;
+	  pointer-events: none }
   th, td { vertical-align: top }
   tbody, td { border: 1px solid black; padding: 5px 8px }
 
@@ -335,7 +332,7 @@ AwesompleteUtil.start('#user_track1',
              <span class="table">
                 <input class="form-control" id="user_combocountry" name="user[combocountry]" type="text">
                 <span class="input-group-btn">
-                   <button class="dropdown-btn" id="awe_btn_user_combocountry" type="button">
+                   <button class="dropdown-btn" id="awe_btn_user_combocountry" type="button" tabindex="-1">
                       <span class="caret">&#9660;</span>
                    </button>
                 </span>
@@ -351,7 +348,7 @@ AwesompleteUtil.start('#user_track1',
           <pre class="language-markup"><code >&lt;input id="user_combocountry" class="form-control" 
        name="user[combocountry]" type="text" /&gt;
   &lt;span class="input-group-btn"&gt;
-     &lt;button class="dropdown-btn" id="awe_btn_user_combocountry" type="button"&gt;
+     &lt;button class="dropdown-btn" id="awe_btn_user_combocountry" type="button" tabindex="-1"&gt;
         &lt;span class="caret"&gt;&amp;#9660;&lt;/span&gt;
      &lt;/button&gt;
   &lt;/span&gt;</code></pre>
