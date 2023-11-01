@@ -496,7 +496,7 @@ AwesompleteUtil.start('#user_track1',
  {
    data: function(rec, input) {
      var data = { label: rec['value']+'<p>'+(rec['label'] || ''), value: rec['value'] }, 
-       before = input.slice(0, input.indexOf('@')) + '@'; 
+       before = (input.slice(0, input.indexOf('@')) + '@').trim(); 
      return {label: before + data.label, value: before + data.value}; 
    },
    filter: AwesompleteUtil.filterStartsWith, 
@@ -778,7 +778,8 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
     if (xhr.status === 200) {
       list = JSON.parse(xhr.responseText);
       AwesompleteUtil.load(awe_user_country, list, true);
-      AwesompleteUtil.load(awe_user_capital, list, true);
+      // The filter below removes countries without capital.
+      AwesompleteUtil.load(awe_user_capital, list.filter(function(e) { return e.capital }), true);
     }
    }
 );</script></code></pre>
