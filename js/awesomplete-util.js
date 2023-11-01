@@ -52,11 +52,11 @@ var AwesompleteUtil = function() {
         function _matchValue(awe, prepop) {
           var input = awe.input,            /* the input field */
               classList = input.classList,
-              utilprops = awe.utilprops,    /* extra properties piggybacked on Awesomplete object */ 
+              utilprops = awe.utilprops,    /* extra properties piggybacked on Awesomplete object */
               selected = utilprops.selected,  /* the exact selected Suggestion with label and value */
               val = utilprops.convertInput.call(awe, input.value),  /* trimmed lowercased value */
               opened = awe.opened,          /* is the suggestion list opened? */
-              result = [],                  /* matches with value */ 
+              result = [],                  /* matches with value */
               list = awe._list,             /* current list of suggestions */
               suggestion, fake, rec, j;     /* function scoped variables */
           utilprops.prepop = false;         /* after the first call it's not a prepopulation phase anymore */
@@ -78,7 +78,7 @@ var AwesompleteUtil = function() {
               fake = {input: {value: ''}};
               // Determine how this suggestion would look like if it is replaced in the input field,
               // it is an exact match if somebody types exactly that.
-              // Use the fake input here. fake.input.value will contain the result of the replace function. 
+              // Use the fake input here. fake.input.value will contain the result of the replace function.
               awe.replace.call(fake, suggestion);
               // Trim and lowercase also the fake input and compare that with the currently typed-in value.
               if (utilprops.convertInput.call(awe, fake.input.value) === val) {
@@ -100,7 +100,7 @@ var AwesompleteUtil = function() {
               // if there is an exact match
               if (result.length > 0) {
                 // if prepopulation phase (initial/autofill value); not triggered by user input
-                if (prepop) {  
+                if (prepop) {
                   _fire(input, _AWE_PREPOP, result);
                 } else if (utilprops.changed) {  /* if input is changed */
                   utilprops.prevSelected = result;  /* new result      */
@@ -160,11 +160,11 @@ var AwesompleteUtil = function() {
         // - or there might be more specific results because the limit was reached.
         function _ifNeedListUpdate(awe, val, queryVal) {
           var utilprops = awe.utilprops;
-          return (!utilprops.listQuery 
+          return (!utilprops.listQuery
                    ||
                   (!utilprops.loadall && /* with loadall, if there is a result, there is no need for new lists */
-                   val.lastIndexOf(queryVal, 0) === 0 && 
-                   (val.lastIndexOf(utilprops.listQuery, 0) !== 0 || 
+                   val.lastIndexOf(queryVal, 0) === 0 &&
+                   (val.lastIndexOf(utilprops.listQuery, 0) !== 0 ||
                      ('number' === typeof utilprops.limit && awe._list.length >= utilprops.limit))));
         }
 
@@ -182,7 +182,7 @@ var AwesompleteUtil = function() {
               xhr = t.xhr,
               queryVal = t.queryVal,
               val = awe.utilprops.val,
-              data, 
+              data,
               prop;
           if (xhr.status === 200) {
             data = JSON.parse(xhr.responseText);
@@ -221,9 +221,9 @@ var AwesompleteUtil = function() {
             if (_ifNeedListUpdate(awe, val, val)) {
               xhr = new XMLHttpRequest();
               awe.utilprops.ajax.call(awe,
-                                  awe.utilprops.url, 
+                                  awe.utilprops.url,
                                   awe.utilprops.urlEnd,
-                                  awe.utilprops.loadall ? '' : val, 
+                                  awe.utilprops.loadall ? '' : val,
                                   _onLoad.bind({awe: awe, xhr: xhr, queryVal: val}),
                                   xhr
                                 );
@@ -293,7 +293,7 @@ var AwesompleteUtil = function() {
         }
 
         // Function to copy a field from the selected autocomplete item to another DOM element.
-        function _copyFun(e) { 
+        function _copyFun(e) {
           var t = this,
               sourceId  = t.sourceId,
               dataField = t.dataField,
@@ -324,7 +324,7 @@ var AwesompleteUtil = function() {
                 } else if ('undefined' !== typeof elem.src) {  /* is it an image tag? */
                   elem.src = val;
                 } else {
-                  // use innerHTML to set the new value, because value might intentionally contain HTML markup 
+                  // use innerHTML to set the new value, because value might intentionally contain HTML markup
                   elem.innerHTML = val;
                 }
               }
@@ -335,7 +335,7 @@ var AwesompleteUtil = function() {
         // click function for the combobox button
         function _clickFun(e) {
           var t = this,
-              awe, 
+              awe,
               minChars;
           if (e.target === $(t.btnId)) {
             e.preventDefault();
@@ -357,23 +357,23 @@ var AwesompleteUtil = function() {
         // Return text with mark tags arround matching input. Don't replace inside <HTML> tags.
         // When startsWith is true, mark only the matching begin text.
         function _mark(text, input, startsWith) {
-          var searchText = $.regExpEscape(_htmlEscape(input).trim()), 
+          var searchText = $.regExpEscape(_htmlEscape(input).trim()),
               regExp = searchText.length <= 0 ? null : startsWith ? RegExp('^' + searchText, 'i') : RegExp('(?!<[^>]+?>)' + searchText + '(?![^<]*?>)', 'gi');
           return text.replace(regExp, '<mark>$&</mark>');
         }
 
         // Recursive jsonFlatten function
         function _jsonFlatten(result, cur, prop, level, opts) {
-          var root = opts.root,  /* filter resulting json tree on root property (optional) */ 
-              value = opts.value, /* search for this property and copy it's value to a new 'value' property 
-                                     (optional, do not specify it if the json array contains plain strings) */ 
+          var root = opts.root,  /* filter resulting json tree on root property (optional) */
+              value = opts.value, /* search for this property and copy it's value to a new 'value' property
+                                     (optional, do not specify it if the json array contains plain strings) */
               label = opts.label || opts.value, /* search this property and copy it's value to a new 'label' property.
                                      If there is a 'opts.value' field but no 'opts.label', assume label is the same. */
               isEmpty = true, arrayResult = [], j;
           // at top level, look if there is a property which starts with root (if specified)
           if (level === 0 && root && prop && (prop + '.').lastIndexOf(root + '.', 0) !== 0 && (root + '.').lastIndexOf(prop + '.', 0) !== 0) {
-            return result;        
-          } 
+            return result;
+          }
           // handle current part of the json tree
           if (Object(cur) !== cur) {
             if (prop) {
@@ -398,12 +398,12 @@ var AwesompleteUtil = function() {
             if (isEmpty && prop) result[prop] = {};
           }
           // for arrays at top and subtop level
-          if (level < 2 && prop) { 
+          if (level < 2 && prop) {
             // if a 'value' is specified and found a mathing property, create extra 'value' property.
             if (value && (prop + '.').lastIndexOf(value + '.', 0) === 0) { result['value'] = result[prop]; }
             // if a 'label' is specified and found a mathing property, create extra 'label' property.
             if (label && (prop + '.').lastIndexOf(label + '.', 0) === 0) { result['label'] = result[prop]; }
-          }    
+          }
           if (level === 0) {
             // Make sure that both value and label properties exist, even if they are nil.
             // This is handy with limit 0 or 1 when the result doesn't have to contain an array.
@@ -426,14 +426,14 @@ var AwesompleteUtil = function() {
           elem.removeEventListener(_AWE_LOAD,   boundMatch);
           elem.removeEventListener(_AWE_CLOSE,  boundMatch);
           elem.removeEventListener('blur',      boundMatch);
-          elem.removeEventListener('input',     boundOnInput); 
+          elem.removeEventListener('input',     boundOnInput);
           elem.removeEventListener('keydown',   boundOnKeydown);
         }
 
     //
     // public methods
     //
-    
+
     return {
 
         // ajax call for url + val + urlEnd. fn is the callback function. xhr parameter is optional.
@@ -505,9 +505,9 @@ var AwesompleteUtil = function() {
               boundOnKeydown = _onKeydown.bind(awe),
               boundOnInput   = _onInput.bind(awe),
               boundSelect    = _select.bind(awe),
-              boundDetach    = _detach.bind({awe: awe, 
-                                             boundMatch:     boundMatch, 
-                                             boundOnInput:   boundOnInput, 
+              boundDetach    = _detach.bind({awe: awe,
+                                             boundMatch:     boundMatch,
+                                             boundOnInput:   boundOnInput,
                                              boundOnKeydown: boundOnKeydown,
                                              boundSelect:    boundSelect
                                             }),
@@ -573,7 +573,7 @@ var AwesompleteUtil = function() {
         },
 
         // Stop copy function. Detach it from event listeners.
-        // The optional listenEl must be the same element that was used during startCopy/attachCopyFun; 
+        // The optional listenEl must be the same element that was used during startCopy/attachCopyFun;
         // in general: Awesomplete.$(sourceId). listenEl defaults to document.body.
         detachCopyFun: function(fun, listenEl) {
           listenEl = listenEl || document.body;
@@ -591,7 +591,7 @@ var AwesompleteUtil = function() {
         // The optional listenEl is the element that listens, defaults to document.body.
         attachClickFun: function(fun, listenEl) {
           listenEl = listenEl || document.body;
-          listenEl.addEventListener('click', fun); 
+          listenEl.addEventListener('click', fun);
           return fun;
         },
 
@@ -606,27 +606,27 @@ var AwesompleteUtil = function() {
         // in general: Awesomplete.$(btnId). listenEl defaults to document.body.
         detachClickFun: function(fun, listenEl) {
           listenEl = listenEl || document.body;
-          listenEl.removeEventListener('click', fun); 
+          listenEl.removeEventListener('click', fun);
           return fun;
         },
 
         // filter function as specified in Awesomplete. Filters suggestion list on items containing input value.
-        // Awesomplete.FILTER_CONTAINS filters on data.label, however 
+        // Awesomplete.FILTER_CONTAINS filters on data.label, however
         // this function filters on value and not on the shown label which may contain markup.
-        filterContains: function(data, input) { 
+        filterContains: function(data, input) {
           return Awesomplete.FILTER_CONTAINS(data.value, input);
         },
 
         // filter function as specified in Awesomplete. Filters suggestion list on matching begin text.
-        // Awesomplete.FILTER_STARTSWITH filters on data.label, however 
+        // Awesomplete.FILTER_STARTSWITH filters on data.label, however
         // this function filters on value and not on the shown label which may contain markup.
-        filterStartsWith: function(data, input) { 
+        filterStartsWith: function(data, input) {
           return Awesomplete.FILTER_STARTSWITH(data.value, input);
         },
 
-        // Flatten JSON. 
+        // Flatten JSON.
         // { "a":{"b":{"c":[{"d":{"e":1}}]}}} becomes {"a.b.c":[{"d.e":1}]}.
-        // This function can be bind to configure it with extra options; 
+        // This function can be bind to configure it with extra options;
         //   bind({root: '<root path>', value: '<value property>', label: '<label property>'})
         jsonFlatten: function(data) {
           // start json tree recursion
@@ -634,3 +634,8 @@ var AwesompleteUtil = function() {
         }
     };
 }();
+
+// Expose AwesompleteUtil as a CommonJS module
+if (typeof module === "object" && module.exports) {
+	module.exports = AwesompleteUtil;
+}
