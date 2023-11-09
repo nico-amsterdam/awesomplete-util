@@ -639,3 +639,8 @@ var AwesompleteUtil = function() {
 if (typeof module === "object" && module.exports) {
 	module.exports = AwesompleteUtil;
 }
+
+// Make sure to export AwesompleteUtil on self when in a browser
+if (typeof self !== "undefined") {
+	self.AwesompleteUtil = AwesompleteUtil;
+}
