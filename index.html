@@ -226,8 +226,10 @@
         </div>
         <div class="col-sm-12 awe">
           Below the Awesomplete object is created with the filter and item functions defined above.
-          A limit of 15 is specified; if 15 or more results are returned by the server the code assumes that there
-          are more results, so it will re-query if more characters are typed to get more refined results.
+          A limit of -1 is specifiedi to force it to require of more characters are typed. 
+          The service search for whole words (like Elastic), so when a part of the word is entered and doesn't result in hits,
+          this doesn't mean that there wouldn't be more results if more characters are typed.
+          For example: search for 'jackso' results in 1 hit, but 'jackson' gives a lot more results.
           <p class="language-label">Javascript
           <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_artist1',
  {  /* util options */
@@ -293,7 +295,7 @@ AwesompleteUtil.startCopy('#user_track1', 'artworkUrl100', '#awe-track-album-img
 AwesompleteUtil.start('#user_track1', 
    {
     url: 'https://itunes.apple.com/search?entity=song&attribute=songTerm&media=music&limit=10&country=gb&sort=songTerm&term=',
-    limit: 10
+    limit: -1
    },
    {
     minChars: 4, 
@@ -932,7 +934,7 @@ AwesompleteUtil.start('#user_track1',
                   <td>Convert JSON response from ajax calls. This function is called with the parsed JSON, and allows conversion of the data before further processing. Default: nil - no conversion.
                <tr>
                   <td>limit
-                  <td>number. If a limit is specified, and the number of items returned by the server is equal or more as this limit, the AwesompleteUtil code assumes that there are more results, so it will re-query if more characters are typed to get more refined results. The limit:1 tells that not more than 1 result is expected, so the json service doesn’t have to return an array. With limit:0 it will always re-query if more characters are typed. Default: no limit 
+                  <td>number. If a limit is specified, and the number of items returned by the server is equal or more as this limit, the AwesompleteUtil code assumes that there are more results, so it will re-query if more characters are typed to get more refined results. The limit:1 tells that not more than 1 result is expected, so the json service doesn’t have to return an array. With limit:0 it will always re-query if more characters are typed and the result doesn't have to be an array either. Limit:-1 will always requery and the expected result is an array. Default: no limit 
                <tr>
                   <td>loadall
                   <td>true/false. true if the data list contains all items. The input value will not be used in ajax calls. Default: false 
