@@ -29,6 +29,8 @@ var AwesompleteUtil = function() {
         _CLS_NOT_FOUND = 'awe-not-found',
         $ = Awesomplete.$; /* shortcut for document.querySelector */
 
+	var _AWE_TIMER; // for debouncing
+	
     //
     // private functions
     //
@@ -261,8 +263,17 @@ var AwesompleteUtil = function() {
               _restart(awe);
             }
             if (val.length >= awe.minChars) {
-              // lookup suggestions and validate input
-              _lookup(awe, val);
+              if ('number' === typeof awe.utilprops.debounce && 0 < awe.utilprops.debounce) {
+                // debounced lookup
+                clearTimeout(_AWE_TIMER)				
+                _AWE_TIMER = setTimeout(() => {
+                  // lookup suggestions and validate input
+                  _lookup(awe, val);
+                }, awe.utilprops.debounce)
+              } else {
+                // lookup instantly
+                _lookup(awe, val);
+              }
             }
           }
           return awe;
