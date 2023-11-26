@@ -906,7 +906,7 @@ AwesompleteUtil.start('#user_track1',
                  <td>filter function (as specified in <a href="http://leaverou.github.io/awesomplete/index.html#extensibility">Awesomplete</a>) to filter suggestions. input is searched as start text in data.value. Notice that Awesomplete.FILTER_STARTWITH by default searches on data.label.
                <tr>
                  <td><code>jsonFlatten(data)</code>
-                 <td>function to flatten JSON. Notice that you can supply extra options via jsonFlatten.bind(opts) where opts is a json objects with options 'root', 'value' and 'label'.
+                 <td>function to flatten JSON. Notice that you can supply extra options via jsonFlatten.bind(opts) where opts is a json object with options 'root', 'value' and 'label'.
                </tr>
              </tbody>
            </table>
@@ -933,8 +933,12 @@ AwesompleteUtil.start('#user_track1',
                   <td>convertResponse
                   <td>Convert JSON response from ajax calls. This function is called with the parsed JSON, and allows conversion of the data before further processing. Default: nil - no conversion.
                <tr>
+                  <td>debounce
+                  <td>number. Time in milliseconds to wait for additional user input before doing the ajax call to retrieve suggestions. It limits the rate at which the json service is called per user session.
+               <tr>
+               <tr>
                   <td>limit
-                  <td>number. If a limit is specified, and the number of items returned by the server is equal or more as this limit, the AwesompleteUtil code assumes that there are more results, so it will re-query if more characters are typed to get more refined results. The limit:1 tells that not more than 1 result is expected, so the json service doesn’t have to return an array. With limit:0 it will always re-query if more characters are typed and the result doesn't have to be an array either. Limit:-1 will always requery and the expected result is an array. Default: no limit 
+                  <td>number. If a limit is specified, and the number of items returned by the server is equal or more as this limit, the AwesompleteUtil code assumes that there are more results, so it will re-query if more characters are typed to get more refined results. The limit:1 tells that not more than 1 result is expected, so the json service doesn’t have to return an array. With limit:0 it will always re-query if more characters are typed and the result doesn't have to be an array either. Limit:-1 will always requery and the expected result is an array. When no limit is specified, the code assumes that all possible suggestions are returned based on the typed characters, and it will not re-query if more characters are typed. It uses the specified filter for the suggestions in the dropdown. Default: no limit 
                <tr>
                   <td>loadall
                   <td>true/false. true if the data list contains all items. The input value will not be used in ajax calls. Default: false 
