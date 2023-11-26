@@ -29,8 +29,6 @@ var AwesompleteUtil = function() {
         _CLS_NOT_FOUND = 'awe-not-found',
         $ = Awesomplete.$; /* shortcut for document.querySelector */
 
-	var _AWE_TIMER; // for debouncing
-	
     //
     // private functions
     //
@@ -148,6 +146,8 @@ var AwesompleteUtil = function() {
         // Handle selection event. State changes when an item is selected.
         function _select(ev) {
           var awe = this;
+          // cancel previous ajax call if it hasn't started yet.
+          clearTimeout(awe.utilprops.timeoutID)
           awe.utilprops.changed = true;      // yes, user made a change
           awe.utilprops.selected = ev.text;  // Suggestion object
         }
@@ -214,21 +214,31 @@ var AwesompleteUtil = function() {
             }
           }
         }
+        
+        function _ajax(awe, val) {
+          var xhr = new XMLHttpRequest();
+          awe.utilprops.ajax.call(awe,
+                              awe.utilprops.url,
+                              awe.utilprops.urlEnd,
+                              awe.utilprops.loadall ? '' : val,
+                              _onLoad.bind({awe: awe, xhr: xhr, queryVal: val}),
+                              xhr
+                            );
+        }
 
         // Perform suggestion list lookup for the current value and validate. Use ajax when there is an url specified.
-        function _lookup(awe, val) {
-          var xhr;
+        // Optional debounce parameter in milliseconds.
+        function _lookup(awe, val, debounce) {
           if (awe.utilprops.url) {
             // are we still interested in this response?
             if (_ifNeedListUpdate(awe, val, val)) {
-              xhr = new XMLHttpRequest();
-              awe.utilprops.ajax.call(awe,
-                                  awe.utilprops.url,
-                                  awe.utilprops.urlEnd,
-                                  awe.utilprops.loadall ? '' : val,
-                                  _onLoad.bind({awe: awe, xhr: xhr, queryVal: val}),
-                                  xhr
-                                );
+              if ('number' === typeof debounce && debounce > 0) {
+                // start ajax call after debounce value in milleseconds
+                awe.utilprops.timeoutID = setTimeout(_ajax.bind(null, awe, val), debounce)
+              } else {            
+                // call ajax instantly
+               _ajax(awe, val)
+              }
             } else {
               _matchValue(awe, awe.utilprops.prepop);
             }
@@ -252,6 +262,8 @@ var AwesompleteUtil = function() {
           awe.utilprops.prepop = prepop || false;
           // if value changed
           if (awe.utilprops.val !== val) {
+            // cancel previous ajax call if it hasn't started yet.
+            clearTimeout(awe.utilprops.timeoutID)
             // new value, clear previous selection
             awe.utilprops.selected = null;
             // yes, user made a change
@@ -263,17 +275,8 @@ var AwesompleteUtil = function() {
               _restart(awe);
             }
             if (val.length >= awe.minChars) {
-              if ('number' === typeof awe.utilprops.debounce && 0 < awe.utilprops.debounce) {
-                // debounced lookup
-                clearTimeout(_AWE_TIMER)				
-                _AWE_TIMER = setTimeout(() => {
-                  // lookup suggestions and validate input
-                  _lookup(awe, val);
-                }, awe.utilprops.debounce)
-              } else {
-                // lookup instantly
-                _lookup(awe, val);
-              }
+              // lookup suggestions and validate input
+              _lookup(awe, val, awe.utilprops.debounce);
             }
           }
           return awe;
@@ -349,6 +352,7 @@ var AwesompleteUtil = function() {
               awe,
               minChars;
           if (e.target === $(t.btnId)) {
+            e.preventDefault();
             awe = t.awe;
             // toggle open/close
             if (awe.ul.childNodes.length === 0 || awe.ul.hasAttribute('hidden')) {
@@ -551,6 +555,8 @@ var AwesompleteUtil = function() {
 
         // Stop AwesompleteUtil; detach event handlers from the Awesomplete object.
         detach: function(awe) {
+          // cancel previous ajax call if it hasn't started yet.
+          clearTimeout(awe.utilprops.timeoutID)
           if (awe.utilprops.detach) {
             awe.utilprops.detach();
             delete awe.utilprops.detach
@@ -561,50 +567,62 @@ var AwesompleteUtil = function() {
         // Create function to copy a field from the selected autocomplete item to another DOM element.
         // dataField can be null.
         createCopyFun: function(sourceId, dataField, targetId) {
-          return _copyFun.bind({sourceId: $(sourceId) || sourceId, dataField: dataField, targetId: $(targetId) || targetId});
+          return _copyFun.bind({sourceId: sourceId, dataField: dataField, targetId: $(targetId) || targetId});
         },
 
         // attach copy function to event listeners. prepop is optional and by default true.
         // if true the copy function will also listen to awesomplete-prepop events.
-        attachCopyFun: function(fun, prepop) {
+        // The optional listenEl is the element that listens, defaults to document.body.
+        attachCopyFun: function(fun, prepop, listenEl) {
           // prepop parameter defaults to true
           prepop = 'boolean' === typeof prepop ? prepop : true;
-          addEventListener(_AWE_MATCH, fun);
-          if (prepop) addEventListener(_AWE_PREPOP, fun);
+          listenEl = listenEl || document.body;
+          listenEl.addEventListener(_AWE_MATCH, fun);
+          if (prepop) listenEl.addEventListener(_AWE_PREPOP, fun);
           return fun;
         },
 
         // Create and attach copy function.
         startCopy: function(sourceId, dataField, targetId, prepop) {
-          return this.attachCopyFun(this.createCopyFun(sourceId, dataField, targetId), prepop);
+          var sourceEl = $(sourceId);
+          return this.attachCopyFun(this.createCopyFun(sourceEl || sourceId, dataField, targetId), prepop, sourceEl);
         },
 
         // Stop copy function. Detach it from event listeners.
-        detachCopyFun: function(fun) {
-          removeEventListener(_AWE_PREPOP, fun);
-          removeEventListener(_AWE_MATCH, fun);
+        // The optional listenEl must be the same element that was used during startCopy/attachCopyFun;
+        // in general: Awesomplete.$(sourceId). listenEl defaults to document.body.
+        detachCopyFun: function(fun, listenEl) {
+          listenEl = listenEl || document.body;
+          listenEl.removeEventListener(_AWE_PREPOP, fun);
+          listenEl.removeEventListener(_AWE_MATCH, fun);
           return fun;
         },
 
         // Create function for combobox button (btnId) to toggle dropdown list.
         createClickFun: function(btnId, awe) {
-          return _clickFun.bind({btnId: $(btnId) || btnId, awe : awe});
+          return _clickFun.bind({btnId: btnId, awe : awe});
         },
 
         // Attach click function for combobox to click event.
-        attachClickFun: function(fun) {
-          addEventListener('click', fun);
+        // The optional listenEl is the element that listens, defaults to document.body.
+        attachClickFun: function(fun, listenEl) {
+          listenEl = listenEl || document.body;
+          listenEl.addEventListener('click', fun);
           return fun;
         },
 
         // Create and attach click function for combobox button. Toggles open/close of suggestion list.
         startClick: function(btnId, awe) {
-          return this.attachClickFun(this.createClickFun(btnId, awe));
+          var btnEl = $(btnId);
+          return this.attachClickFun(this.createClickFun(btnEl || btnId, awe), btnEl);
         },
 
         // Stop click function. Detach it from event listeners.
-        detachClickFun: function(fun) {
-          removeEventListener('click', fun);
+        // The optional listenEl must be the same element that was used during startClick/attachClickFun;
+        // in general: Awesomplete.$(btnId). listenEl defaults to document.body.
+        detachClickFun: function(fun, listenEl) {
+          listenEl = listenEl || document.body;
+          listenEl.removeEventListener('click', fun);
           return fun;
         },
 
@@ -636,4 +654,9 @@ var AwesompleteUtil = function() {
 // Expose AwesompleteUtil as a CommonJS module
 if (typeof module === "object" && module.exports) {
 	module.exports = AwesompleteUtil;
+}
+
+// Make sure to export AwesompleteUtil on self when in a browser
+if (typeof self !== "undefined") {
+	self.AwesompleteUtil = AwesompleteUtil;
 }
