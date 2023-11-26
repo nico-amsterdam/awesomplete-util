@@ -146,6 +146,8 @@ var AwesompleteUtil = function() {
         // Handle selection event. State changes when an item is selected.
         function _select(ev) {
           var awe = this;
+          // cancel previous ajax call if it hasn't started yet.
+          clearTimeout(awe.utilprops.timeoutID)
           awe.utilprops.changed = true;      // yes, user made a change
           awe.utilprops.selected = ev.text;  // Suggestion object
         }
@@ -212,21 +214,31 @@ var AwesompleteUtil = function() {
             }
           }
         }
+        
+        function _ajax(awe, val) {
+          var xhr = new XMLHttpRequest();
+          awe.utilprops.ajax.call(awe,
+                              awe.utilprops.url,
+                              awe.utilprops.urlEnd,
+                              awe.utilprops.loadall ? '' : val,
+                              _onLoad.bind({awe: awe, xhr: xhr, queryVal: val}),
+                              xhr
+                            );
+        }
 
         // Perform suggestion list lookup for the current value and validate. Use ajax when there is an url specified.
-        function _lookup(awe, val) {
-          var xhr;
+        // Optional debounce parameter in milliseconds.
+        function _lookup(awe, val, debounce) {
           if (awe.utilprops.url) {
             // are we still interested in this response?
             if (_ifNeedListUpdate(awe, val, val)) {
-              xhr = new XMLHttpRequest();
-              awe.utilprops.ajax.call(awe,
-                                  awe.utilprops.url,
-                                  awe.utilprops.urlEnd,
-                                  awe.utilprops.loadall ? '' : val,
-                                  _onLoad.bind({awe: awe, xhr: xhr, queryVal: val}),
-                                  xhr
-                                );
+              if ('number' === typeof debounce && debounce > 0) {
+                // start ajax call after debounce value in milleseconds
+                awe.utilprops.timeoutID = setTimeout(_ajax.bind(null, awe, val), debounce)
+              } else {            
+                // call ajax instantly
+               _ajax(awe, val)
+              }
             } else {
               _matchValue(awe, awe.utilprops.prepop);
             }
@@ -250,6 +262,8 @@ var AwesompleteUtil = function() {
           awe.utilprops.prepop = prepop || false;
           // if value changed
           if (awe.utilprops.val !== val) {
+            // cancel previous ajax call if it hasn't started yet.
+            clearTimeout(awe.utilprops.timeoutID)
             // new value, clear previous selection
             awe.utilprops.selected = null;
             // yes, user made a change
@@ -262,7 +276,7 @@ var AwesompleteUtil = function() {
             }
             if (val.length >= awe.minChars) {
               // lookup suggestions and validate input
-              _lookup(awe, val);
+              _lookup(awe, val, awe.utilprops.debounce);
             }
           }
           return awe;
@@ -541,6 +555,8 @@ var AwesompleteUtil = function() {
 
         // Stop AwesompleteUtil; detach event handlers from the Awesomplete object.
         detach: function(awe) {
+          // cancel previous ajax call if it hasn't started yet.
+          clearTimeout(awe.utilprops.timeoutID)
           if (awe.utilprops.detach) {
             awe.utilprops.detach();
             delete awe.utilprops.detach
