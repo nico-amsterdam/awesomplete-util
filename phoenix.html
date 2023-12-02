@@ -234,6 +234,7 @@
   %{                                                                                                                    
     url:    "https://itunes.apple.com/search?entity=musicArtist&amp;attribute=artistTerm&amp;media=music&amp;limit=15&amp;country=gb&amp;sort=artistTerm&amp;term=",
     limit: -1,
+    debounce: 100,
     filter: "filterWords",  # javascript functions must be double quoted
     item: "itemWords",
     value: "artistName"
