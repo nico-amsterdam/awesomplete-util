@@ -225,11 +225,15 @@
     };</script></code></pre>
         </div>
         <div class="col-sm-12 awe">
-          Below the Awesomplete object is created with the filter and item functions defined above.
-          A limit of -1 is specifiedi to force it to requery of more characters are typed. 
-          The service search for whole words (like Elasticsearch), so when a part of the word is entered and doesn't result in hits,
-          this doesn't mean that there wouldn't be more results if more characters are typed.
+          Below the Awesomplete widget is created with the filter and item functions defined above.
+          A limit of -1 is specified to force it to requery if more characters are typed. 
+          The service search for whole words, so when a part of the word is entered and doesn't result in hits,
+          but this doesn't mean that there wouldn't be more results if more characters are typed.
           For example: search for 'jackso' results in 1 hit, but 'jackson' gives a lot more results.
+          <p>
+          The iTunes service doesn't support wildcards but others (like Elasticsearch) do. Assuming that the user
+          is completing the last word while typing, you could add a * wildcard at the end of the search url with the
+          <code> urlEnd: '*' </code> configuration to search the last word starting with the typed letters.
           <p class="language-label">Javascript
           <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_artist1',
  {  /* util options */
