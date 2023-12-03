@@ -220,10 +220,14 @@
       </div>
       <div class="col-sm-12 eex">
         Below the Awesomplete widget is created with the filter and item functions defined above.
-        A limit of -1 is specifiedi to force it to requery of more characters are typed. 
-        The service search for whole words (like Elasticsearch), so when a part of the word is entered and doesn't result in hits,
-        this doesn't mean that there wouldn't be more results if more characters are typed.
+        A limit of -1 is specified to force it to requery if more characters are typed. 
+        The service search for whole words, so when a part of the word is entered and doesn't result in hits,
+        but this doesn't mean that there wouldn't be more results if more characters are typed.
         For example: search for 'jackso' results in 1 hit, but 'jackson' gives a lot more results.
+        <p>
+        The iTunes service doesn't support wildcards but others (like Elasticsearch) do. Assuming that the user
+        is completing the last word while typing, you could add a * wildcard at the end of the search url with the
+        <code> urlEnd: '*' </code> configuration to search the last word starting with the typed letters.
         <p class="language-label">EEx
         <pre class="language-markup"><code >&lt;%= awesomplete(
   :user,
@@ -313,6 +317,7 @@
  %{
     url: "https://itunes.apple.com/search?entity=song&amp;attribute=songTerm&amp;media=music&amp;limit=10&amp;country=gb&amp;sort=songTerm&amp;term=",
     limit: -1,
+    debounce: 300,
     maxItems: 10,
     minChars: 4,
     value: "trackName",
@@ -338,7 +343,8 @@ AwesompleteUtil.startCopy('#user_track1', 'artworkUrl100', '#awe-track-album-img
 AwesompleteUtil.start('#user_track1', 
  {
   url: 'https://itunes.apple.com/search?entity=song&attribute=songTerm&media=music&limit=10&country=gb&sort=songTerm&term=',
-  limit: -1
+  limit: -1,
+  debounce: 300
  },
  {
   minChars: 4, 
