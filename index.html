@@ -238,7 +238,8 @@
           <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_artist1',
  {  /* util options */
    url:    "https://itunes.apple.com/search?entity=musicArtist&attribute=artistTerm&media=music&limit=15&country=gb&sort=artistTerm&term=",
-   limit: -1
+   limit: -1,
+   debounce: 300
  }, 
  {  /* awesomplete options */
    minChars: 3,
@@ -299,7 +300,8 @@ AwesompleteUtil.startCopy('#user_track1', 'artworkUrl100', '#awe-track-album-img
 AwesompleteUtil.start('#user_track1', 
    {
     url: 'https://itunes.apple.com/search?entity=song&attribute=songTerm&media=music&limit=10&country=gb&sort=songTerm&term=',
-    limit: -1
+    limit: -1,
+    debounce: 300
    },
    {
     minChars: 4, 
