@@ -188,35 +188,8 @@
       <div class="col-sm-12 js">
         The standard supplied 'starts-with' and 'contains' filters don't exactly match with how iTunes searches.
         iTunes searches words, you can search for 'Michael Jackson' or 'Jackson Michael' and get the same results.
-        Thats why a custom filter called 'filterWords' is used that filters on the words entered. To highlight the
-        words in the list of suggestions a custom function called 'itemWords' is used.
-        <p class="language-label">Javascript
-        <pre class="language-javascript"><code><script>
-  var filterWords = function(data, input) {
-    var words = input.split(/\s+/), result = true, j;
-    /* iterate words */
-    for (j = 0; result && j < words.length; j++) {
-      /* all entered words must be found */
-      result = Awesomplete.FILTER_CONTAINS(data, words[j]); 
-    }
-    return result;
-  },
-  itemWords = function(text, input) {
-    var arr, words = input.split(/\s+/), j;
-    if (input.trim() !== '') {
-      /* Label contains value and optional extra HTML markup 
-         which starts with the <p> tag. 
-         Do not mark text after the first <p> */
-      arr = ('' + text).split('<p>');
-      /* iterate words */
-      for (j = 0; j < words.length; j++) {
-        /* highlight word with <mark> </mark> tags */
-        arr[0] = AwesompleteUtil.mark(arr[0], words[j]);
-      }
-      text = arr.join('<p>');           
-    } 
-    return AwesompleteUtil.item(text, input);
-  };</script></code></pre>
+        Thats why a filter called 'filterWords' is used that filters on the words entered. To highlight the
+        words in the list of suggestions a function called 'itemWords' is used.
       </div>
       <div class="col-sm-12 eex">
         Below the Awesomplete widget is created with the filter and item functions defined above.
@@ -239,8 +212,8 @@
     url:    "https://itunes.apple.com/search?entity=musicArtist&amp;attribute=artistTerm&amp;media=music&amp;limit=15&amp;country=gb&amp;sort=artistTerm&amp;term=",
     limit: -1,
     debounce: 300,
-    filter: "filterWords",  # javascript functions must be double quoted
-    item: "itemWords",
+    filter: "AwesompleteUtil.filterWords",  # javascript functions must be double quoted
+    item: "AwesompleteUtil.itemWords",
     value: "artistName"
   }
 ) %&gt;</code
@@ -259,8 +232,8 @@
  }, 
  {  /* awesomplete options */
   minChars: 3,
-  filter: filterWords,
-  item: itemWords,
+  filter: AwesompleteUtil.filterWords,
+  item: AwesompleteUtil.itemWords,
   data: function(rec, input) { return rec['artistName']; }
  }
 );</script></code></pre>
@@ -322,8 +295,8 @@
     minChars: 4,
     value: "trackName",
     descr: "collectionName",
-    filter: "filterWords",
-    item: "itemWords"
+    filter: "AwesompleteUtil.filterWords",
+    item: "AwesompleteUtil.itemWords"
   }
 ) %&gt;</code></pre>
         Unfortunetly we cannot instruct to iTunes to sort on song title length.
@@ -354,8 +327,8 @@ AwesompleteUtil.start('#user_track1',
            value: rec['trackName'] 
           }; 
         }, 
-  filter: filterWords,
-  item: itemWords
+  filter: AwesompleteUtil.filterWords,
+  item: AwesompleteUtil.itemWords
  }
 );</script></code></pre>
       </div>
