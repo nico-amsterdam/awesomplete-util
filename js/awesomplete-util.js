@@ -214,7 +214,7 @@ var AwesompleteUtil = function() {
             }
           }
         }
-        
+
         function _ajax(awe, val) {
           var xhr = new XMLHttpRequest();
           awe.utilprops.ajax.call(awe,
@@ -235,7 +235,7 @@ var AwesompleteUtil = function() {
               if ('number' === typeof debounce && debounce > 0) {
                 // start ajax call after debounce value in milleseconds
                 awe.utilprops.timeoutID = setTimeout(_ajax.bind(null, awe, val), debounce)
-              } else {            
+              } else {
                 // call ajax instantly
                _ajax(awe, val)
               }
@@ -452,8 +452,9 @@ var AwesompleteUtil = function() {
 
         // ajax call for url + val + urlEnd. fn is the callback function. xhr parameter is optional.
         ajax: function(url, urlEnd, val, fn, xhr) {
+          var encodedVal = encodeURIComponent(val);
           xhr = xhr || new XMLHttpRequest();
-          xhr.open('GET', url + encodeURIComponent(val) + (urlEnd || ''));
+          xhr.open('GET', url + ('function' === typeof urlEnd ? urlEnd(encodedVal) : encodedVal + (urlEnd || '')));
           xhr.onload = fn;
           xhr.send();
           return xhr;
@@ -496,6 +497,23 @@ var AwesompleteUtil = function() {
         // highlight items: mark input in the begin text
         itemStartsWith: function(text, input) {
           return _item(input.trim() === '' ? '' + text : _mark('' + text, input, true), input);
+        },
+
+        // highlight items: highlight matching words
+        itemWords: function(text, input) {
+          var arr, words = input.split(/\s+/), j;
+          if (input.trim() !== '') {
+            /* Label contains value and optional extra HTML markup. 
+               Do not mark text after the first < character */
+            arr = ('' + text).split('<');
+            /* iterate words */
+            for (j = 0; j < words.length; j++) {
+              /* highlight word with <mark> </mark> tags */
+              arr[0] = _mark(arr[0], words[j]);
+            }
+            text = arr.join('<');           
+          } 
+          return _item(text, input);
         },
 
         // create Awesomplete object for input control elemId. opts are passed unchanged to Awesomplete.
@@ -555,7 +573,7 @@ var AwesompleteUtil = function() {
 
         // Stop AwesompleteUtil; detach event handlers from the Awesomplete object.
         detach: function(awe) {
-          // cancel previous ajax call if it hasn't started yet.
+          // cancel ajax call if it hasn't started yet.
           clearTimeout(awe.utilprops.timeoutID)
           if (awe.utilprops.detach) {
             awe.utilprops.detach();
@@ -638,6 +656,25 @@ var AwesompleteUtil = function() {
         // this function filters on value and not on the shown label which may contain markup.
         filterStartsWith: function(data, input) {
           return Awesomplete.FILTER_STARTSWITH(data.value, input);
+        },
+
+        // Do not filter; rely on server responses to filter the results.
+        filterOff: function(data, input) {
+          return true;
+        },
+
+        // filter on words without caring about word order.
+        // To return true: all words in the input must be found.
+        // A word is also a match when a longer word is found which starts with the input word.
+        filterWords: function(data, input) {
+          var words = input.split(/\s+/), result = true, j;
+          data = ' ' + data;
+          /* iterate words */
+          for (j = 0; result && j < words.length; j++) {
+            /* all entered words must be found */
+            result = Awesomplete.FILTER_CONTAINS(data, ' ' + words[j]); 
+          }
+          return result;
         },
 
         // Flatten JSON.
