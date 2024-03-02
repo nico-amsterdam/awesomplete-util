@@ -294,9 +294,10 @@ var AwesompleteUtil = function() {
         }
 
         // item function (as specified in Awesomplete) which just creates the 'li' HTML tag.
-        function _item(html /* , input */) {
+        function _item(html /* , input, item_id */) {
           return $.create('li', {
             innerHTML: html,
+            'role': 'option',
             'aria-selected': 'false'
           });
         }
@@ -479,31 +480,31 @@ var AwesompleteUtil = function() {
         mark: _mark,
 
         // highlight items: Marks input in the first line, not in the optional description
-        itemContains: function(text, input) {
+        itemContains: function(text, input, item_id) {
           var arr;
           if (input.trim().length > 0) {
             arr = ('' + text).split(/<p>/);
             arr[0] = _mark(arr[0], input);
             text = arr.join('<p>');
           }
-          return _item(text, input);
+          return _item(text, input, item_id);
         },
 
         // highlight items: mark all occurrences of the input text
-        itemMarkAll: function(text, input) {
-          return _item(input.trim() === '' ? '' + text : _mark('' + text, input), input);
+        itemMarkAll: function(text, input, item_id) {
+          return _item(input.trim() === '' ? '' + text : _mark('' + text, input), input, item_id);
         },
 
         // highlight items: mark input in the begin text
-        itemStartsWith: function(text, input) {
-          return _item(input.trim() === '' ? '' + text : _mark('' + text, input, true), input);
+        itemStartsWith: function(text, input, item_id) {
+          return _item(input.trim() === '' ? '' + text : _mark('' + text, input, true), input, item_id);
         },
 
         // highlight items: highlight matching words
-        itemWords: function(text, input) {
+        itemWords: function(text, input, item_id) {
           var arr, words = input.split(/\s+/), j;
           if (input.trim() !== '') {
-            /* Label contains value and optional extra HTML markup. 
+            /* Label contains value and optional extra HTML markup.
                Do not mark text after the first < character */
             arr = ('' + text).split('<');
             /* iterate words */
@@ -511,9 +512,9 @@ var AwesompleteUtil = function() {
               /* highlight word with <mark> </mark> tags */
               arr[0] = _mark(arr[0], words[j]);
             }
-            text = arr.join('<');           
-          } 
-          return _item(text, input);
+            text = arr.join('<');
+          }
+          return _item(text, input, item_id);
         },
 
         // create Awesomplete object for input control elemId. opts are passed unchanged to Awesomplete.
@@ -672,7 +673,7 @@ var AwesompleteUtil = function() {
           /* iterate words */
           for (j = 0; result && j < words.length; j++) {
             /* all entered words must be found */
-            result = Awesomplete.FILTER_CONTAINS(data, ' ' + words[j]); 
+            result = Awesomplete.FILTER_CONTAINS(data, ' ' + words[j]);
           }
           return result;
         },
