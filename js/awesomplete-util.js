@@ -115,7 +115,7 @@ var AwesompleteUtil = function() {
                 classList.remove(_CLS_FOUND);
                 // Mark as not-found if there are no suggestions anymore or if another field is now active
                 if (!opened || (input !== document.activeElement)) {
-                   if (val.length > 0) {
+                   if (val !== '') {
                      classList.add(_CLS_NOT_FOUND);
                      _fire(input, _AWE_MATCH, []);
                    }
@@ -130,7 +130,7 @@ var AwesompleteUtil = function() {
         // Listen to certain events of THIS awesomplete object to trigger input validation.
         function _match(ev) {
           var awe = this;
-          if ((ev.type === _AWE_CLOSE || ev.type === _AWE_LOAD || ev.type == 'blur') && ev.target === awe.input) {
+          if ((ev.type === _AWE_CLOSE || ev.type === _AWE_LOAD || ev.type === 'blur') && ev.target === awe.input) {
             _matchValue(awe, awe.utilprops.prepop && ev.type === _AWE_LOAD);
           }
         }
@@ -270,7 +270,7 @@ var AwesompleteUtil = function() {
             awe.utilprops.changed = true;
             awe.utilprops.val = val;
             // value is empty or smaller than minChars
-            if (val.length < awe.minChars || val.length == 0) {
+            if (val === '' || val.length < awe.minChars) {
               // restart autocomplete search
               _restart(awe);
             }
@@ -373,7 +373,7 @@ var AwesompleteUtil = function() {
         // When startsWith is true, mark only the matching begin text.
         function _mark(text, input, startsWith) {
           var searchText = $.regExpEscape(_htmlEscape(input).trim()),
-              regExp = searchText.length <= 0 ? null : startsWith ? RegExp('^' + searchText, 'i') : RegExp('(?!<[^>]+?>)' + searchText + '(?![^<]*?>)', 'gi');
+              regExp = searchText === '' ? null : startsWith ? RegExp('^' + searchText, 'i') : RegExp('(?!<[^>]+?>)' + searchText + '(?![^<]*?>)', 'gi');
           return text.replace(regExp, '<mark>$&</mark>');
         }
 
@@ -482,7 +482,7 @@ var AwesompleteUtil = function() {
         // highlight items: Marks input in the first line, not in the optional description
         itemContains: function(text, input, item_id) {
           var arr;
-          if (input.trim().length > 0) {
+          if (input.trim() !== '') {
             arr = ('' + text).split(/<p>/);
             arr[0] = _mark(arr[0], input);
             text = arr.join('<p>');
@@ -554,7 +554,7 @@ var AwesompleteUtil = function() {
 
           awe.utilprops.detach = boundDetach;
           // Perform ajax call if prepop is true and there is an initial input value, or when all values must be loaded (loadall)
-          if (awe.utilprops.prepop && (awe.utilprops.loadall || elem.value.length > 0)) {
+          if (awe.utilprops.prepop && (awe.utilprops.loadall || elem.value !== '')) {
             awe.utilprops.val = awe.utilprops.convertInput.call(awe, elem.value);
             _lookup(awe, awe.utilprops.val);
           }
