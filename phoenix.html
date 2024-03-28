@@ -145,6 +145,7 @@
       <div class="row">
         <div class="col-sm-12 html">
            <ol>
+              <li><a href="#github-username">Github username search</a>
               <li><a href="#itunes-artist">iTunes artist search</a>
               <li><a href="#itunes-track">iTunes track search</a>
               <li><a href="#combobox">Combobox with countries</a>
@@ -157,6 +158,102 @@
            </ol>
         </div>
       </div>
+
+    <!-- BEGIN Github username example -->
+    <fieldset id="github-username" class="example">
+      <legend class="h3">
+      Github username search
+      </legend>
+      <div class="row odd">
+        <div class="col-xs-11 col-xs-offset-1 features">
+          Example demonstrates:
+          <ul>
+            <li>Dynamic data loading.
+            <li>Show related data of selected item.
+          </ul>
+        </div>
+        <div class="col-sm-12 hint">
+          This Github API will not show suggestions anymore if the API rate limit is exceeded for your IP address<span id="myipaddress"></span>.
+          <p><p>Enter a username:
+        </div>
+        <label class="control-label text-sm-right col-sm-2" for="user_name1">Name</label>
+        <div class="col-sm-10 au">
+          <input id="user_name1" class="form-control" autocomplete="off" name="user[name1]" type="text">
+        </div>
+      </div>
+      <div class="row odd avatar">
+        <span class="control-label text-sm-right col-sm-2">Photo or avatar</span>
+        <div class="col-sm-1" id="awe-avatar"></div>
+        <img src="https://www.gravatar.com/avatar/8833aef712168c3784ad9091214ba7d6?s=100&d=retro" id="awe-avatar-img" alt="avatar image" width="100px" height="100px"/>
+     </div>
+    </fieldset>
+
+    <div class="row odd">
+      <div class="col-sm-12 eex">
+        The EEx template below creates an input field, and it will show suggestions from the Github API. This REST API also returns avatar url's. When there is an exact match, the avatar url will be set in the IMG tag to show the avatar picture.
+        <p class="language-label">EEx
+        <pre class="language-markup"><code >&lt;%= copy_to_id(:user, :name1, "avatar_url", "#awe-avatar-img") %&gt;
+&lt;%= awesomplete(
+ :user,
+ :name1,
+ [       # input_text options
+  class: "form-control",
+  autocomplete: "off"
+ ],
+ %{
+    url: "https://api.github.com/search/users?q=",
+    urlEnd: " in:login type:user&per_page=30",
+    minChars: 3,
+    maxItems: 10,
+    limit: 30,
+    value: "login",
+    filter: "AwesompleteUtil.filterStartsWith",
+    item: "AwesompleteUtil.itemStartsWith"
+  }
+) %&gt;</code></pre>
+        The <code>maxItems</code> parameter indicates that maximum 10 suggestions must be shown in the dropdown.
+        <p>The <code>per_page</code> parameter in the url tells the server to return maximum 30 suggestions per call.
+        <p>The <code>limit</code> parameter informs the AwesompleteUtil component that normally 30 results can be expected. If there are less than 30 results, any additional characters in the search phrase won't need a new server call, because all the matching suggestions are already retrieved.
+        <p>
+        <p>The client-side suggestions <code>filter</code> must be made consistent with the search functionality of the REST API. In this case, the server will only return usernames that start with the entered text, and the client-side filter should work in the same way.
+        <p>The <code>item</code> parameter is configured to highlight only matching text at the beginning of the suggestions, to clearly indicate why these suggestions are shown. 
+        <p>
+        <script>
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'https://httpbin.org/ip');
+        xhr.onload = function() { 
+          var address = JSON.parse(this.responseText).origin;
+          Awesomplete.$('#myipaddress').textContent = ' (' +  address + ')'
+        }
+        xhr.send(); 
+        </script>
+        <p class="generated"><a href="#" onclick="return toggle('#awe-track');">show/hide generated code</a>
+      </div>
+      <div class="col-sm-12 awe slide-up" id="awe-track">
+        <p class="language-label">Generated HTML
+        <pre class="language-markup"><code >&lt;input id="user_name1" class="form-control" autocomplete="off" 
+     name="user[name1]" type="text" /&gt;</code></pre>
+        <p class="language-label">Generated javascript
+        <pre class="language-javascript"><code><script>AwesompleteUtil.startCopy('#user_name1', 'avatar_url', '#awe-avatar-img');
+
+AwesompleteUtil.start('#user_name1', 
+ {
+  url: 'https://api.github.com/search/users?q=',
+  urlEnd: ' in:login type:user&per_page=30',  
+  limit: 30
+ },
+ {
+  minChars: 3, 
+  maxItems: 10,
+  data: function(rec, input) { return rec['login']; },
+  filter: AwesompleteUtil.filterStartsWith,
+  item: AwesompleteUtil.itemStartsWith
+ }
+);</script></code></pre>
+      </div>
+    </div>
+    <!-- END github username example -->
+
 
     <!-- BEGIN itunes artist example -->
     <fieldset id="itunes-artist" class="example">
@@ -192,10 +289,9 @@
         words in the list of suggestions a function called 'itemWords' is used.
       </div>
       <div class="col-sm-12 eex">
-        Below the Awesomplete widget is created with the filter and item functions defined above.
         A limit of -1 is specified to force it to requery if more characters are typed. 
-        The service search for whole words, so when a part of the word is entered and doesn't result in hits,
-        but this doesn't mean that there wouldn't be more results if more characters are typed.
+        The service search for whole words, so when a part of the word is entered and doesn't result in any hits,
+        this doesn't mean that there wouldn't be more results if more characters are typed.
         For example: search for 'jackso' results in 1 hit, but 'jackson' gives a lot more results.
         <p>
         The iTunes service doesn't support wildcards but others (like Elasticsearch) do. Assuming that the user
