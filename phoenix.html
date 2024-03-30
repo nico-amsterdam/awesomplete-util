@@ -178,7 +178,7 @@
         </div>
         <label class="control-label text-sm-right col-sm-2" for="user_name1">Name</label>
         <div class="col-sm-10 au">
-          <input id="user_name1" class="form-control" autocomplete="off" name="user[name1]" type="text">
+          <input id="user_name1" class="form-control" name="user[name1]" type="text">
         </div>
       </div>
       <div class="row odd avatar">
@@ -231,7 +231,7 @@
       </div>
       <div class="col-sm-12 awe slide-up" id="awe-track">
         <p class="language-label">Generated HTML
-        <pre class="language-markup"><code >&lt;input id="user_name1" class="form-control" autocomplete="off" 
+        <pre class="language-markup"><code >&lt;input id="user_name1" class="form-control" 
      name="user[name1]" type="text" /&gt;</code></pre>
         <p class="language-label">Generated javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.startCopy('#user_name1', 'avatar_url', '#awe-avatar-img');
@@ -355,7 +355,7 @@ AwesompleteUtil.start('#user_name1',
         </div>
         <label class="control-label text-sm-right col-sm-2" for="user_track1">Track</label>
         <div class="col-sm-10 au">
-          <input id="user_track1" class="form-control" autocomplete="off" name="user[track1]" type="text">
+          <input id="user_track1" class="form-control" name="user[track1]" type="text">
         </div>
       </div>
       <div class="row odd artists">
@@ -402,7 +402,7 @@ AwesompleteUtil.start('#user_name1',
       </div>
       <div class="col-sm-12 awe slide-up" id="awe-track">
         <p class="language-label">Generated HTML
-        <pre class="language-markup"><code >&lt;input id="user_track1" class="form-control" autocomplete="off" 
+        <pre class="language-markup"><code >&lt;input id="user_track1" class="form-control" 
      name="user[track1]" type="text" /&gt;</code></pre>
         <p class="language-label">Generated javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.startCopy('#user_track1', 'collectionName', '#awe-track-album');
@@ -605,7 +605,7 @@ AwesompleteUtil.start('#user_track1',
         </div>
         <label class="control-label col-sm-2" for="user_country_iso">Country iso three letter code</label>
         <div class="col-sm-10 au">
-            <input class="form-control" id="user_country_iso" name="user[country_iso]" autocomplete="off" type="text">
+            <input class="form-control" id="user_country_iso" name="user[country_iso]" type="text">
            <span id="awe-country-name"></span>
         </div>
       </div>
@@ -653,7 +653,7 @@ AwesompleteUtil.start('#user_track1',
       </div>
       <div class="col-sm-12 awe slide-up" id="awe-country-iso">
         <p class="language-label">Generated HTML
-        <pre class="language-markup"><code >&lt;input id="user_country_iso" class="form-control" autocomplete="off"
+        <pre class="language-markup"><code >&lt;input id="user_country_iso" class="form-control" 
      name="user[iso-country]" type="text" /&gt;
 &lt;span  id="awe-country-name"&gt;&lt;/span&gt;</code></pre>
         <p class="language-label">Generated javascript
@@ -781,11 +781,11 @@ AwesompleteUtil.start('#user_color',
         </div>
         <label class="control-label col-sm-2" for="user_country">Country</label>
         <div class="col-sm-4 au">
-           <input id="user_country" class="form-control" name="user[country]" autocomplete="off" type="text">
+           <input id="user_country" class="form-control" name="user[country]" type="text">
         </div>
         <label class="control-label col-sm-2" for="user_capital">Capital</label>
         <div class="col-sm-4 au">
-           <input id="user_capital" class="form-control" name="user[capital]" autocomplete="off" type="text">
+           <input id="user_capital" class="form-control" name="user[capital]" type="text">
         </div>
       </div>
     </fieldset>
@@ -798,8 +798,7 @@ AwesompleteUtil.start('#user_color',
 &lt;%= label(:user, :country, "Country", class: "control-label col-sm-2") %&gt;
 &lt;div class="col-sm-4"&gt;
   &lt;%= awesomplete(:user, :country, 
-      [class: "form-control",
-       autocomplete: "off"
+      [class: "form-control"
       ], 
       [ 
         assign: true,
@@ -811,8 +810,7 @@ AwesompleteUtil.start('#user_color',
 &lt;%= label(:user, :capital, "Capital", class: "control-label col-sm-2") %&gt;
 &lt;div class="col-sm-4"&gt;
   &lt;%= awesomplete(:user, :capital,
-      [class: "form-control",
-       autocomplete: "off"
+      [class: "form-control"
       ], 
       [ 
         assign: true,
@@ -825,8 +823,8 @@ AwesompleteUtil.start('#user_color',
       </div>
       <div class="col-sm-12 awe slide-up" id="awe-capital">
         <p class="language-label">Generated HTML
-        <pre class="language-markup"><code>&lt;input id="user_country" class="form-control" name="user[country]" autocomplete="off" type="text" /&gt;
-&lt;input id="user_capital" class="form-control" name="user[capital]" autocomplete="off" type="text" /&gt;</code></pre>
+        <pre class="language-markup"><code>&lt;input id="user_country" class="form-control" name="user[country]" type="text" /&gt;
+&lt;input id="user_capital" class="form-control" name="user[capital]" type="text" /&gt;</code></pre>
         <p class="language-label">Generated javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.startCopy('#user_country', 'capital', '#user_capital');
 AwesompleteUtil.startCopy('#user_capital', 'name', '#user_country');
@@ -927,10 +925,10 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
     this.input.value = this.input.value.match(/^.+[,;]\s*|/)[0] + text + ', ';
   },
   filter: function(data, input) {
-    return Awesomplete.FILTER_CONTAINS(data, input.match(/[^,;]*([,;]\s*)?$/)[0]);
+    return Awesomplete.FILTER_CONTAINS.call(this, data, input.match(/[^,;]*([,;]\s*)?$/)[0]);
   },
-  item: function(text, input) {
-    return AwesompleteUtil.itemContains(text, input.match(/[^,;]*([,;]\s*)?$/)[0]); 
+  item: function(text, input, item_id) {
+    return AwesompleteUtil.itemContains.call(this, text, input.match(/[^,;]*([,;]\s*)?$/)[0], item_id); 
   }
  }
 );</script></code></pre>
@@ -1036,10 +1034,10 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
     var text=data.value; this.input.value = this.input.value.match(/^.+[;,]\s*|/)[0] + text + '; ';
   }, 
   filter: function(data, input) { 
-    return Awesomplete.FILTER_CONTAINS(data.value, input.match(/[^;,]*([;,]\s*)?$/)[0]); 
+    return Awesomplete.FILTER_CONTAINS.call(this, data.value, input.match(/[^;,]*([;,]\s*)?$/)[0]); 
   }, 
-  item: function(text, input) { 
-    return (AwesompleteUtil.itemMarkAll)(text, input.match(/[^;,]*([;,]\s*)?$/)[0]); 
+  item: function(text, input, item_id) { 
+    return (AwesompleteUtil.itemMarkAll).call(this, text, input.match(/[^;,]*([;,]\s*)?$/)[0], item_id); 
   }
  }
 );</script></code></pre>
