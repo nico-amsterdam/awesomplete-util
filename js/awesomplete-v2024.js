@@ -377,9 +377,9 @@ _.CONTAINER = function (input) {
 }
 
 _.ITEM = function (text, input, item_id) {
-	// var html = input.trim() === "" ? text : text.replace(RegExp($.regExpEscape(input.trim()), "gi"), "<mark>$&</mark>");
+	var html = input.trim() === "" ? text : text.replace(RegExp($.regExpEscape(input.trim()), "gi"), "<strong>$&</strong>");
 	return $.create("li", {
-		innerHTML: text,
+		innerHTML: html,
 		"role": "option",
 		"aria-selected": "false",
         "tabindex": "0",
