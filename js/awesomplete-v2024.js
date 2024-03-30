@@ -19,13 +19,11 @@ var _ = function (input, o) {
 	this.isOpened = false;
 
 	this.input = $(input);
-	this.input.setAttribute("role", "combobox");
 	this.input.setAttribute("autocomplete", "off");
 	this.input.setAttribute("aria-expanded", "false");
-	this.input.setAttribute("aria-controls", "awesomplete_list_" + this.count);
 	this.input.setAttribute("aria-owns", "awesomplete_list_" + this.count);
+	this.input.setAttribute("role", "combobox");
 	this.input.setAttribute("aria-autocomplete", "list");
-	this.input.setAttribute("aria-haspopup", "listbox");
 
 	// store constructor options in case we need to distinguish
 	// between default and customized behavior later on
@@ -377,7 +375,7 @@ _.CONTAINER = function (input) {
 }
 
 _.ITEM = function (text, input, item_id) {
-	var html = input.trim() === "" ? text : text.replace(RegExp($.regExpEscape(input.trim()), "gi"), "<strong>$&</strong>");
+	var html = input.trim() === "" ? text : text.replace(RegExp($.regExpEscape(input.trim()), "gi"), "<mark>$&</mark>");
 	return $.create("li", {
 		innerHTML: html,
 		"role": "option",

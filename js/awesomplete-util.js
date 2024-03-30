@@ -299,6 +299,7 @@ var AwesompleteUtil = function() {
             innerHTML: html,
             'role': 'option',
             'aria-selected': 'false',
+            'tabindex': '0',
 		    'id': 'awesomplete_list_' + this.count + '_item_' + item_id // for aria-activedescendant on the input element
           });
         }
@@ -488,17 +489,17 @@ var AwesompleteUtil = function() {
             arr[0] = _mark(arr[0], input);
             text = arr.join('<p>');
           }
-          return _item(text, input, item_id);
+          return _item.call(this, text, input, item_id);
         },
 
         // highlight items: mark all occurrences of the input text
         itemMarkAll: function(text, input, item_id) {
-          return _item(input.trim() === '' ? '' + text : _mark('' + text, input), input, item_id);
+          return _item.call(this, input.trim() === '' ? '' + text : _mark('' + text, input), input, item_id);
         },
 
         // highlight items: mark input in the begin text
         itemStartsWith: function(text, input, item_id) {
-          return _item(input.trim() === '' ? '' + text : _mark('' + text, input, true), input, item_id);
+          return _item.call(this, input.trim() === '' ? '' + text : _mark('' + text, input, true), input, item_id);
         },
 
         // highlight items: highlight matching words
@@ -515,7 +516,7 @@ var AwesompleteUtil = function() {
             }
             text = arr.join('<');
           }
-          return _item(text, input, item_id);
+          return _item.call(this, text, input, item_id);
         },
 
         // create Awesomplete object for input control elemId. opts are passed unchanged to Awesomplete.
