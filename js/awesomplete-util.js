@@ -294,11 +294,12 @@ var AwesompleteUtil = function() {
         }
 
         // item function (as specified in Awesomplete) which just creates the 'li' HTML tag.
-        function _item(html /* , input, item_id */) {
+        function _item(html, input, item_id) {
           return $.create('li', {
             innerHTML: html,
             'role': 'option',
-            'aria-selected': 'false'
+            'aria-selected': 'false',
+		    'id': 'awesomplete_list_' + this.count + '_item_' + item_id // for aria-activedescendant on the input element
           });
         }
 
