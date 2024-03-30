@@ -377,11 +377,12 @@ _.CONTAINER = function (input) {
 }
 
 _.ITEM = function (text, input, item_id) {
-	var html = input.trim() === "" ? text : text.replace(RegExp($.regExpEscape(input.trim()), "gi"), "<mark>$&</mark>");
+	// var html = input.trim() === "" ? text : text.replace(RegExp($.regExpEscape(input.trim()), "gi"), "<mark>$&</mark>");
 	return $.create("li", {
-		innerHTML: html,
+		innerHTML: text,
 		"role": "option",
 		"aria-selected": "false",
+        "tabindex": "0",
 		"id": "awesomplete_list_" + this.count + "_item_" + item_id
 	});
 };
