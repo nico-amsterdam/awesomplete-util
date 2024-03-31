@@ -133,7 +133,7 @@
           AwesompleteUtil provides enough hooks to keep the agility which the Awesomplete widget has.
           <p>
           The only dependency of AwesompleteUtil is Awesomplete. Together it is less than 5KB minified gzipped.
-          It runs on modern browsers; IE11, Edge, Safari, Android stock browser, Chrome, Firefox.
+          It runs on modern browsers; Chrome, Safari, Edge, Firefox.
           <p>
           The lucky users of <a href="http://www.phoenixframework.org" target="phoe">Phoenix</a> can use the <a href="phoenix.html">Awesomplete form helper</a> to generate most of the javascript code. 
         </div>
@@ -739,10 +739,10 @@ AwesompleteUtil.start('#user_track1',
       this.input.value = this.input.value.match(/^.+[,;]\s*|/)[0] + text + ', ';
     },
     filter: function(data, input) {
-      return Awesomplete.FILTER_CONTAINS(data, input.match(/[^,;]*([,;]\s*)?$/)[0]);
+      return Awesomplete.FILTER_CONTAINS.call(this, data, input.match(/[^,;]*([,;]\s*)?$/)[0]);
     },
     item: function(text, input) {
-      return AwesompleteUtil.itemContains(text, input.match(/[^,;]*([,;]\s*)?$/)[0]); 
+      return AwesompleteUtil.itemContains.call(this, text, input.match(/[^,;]*([,;]\s*)?$/)[0]); 
     }
    }
   );</script></code></pre>
@@ -828,10 +828,10 @@ AwesompleteUtil.start('#user_track1',
       var text=data.value; this.input.value = this.input.value.match(/^.+[;,]\s*|/)[0] + text + '; ';
     }, 
     filter: function(data, input) { 
-      return Awesomplete.FILTER_CONTAINS(data.value, input.match(/[^;,]*([;,]\s*)?$/)[0]); 
+      return Awesomplete.FILTER_CONTAINS.call(this, data.value, input.match(/[^;,]*([;,]\s*)?$/)[0]); 
     }, 
     item: function(text, input) { 
-      return (AwesompleteUtil.itemMarkAll)(text, input.match(/[^;,]*([;,]\s*)?$/)[0]); 
+      return AwesompleteUtil.itemMarkAll.call(this, text, input.match(/[^;,]*([;,]\s*)?$/)[0]); 
     }
    }
   );</script></code></pre>
@@ -862,6 +862,8 @@ AwesompleteUtil.start('#user_track1',
     .hide-not-found div.awesomplete .awe-not-found { border-color: lightblue }
 
     div.awesomplete .awe-not-found { border: 2px solid red }
+
+    .dropdown-btn .caron { border: 3px solid transparent; pointer-events: none }
 
   &lt;/style&gt;</code></pre>
            The awesomplete.css and awesomplete.min.js files are copied from <a href="https://github.com/LeaVerou/awesomplete" target="awe">Awesomplete</a> and tested in combination with AwesompleteUtil. If you copy these files to your own project, do not forget to also copy the javascript sourcemaps (<a href="https://nico-amsterdam.github.io/awesomplete-util/js/awesomplete.min.js.map" target=_blank rel="noopener noreferrer">awesomplete.min.js.map</a> and <a href="https://nico-amsterdam.github.io/awesomplete-util/js/awesomplete-util.min.js.map" target=_blank rel="noopener noreferrer">awesomplete-util.min.js.map</a>).
