@@ -11,18 +11,8 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <script src="js/awesomplete-v2020.min.js"></script>
 <script src="js/awesomplete-util.min.js"></script>
-<script>
-  var toggle = function(id) { 
-    var el = document.querySelector(id), cl = el.classList, c = 'slide-down', add = c, rem = 'slide-up';
-    if (cl.contains(c)) {
-       add = rem;
-       rem = c;
-    }
-    cl.remove(rem);
-    cl.add(add);
-    return false;
-  };
-</script>
+<script src="js/scroll.js"></script>
+<script src="js/showhidetoggle.js"></script>
 <style>
   body { line-heigth: 150%; 
          font-size: 18px;
