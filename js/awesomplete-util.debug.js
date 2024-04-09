@@ -82,7 +82,6 @@ var AwesompleteUtil = function() {
               // Use the fake input here. fake.input.value will contain the result of the replace function.
               awe.replace.call(fake, suggestion);
 
-              console.log('_matchValue cmp ' + fake.input.value);
               // Trim and lowercase also the fake input and compare that with the currently typed-in value.
               if (utilprops.convertInput.call(awe, fake.input.value) === val) {
                 // This is an exact match. However there might more suggestions with the same value.
@@ -90,6 +89,7 @@ var AwesompleteUtil = function() {
                 // value + label is unique (if not it will be difficult for the user to make an informed decision).
                 if (selected && selected.value === suggestion.value && selected.label === suggestion.label) {
                   // this surely is the selected one
+                  console.log('_matchValue cmp ' + fake.input.value);
                   result = [rec];
                   break;
                 }
