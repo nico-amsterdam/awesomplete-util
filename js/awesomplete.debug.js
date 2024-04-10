@@ -180,18 +180,21 @@ _.prototype = {
 	},
 
 	close: function (o) {
+		var myinput = this.input;
 		if (!this.opened) {
 			return;
 		}
 
-		this.input.setAttribute("aria-expanded", "false");
+		myinput.setAttribute("aria-expanded", "false");
 		this.ul.setAttribute("hidden", "");
 		this.isOpened = false;
 		this.index = -1;
 
 		this.status.setAttribute("hidden", "");
 
-		$.fire(this.input, "awesomplete-close", o || {});
+		console.log('awesomplete-close');
+
+		$.fire(myinput, "awesomplete-close", o || {});
 	},
 
 	open: function () {

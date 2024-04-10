@@ -60,7 +60,7 @@ var AwesompleteUtil = function() {
               list = awe._list,             /* current list of suggestions */
               suggestion, fake, rec, j;     /* function scoped variables */
           utilprops.prepop = false;         /* after the first call it's not a prepopulation phase anymore */
-          console.log('_matchValue ' + val);
+          console.log('_matchValue ' + val + ' before convert "' + input.value + '" selected:' + selected);
           if (list) {                       /* if there is a suggestion list */
             for (j = 0; j < list.length; j++) {  /* loop all suggestions */
               rec = list[j];
@@ -143,7 +143,7 @@ var AwesompleteUtil = function() {
         function _onKeydown(ev) {
           var awe = this;
           if (ev.target === awe.input && ev.keyCode === 9) { // TAB key
-            awe.select();       // take current selected item
+            awe.select(null, null, ev);       // take current selected item
           }
         }
 
