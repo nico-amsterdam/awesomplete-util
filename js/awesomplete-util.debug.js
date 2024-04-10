@@ -21,7 +21,7 @@ var AwesompleteUtil = function() {
     //
     var _AWE = 'awesomplete-',
         _AWE_LOAD = _AWE + 'loadcomplete',
-        _AWE_CLOSE = _AWE + 'close',
+        _AWE_SELECT_COMPLETE = _AWE + 'selectcomplete',
         _AWE_MATCH = _AWE + 'match',
         _AWE_PREPOP = _AWE + 'prepop',
         _AWE_SELECT = _AWE + 'select',
@@ -133,8 +133,9 @@ var AwesompleteUtil = function() {
         // Listen to certain events of THIS awesomplete object to trigger input validation.
         function _match(ev) {
           var awe = this;
-          console.log('_match ' + ev.type +  ' ' + ev.target);
-          if ((ev.type === _AWE_CLOSE || ev.type === _AWE_LOAD || ev.type === 'blur') && ev.target === awe.input) {
+          console.log('_match ' + ev.type +  ' ' + ev.target + ' tijd ' + awe.utilprops.close_time + ' nu ' + (new Date()).getTime());
+
+          if ((ev.type === _AWE_SELECT_COMPLETE || ev.type === _AWE_LOAD || ev.type === 'blur') && ev.target === awe.input) {
             _matchValue(awe, awe.utilprops.prepop && ev.type === _AWE_LOAD);
           }
         }
@@ -143,14 +144,14 @@ var AwesompleteUtil = function() {
         function _onKeydown(ev) {
           var awe = this;
           if (ev.target === awe.input && ev.keyCode === 9) { // TAB key
-            awe.select(null, null, ev);       // take current selected item
+            awe.select(undefined, undefined, ev);       // take current selected item
           }
         }
 
         // Handle selection event. State changes when an item is selected.
         function _select(ev) {
           var awe = this;
-          console.log('_select ' + ev.text);
+          console.log('_select ' + ev.text + ' tijd ' + awe.utilprops.close_time + ' nu ' + (new Date()).getTime());
           // cancel previous ajax call if it hasn't started yet.
           clearTimeout(awe.utilprops.timeoutID)
           awe.utilprops.changed = true;      // yes, user made a change
@@ -446,7 +447,7 @@ var AwesompleteUtil = function() {
 
           elem.removeEventListener(_AWE_SELECT, boundSelect);
           elem.removeEventListener(_AWE_LOAD,   boundMatch);
-          elem.removeEventListener(_AWE_CLOSE,  boundMatch);
+          elem.removeEventListener(_AWE_SELECT_COMPLETE,  boundMatch);
           elem.removeEventListener('blur',      boundMatch);
           elem.removeEventListener('input',     boundOnInput);
           elem.removeEventListener('keydown',   boundOnKeydown);
@@ -555,7 +556,7 @@ var AwesompleteUtil = function() {
                 'keydown': boundOnKeydown,
                 'input':   boundOnInput
               };
-          events['blur'] = events[_AWE_CLOSE] = events[_AWE_LOAD] = boundMatch;
+          events['blur'] = events[_AWE_SELECT_COMPLETE] = events[_AWE_LOAD] = boundMatch;
           events[_AWE_SELECT] = boundSelect;
           $.bind(elem, events);
 
