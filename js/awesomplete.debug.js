@@ -347,8 +347,11 @@ _.prototype = {
 		}
 		else {
 			this.close({ reason: "nomatches" });
-
-                this.status.textContent = "No results found";
+		    if (this.minChar <= 0 || value.length >= this.minChars) {
+               this.status.textContent = "No results found";
+            } else {
+               this.status.textContent = "Type " + this.minChars + " or more characters for results.";
+            }
 		}
 	}
 };
