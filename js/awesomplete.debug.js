@@ -63,7 +63,7 @@ var _ = function (input, o) {
 		"aria-live": "assertive",
         "aria-atomic": true,
         inside: this.container,
-        textContent: this.minChars != 0 ? ("Type " + this.minChars + " or more characters for results.") : "Begin typing for results."
+        textContent: ""  // live region should start empty. Only when the text is changed it will be read by the screen reader.
 	});
 
 	// Bind events
