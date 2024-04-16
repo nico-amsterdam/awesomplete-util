@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
 <link rel="stylesheet" href="css/awesomplete.css"/>
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<script src="js/awesomplete-v2020.min.js"></script>
+<script src="js/awesomplete-v2024.min.js"></script>
 <script src="js/awesomplete-util.min.js"></script>
 <script src="js/scroll.js"></script>
 <style>
@@ -98,6 +98,24 @@
   td { padding: 5px 9px; 
        border: 1px solid black }  
 
+  /* For chips pills a.k.a. dismissible tags */
+  .chip-container { min-height: 40px;
+                    margin: 10px; }
+  .chip { margin: 4px 25px 0 -9px;
+          padding: 5px;
+          background-color: lavender;
+          display: inline-block;
+        }
+  .chip button { font-size: xx-small; 
+          display: inline-block;
+          margin-left: 5px;
+          vertical-align: top;
+          height: 25px; 
+        }
+  .top-30px {
+    margin-top: 30px;
+  }
+
 </style>
 </head>
 <body>
@@ -157,6 +175,7 @@
               <li><a href="#capital">Country capitals</a>
               <li><a href="#seafood">Seafood pizza toppings</a>
               <li><a href="#multimail">Email address</a>
+              <li><a href="#seafood2">Dismissible chip pills</a>
            </ol>
         </div>
       </div>
@@ -840,6 +859,126 @@ AwesompleteUtil.start('#user_track1',
       </div>
       <!-- END multimail example -->
 
+      <!-- BEGIN seafood with dismissible chip pills example -->
+      <fieldset id="seafood2" class="example">
+        <legend class="h3">
+        Dismissible chip pills
+        </legend>
+        <div class="row odd">
+          <div class="col-xs-11 col-xs-offset-1 features">
+            Example demonstrates:
+            <ul>
+              <li>Data list in page source.
+              <li>Dismissible chip pills, rendered via template.
+            </ul>
+          </div>
+          <div class="col-sm-12 hint">
+             Enter for example 'Oysters'
+          </div>
+          <label class="control-label col-sm-2 top-30px" for="user_seafood2">
+            Seafood toppings</label>
+          <div class="col-sm-10 au">
+            <div id="seafood2-chip-container" class="chip-container" aria-live="polite"></div>
+            <input class="form-control" id="user_seafood2" name="user[seafood2]" type="text"
+              data-list="Anchovies, Cajun Prawn, Crayfish, Lobster, Oysters, Prawns, Salmon, Shrimps, Smoked Salmon, Squid, Tuna, Whitebait">
+            <input id="user_seafood2_all" type="hidden" value="">
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="row odd">
+        <div class="col-sm-12 html">
+          Your text could be placed here.
+          <p class="language-label">HTML
+          <pre class="language-markup"><code >&lt;input id="user_seafood2" class="form-control" 
+       name="user[seafood2]" type="text" 
+    data-list="Anchovies, Cajun Prawn, Crayfish, Lobster,
+               Oysters, Prawns, Salmon, Shrimps,
+               Smoked Salmon, Squid, Tuna, Whitebait"&gt;</code></pre>
+        </div>
+        <div class="col-sm-12 js">
+          <p class="language-label">Javascript
+          <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_seafood2', 
+   {
+   },
+   {
+    minChars: 1
+   }
+  );
+
+const SEP = ',',
+      CHIP_TEMPLATE = '<span class="chip">{{0}}<button title="Remove {{0}} topping" aria-label="Remove {{0}} topping">&#10006;</button></span>', 
+      findById = (id, root) => { return (root || document).getElementById(id); },
+      splitAndTrim = (text) => text.split(SEP).map(item => item.trim()).filter(e => e !== '')
+      template = (templ, vars) => {
+        return templ.replace(/{{\s*[\w]+\s*}}/g, (v)=> {
+          return vars[v.substring(2, v.length - 2)];
+        })
+      };
+
+function removeFromList(text) {
+  const elem = findById('user_seafood2_all'), // hidden input field
+        newItems = splitAndTrim(text)
+  elem.value = splitAndTrim(elem.value).filter(e => !newItems.includes(e)).join(SEP);
+  return elem;
+}
+
+findById('seafood2-chip-container').addEventListener('click', function(el) {
+  // The problem with this click-handler is that it needs to know the html-structure
+  // (e.g. CHIP_TEMPATE) to identify the chip that must be removed.
+  // Currently el.target is the button inside the span's with the chip text.
+  const spanNode = el.target.parentNode; 
+  if (spanNode.nodeName === 'SPAN') {
+    // get text from span but exclude text from nested html elements.
+    let spanTextWithoutButtonText = [].reduce.call(spanNode.childNodes, 
+            (a, b) => { return a + (b.nodeType === 3 ? b.textContent : ''); }, '');
+    spanNode.remove();
+    removeFromList(spanTextWithoutButtonText.trim());
+  }
+});
+
+function updateChips() {
+   const all = findById('user_seafood2_all').value, 
+         allArray = splitAndTrim(all);
+   let chipButtons = '';
+   for (item in allArray) {
+      let currentChipText = allArray[item]
+      if (currentChipText) { 
+          chipButtons += template(CHIP_TEMPLATE, [ currentChipText ]);
+      }
+   }
+   findById('seafood2-chip-container').innerHTML = chipButtons;
+}
+
+// init: show the chips when you open the form and user_seafood2_all already has a value
+updateChips();
+
+function updateChipsAndclearInput(el) {
+  const newItem = el.target.value.trim(); 
+  if (newItem !== '') {
+    let elem = removeFromList(newItem), // Remove it, if it is already in the list.
+        normalizedValue = splitAndTrim(elem.value + SEP + newItem).join(',');
+    elem.value = normalizedValue;
+    el.target.value = '';
+    Awesomplete.$.fire(el.target, 'input', {});
+    updateChips();
+  }
+}
+const inputElement = findById('user_seafood2');
+
+// remove this listener to force user to select only from the suggestions list.
+inputElement.addEventListener('keypress', function (el) {
+    if (el.key === 'Enter') {
+      updateChipsAndclearInput(el);
+    }
+});
+
+// add chip and clear the input field for new chips.
+inputElement.addEventListener('awesomplete-selectcomplete', updateChipsAndclearInput);
+</script></code></pre>
+        </div>
+      </div>
+      <!-- END seafood with dismissible chip pills example -->
 
     </section>
     <section class="container" id="installation"> 
