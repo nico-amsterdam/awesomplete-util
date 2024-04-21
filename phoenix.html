@@ -1100,12 +1100,12 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
 ) %&gt;</code></pre>
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>const SEP = ',',
-      CHIP_TEMPLATE = '<span class="chip">{{0}}<button title="Remove {{0}} topping" aria-label="Remove {{0}} topping">&#10006;</button></span>', 
+      CHIP_TEMPLATE = '<span class="chip">{0}<button title="Remove {0} topping" aria-label="Remove {0} topping">&#10006;</button></span>', 
       findById = (id, root) => { return (root || document).getElementById(id); },
       splitAndTrim = (text) => text.split(SEP).map(item => item.trim()).filter(e => e !== '')
       template = (templ, vars) => {
-        return templ.replace(/{{\s*[\w]+\s*}}/g, (v)=> {
-          return vars[v.substring(2, v.length - 2)];
+        return templ.replace(/{\s*[\w]+\s*}/g, (v)=> {
+          return vars[v.substring(1, v.length - 1)];
         })
       };
 
