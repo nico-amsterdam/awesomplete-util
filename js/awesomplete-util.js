@@ -139,7 +139,7 @@ var AwesompleteUtil = function() {
         function _onKeydown(ev) {
           var awe = this;
           if (ev.target === awe.input && ev.keyCode === 9) { // TAB key
-            awe.select();       // take current selected item
+            awe.select(undefined, undefined, ev);       // take current selected item
           }
         }
 
@@ -300,7 +300,7 @@ var AwesompleteUtil = function() {
             'role': 'option',
             'aria-selected': 'false',
             'tabindex': '0',
-		    'id': 'awesomplete_list_' + this.count + '_item_' + item_id // for aria-activedescendant on the input element
+            'id': 'awesomplete_list_' + this.count + '_item_' + item_id // for aria-activedescendant on the input element
           });
         }
 
@@ -693,10 +693,10 @@ var AwesompleteUtil = function() {
 
 // Expose AwesompleteUtil as a CommonJS module
 if (typeof module === "object" && module.exports) {
-	module.exports = AwesompleteUtil;
+    module.exports = AwesompleteUtil;
 }
 
 // Make sure to export AwesompleteUtil on self when in a browser
 if (typeof self !== "undefined") {
-	self.AwesompleteUtil = AwesompleteUtil;
+    self.AwesompleteUtil = AwesompleteUtil;
 }
