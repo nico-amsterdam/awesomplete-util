@@ -215,6 +215,7 @@
   &lt;.autocomplete
     forField={@form[:name1]}
     url="https://api.github.com/search/users?q="
+    urlEnd=" in:login type:user&per_page=30"
     minChars="3"
     maxItems="10"
     limit="30"
