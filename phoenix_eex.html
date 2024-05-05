@@ -9,12 +9,10 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
 <link rel="stylesheet" href="css/awesomplete.css"/>
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<script src="js/awesomplete.debug.js?v=4"></script>
-<script src="js/awesomplete-util.debug.js?v=2"></script>
+<script src="js/awesomplete-v2024.min.js"></script>
+<script src="js/awesomplete-util.js"></script>
 <script src="js/scroll.js"></script>
 <script src="js/showhidetoggle.js"></script>
-<script src="js/eruda.min.js"></script>
-<script>eruda.init();</script>
 <style>
   body { line-heigth: 150%; 
          font-size: 18px;
@@ -190,7 +188,7 @@
         </div>
         <label class="control-label text-sm-right col-sm-2" for="user_name1">Name</label>
         <div class="col-sm-10 au">
-          <input id="user_name1" class="form-control" name="user[name1]" type="text" placeholder="Type X characters or more characters for results">
+          <input id="user_name1" class="form-control" name="user[name1]" type="text">
         </div>
       </div>
       <div class="row odd avatar">
@@ -1102,12 +1100,12 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
 ) %&gt;</code></pre>
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>const SEP = ',',
-      CHIP_TEMPLATE = '<span class="chip">{{0}}<button title="Remove {{0}} topping" aria-label="Remove {{0}} topping">&#10006;</button></span>', 
+      CHIP_TEMPLATE = '<span class="chip">{0}<button title="Remove {0} topping" aria-label="Remove {0} topping">&#10006;</button></span>', 
       findById = (id, root) => { return (root || document).getElementById(id); },
       splitAndTrim = (text) => text.split(SEP).map(item => item.trim()).filter(e => e !== '')
       template = (templ, vars) => {
-        return templ.replace(/{{\s*[\w]+\s*}}/g, (v)=> {
-          return vars[v.substring(2, v.length - 2)];
+        return templ.replace(/{\s*[\w]+\s*}/g, (v)=> {
+          return vars[v.substring(1, v.length - 1)];
         })
       };
 
