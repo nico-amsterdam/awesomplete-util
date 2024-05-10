@@ -115,7 +115,7 @@ var AwesompleteUtil = function() {
                 classList.remove(_CLS_FOUND);
                 // Mark as not-found if there are no suggestions anymore or if another field is now active
                 if (!opened || (input !== document.activeElement)) {
-                   if (val.length > 0) {
+                   if (val !== '') {
                      classList.add(_CLS_NOT_FOUND);
                      _fire(input, _AWE_MATCH, []);
                    }
@@ -130,7 +130,7 @@ var AwesompleteUtil = function() {
         // Listen to certain events of THIS awesomplete object to trigger input validation.
         function _match(ev) {
           var awe = this;
-          if ((ev.type === _AWE_CLOSE || ev.type === _AWE_LOAD || ev.type == 'blur') && ev.target === awe.input) {
+          if ((ev.type === _AWE_CLOSE || ev.type === _AWE_LOAD || ev.type === 'blur') && ev.target === awe.input) {
             _matchValue(awe, awe.utilprops.prepop && ev.type === _AWE_LOAD);
           }
         }
@@ -139,7 +139,7 @@ var AwesompleteUtil = function() {
         function _onKeydown(ev) {
           var awe = this;
           if (ev.target === awe.input && ev.keyCode === 9) { // TAB key
-            awe.select();       // take current selected item
+            awe.select(undefined, undefined, ev);       // take current selected item
           }
         }
 
@@ -270,7 +270,7 @@ var AwesompleteUtil = function() {
             awe.utilprops.changed = true;
             awe.utilprops.val = val;
             // value is empty or smaller than minChars
-            if (val.length < awe.minChars || val.length == 0) {
+            if (val === '' || val.length < awe.minChars) {
               // restart autocomplete search
               _restart(awe);
             }
@@ -294,11 +294,13 @@ var AwesompleteUtil = function() {
         }
 
         // item function (as specified in Awesomplete) which just creates the 'li' HTML tag.
-        function _item(html /* , input, item_id */) {
+        function _item(html, input, item_id) {
           return $.create('li', {
             innerHTML: html,
             'role': 'option',
-            'aria-selected': 'false'
+            'aria-selected': 'false',
+            'tabindex': '0',
+            'id': 'awesomplete_list_' + this.count + '_item_' + item_id // for aria-activedescendant on the input element
           });
         }
 
@@ -373,7 +375,7 @@ var AwesompleteUtil = function() {
         // When startsWith is true, mark only the matching begin text.
         function _mark(text, input, startsWith) {
           var searchText = $.regExpEscape(_htmlEscape(input).trim()),
-              regExp = searchText.length <= 0 ? null : startsWith ? RegExp('^' + searchText, 'i') : RegExp('(?!<[^>]+?>)' + searchText + '(?![^<]*?>)', 'gi');
+              regExp = searchText === '' ? null : startsWith ? RegExp('^' + searchText, 'i') : RegExp('(?!<[^>]+?>)' + searchText + '(?![^<]*?>)', 'gi');
           return text.replace(regExp, '<mark>$&</mark>');
         }
 
@@ -482,22 +484,22 @@ var AwesompleteUtil = function() {
         // highlight items: Marks input in the first line, not in the optional description
         itemContains: function(text, input, item_id) {
           var arr;
-          if (input.trim().length > 0) {
+          if (input.trim() !== '') {
             arr = ('' + text).split(/<p>/);
             arr[0] = _mark(arr[0], input);
             text = arr.join('<p>');
           }
-          return _item(text, input, item_id);
+          return _item.call(this, text, input, item_id);
         },
 
         // highlight items: mark all occurrences of the input text
         itemMarkAll: function(text, input, item_id) {
-          return _item(input.trim() === '' ? '' + text : _mark('' + text, input), input, item_id);
+          return _item.call(this, input.trim() === '' ? '' + text : _mark('' + text, input), input, item_id);
         },
 
         // highlight items: mark input in the begin text
         itemStartsWith: function(text, input, item_id) {
-          return _item(input.trim() === '' ? '' + text : _mark('' + text, input, true), input, item_id);
+          return _item.call(this, input.trim() === '' ? '' + text : _mark('' + text, input, true), input, item_id);
         },
 
         // highlight items: highlight matching words
@@ -514,7 +516,7 @@ var AwesompleteUtil = function() {
             }
             text = arr.join('<');
           }
-          return _item(text, input, item_id);
+          return _item.call(this, text, input, item_id);
         },
 
         // create Awesomplete object for input control elemId. opts are passed unchanged to Awesomplete.
@@ -554,7 +556,7 @@ var AwesompleteUtil = function() {
 
           awe.utilprops.detach = boundDetach;
           // Perform ajax call if prepop is true and there is an initial input value, or when all values must be loaded (loadall)
-          if (awe.utilprops.prepop && (awe.utilprops.loadall || elem.value.length > 0)) {
+          if (awe.utilprops.prepop && (awe.utilprops.loadall || elem.value !== '')) {
             awe.utilprops.val = awe.utilprops.convertInput.call(awe, elem.value);
             _lookup(awe, awe.utilprops.val);
           }
@@ -691,10 +693,10 @@ var AwesompleteUtil = function() {
 
 // Expose AwesompleteUtil as a CommonJS module
 if (typeof module === "object" && module.exports) {
-	module.exports = AwesompleteUtil;
+    module.exports = AwesompleteUtil;
 }
 
 // Make sure to export AwesompleteUtil on self when in a browser
 if (typeof self !== "undefined") {
-	self.AwesompleteUtil = AwesompleteUtil;
+    self.AwesompleteUtil = AwesompleteUtil;
 }
