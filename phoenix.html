@@ -193,7 +193,8 @@
       <div class="row odd avatar">
         <span class="control-label text-sm-right col-sm-2">Photo or avatar</span>
         <div class="col-sm-1" id="awe-avatar"></div>
-        <img src="https://www.gravatar.com/avatar/8833aef712168c3784ad9091214ba7d6?s=100&d=retro" id="awe-avatar-img" alt="avatar image" width="100" height="100">
+        <img id="awe-avatar-img" alt="avatar image" width="100" height="100"
+             src="https://www.gravatar.com/avatar/8833aef712168c3784ad9091214ba7d6?s=100&d=retro">
      </div>
     </fieldset>
 
@@ -220,8 +221,8 @@
 
     &lt;img id="awe-avatar-img" 
       alt="avatar image" 
-      width="100px"
-      height="100px"
+      width="100"
+      height="100"
       /&gt;
 
     &lt;.autocomplete
@@ -337,32 +338,26 @@ AwesompleteUtil.startCopy('#user_name1', 'avatar_url', '#awe-avatar-img');</scri
         is completing the last word while typing, you could add a * wildcard at the end of the search url with the
         <code> urlEnd: '*' </code> configuration to search the last word starting with the typed letters.
         <p class="language-label">HEEx
-        <pre class="language-markup"><code >&lt;%= awesomplete(
-  :user,
-  :artist1,
-  [       # input_text options
-    class: "form-control"
-  ],                                                                                                                    
-  %{                                                                                                                    
-    url:    "https://itunes.apple.com/search?entity=musicArtist&amp;attribute=artistTerm&amp;media=music&amp;limit=15&amp;country=gb&amp;sort=artistTerm&amp;term=",
-    limit: -1,
-    debounce: 300,
-    filter: "AwesompleteUtil.filterWords",  # javascript functions must be double quoted
-    item: "AwesompleteUtil.itemWords",
-    value: "artistName"
-  }
-) %&gt;</code
+        <pre class="language-markup"><code >&lt;.input field={@form[:artist1]} type="text" /&gt;
+
+&lt;.autocomplete
+  forField={@form[:artist1]}          
+  url="https://itunes.apple.com/search?entity=musicArtist&amp;attribute=artistTerm&amp;media=music&amp;limit=15&amp;country=gb&amp;sort=artistTerm&amp;term="
+  limit="-1"
+  debounce="300"
+  filter="filterWords"
+  item="itemWords"
+  value="artistName"
+  /&gt;</code
 ></pre>
         <p class="runtime"><a href="#" onclick="return toggle('#awe-artist');">show/hide runtime code</a>
       </div>
       <div class="col-sm-12 awe slide-up" id="awe-artist">
-        <p class="language-label">runtime HTML
-        <pre class="language-markup"><code >&lt;input class="form-control" id="user_artist1" name="user[artist1]" type="text" /&gt;</code></pre>
         <p class="language-label">runtime javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_artist1',
  {  /* util options */
-    url:    "https://itunes.apple.com/search?entity=musicArtist&attribute=artistTerm&media=music&limit=15&country=gb&sort=artistTerm&term=",
-  limit: -1,
+  url:    "https://itunes.apple.com/search?entity=musicArtist&attribute=artistTerm&media=music&limit=15&country=gb&sort=artistTerm&term=",
+  limit:   -1,
   debounce: 300
  }, 
  {  /* awesomplete options */
@@ -404,7 +399,8 @@ AwesompleteUtil.startCopy('#user_name1', 'avatar_url', '#awe-avatar-img');</scri
       <div class="row odd album"> 
          <span class="control-label text-sm-right col-sm-2">Album</span>
          <div class="col-sm-3" id="awe-track-album"></div>
-         <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" id="awe-track-album-img" alt="album image" width="200">
+         <img id="awe-track-album-img" alt="album image" width="200"
+              src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
       </div>
     </fieldset>
 
@@ -415,7 +411,7 @@ AwesompleteUtil.startCopy('#user_name1', 'avatar_url', '#awe-avatar-img');</scri
         <pre class="language-markup"><code >&lt;%= copy_to_id(:user, :track1, "collectionName", "#awe-track-album") %&gt;
 &lt;%= copy_to_id(:user, :track1, "artistName", "#awe-track-artists") %&gt;
 &lt;%= copy_to_id(:user, :track1, "artworkUrl100", "#awe-track-album-img") %&gt;
-&lt;%= awesomplete(
+&lt;.autocomplete
  :user,
  :track1,
  [       # input_text options
@@ -440,7 +436,7 @@ AwesompleteUtil.startCopy('#user_name1', 'avatar_url', '#awe-avatar-img');</scri
         <p class="runtime"><a href="#" onclick="return toggle('#awe-track');">show/hide runtime code</a>
       </div>
       <div class="col-sm-12 awe slide-up" id="awe-track">
-        <p class="language-label">runtime HTML
+        <p class="language-label">HTML
         <pre class="language-markup"><code >&lt;input id="user_track1" class="form-control" 
      name="user[track1]" type="text" /&gt;</code></pre>
         <p class="language-label">runtime javascript
@@ -516,7 +512,7 @@ AwesompleteUtil.start('#user_track1',
         Here we use maxItems:8, so when the combobox is opened, only the first 8 countries are shown.
         The shortest country names are shown first.
         <p class="language-label">HEEx
-        <pre class="language-markup"><code >&lt;%= awesomplete(
+        <pre class="language-markup"><code >&lt;.autocomplete
   :user,
   :combocountry,
   [       # input_text options
@@ -537,7 +533,7 @@ AwesompleteUtil.start('#user_track1',
         <p class="runtime"><a href="#" onclick="return toggle('#awe-combobox');">show/hide runtime code</a>
       </div>
       <div class="col-sm-12 awe slide-up" id="awe-combobox">
-        <p class="language-label">runtime HTML
+        <p class="language-label">HTML
         <pre class="language-markup"><code>&lt;input class="form-control" id="user_combocountry" name="user[combocountry]" type="text"&gt;</code></pre>
         <p class="language-label">runtime javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.startClick('#awe_btn_user_combocountry',
@@ -585,7 +581,7 @@ AwesompleteUtil.start('#user_track1',
     <div class="row odd">
       <div class="col-sm-12 heex">
         <p class="language-label">HEEx
-        <pre class="language-markup"><code >&lt;%= awesomplete(
+        <pre class="language-markup"><code >&lt;.autocomplete
  :user,
  :host1,
  [
@@ -603,7 +599,7 @@ AwesompleteUtil.start('#user_track1',
         <p class="runtime"><a href="#" onclick="return toggle('#awe-user-host');">show/hide runtime code</a>
       </div>
       <div class="col-sm-12 awe slide-up" id="awe-user-host">
-        <p class="language-label">runtime HTML
+        <p class="language-label">HTML
         <pre class="language-markup"><code >&lt;input id="user_host" class="form-control" 
      name="user[host]" type="text" /&gt;</code></pre>
         <p class="language-label">runtime javascript
@@ -670,7 +666,7 @@ AwesompleteUtil.start('#user_track1',
       <div class="col-sm-12 heex">
         This is actually not an autocomplete, but it does verify the input.
         <p class="language-label">HEEx
-        <pre class="language-markup"><code >&lt;%= awesomplete(
+        <pre class="language-markup"><code >&lt;.autocomplete
  :user,
  :country_iso,
  [
@@ -692,7 +688,7 @@ AwesompleteUtil.start('#user_track1',
         <p class="runtime"><a href="#" onclick="return toggle('#awe-country-iso');">show/hide runtime code</a>
       </div>
       <div class="col-sm-12 awe slide-up" id="awe-country-iso">
-        <p class="language-label">runtime HTML
+        <p class="language-label">HTML
         <pre class="language-markup"><code >&lt;input id="user_country_iso" class="form-control" 
      name="user[iso-country]" type="text" /&gt;
 &lt;span  id="awe-country-name"&gt;&lt;/span&gt;</code></pre>
@@ -837,7 +833,7 @@ AwesompleteUtil.start('#user_color',
 &lt;%= copy_to_field(:user, :capital, "name", :user, :country) %&gt;
 &lt;%= label(:user, :country, "Country", class: "control-label col-sm-2") %&gt;
 &lt;div class="col-sm-4"&gt;
-  &lt;%= awesomplete(:user, :country, 
+  &lt;.autocomplete:user, :country, 
       [class: "form-control"
       ], 
       [ 
@@ -849,7 +845,7 @@ AwesompleteUtil.start('#user_color',
 &lt;/div&gt;
 &lt;%= label(:user, :capital, "Capital", class: "control-label col-sm-2") %&gt;
 &lt;div class="col-sm-4"&gt;
-  &lt;%= awesomplete(:user, :capital,
+  &lt;.autocomplete:user, :capital,
       [class: "form-control"
       ], 
       [ 
@@ -862,7 +858,7 @@ AwesompleteUtil.start('#user_color',
         <p class="runtime"><a href="#" onclick="return toggle('#awe-capital');">show/hide runtime code</a>
       </div>
       <div class="col-sm-12 awe slide-up" id="awe-capital">
-        <p class="language-label">runtime HTML
+        <p class="language-label">HTML
         <pre class="language-markup"><code>&lt;input id="user_country" class="form-control" name="user[country]" type="text" /&gt;
 &lt;input id="user_capital" class="form-control" name="user[capital]" type="text" /&gt;</code></pre>
         <p class="language-label">runtime javascript
@@ -932,7 +928,7 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
       <div class="col-sm-12 heex">
         Notice that you can enter multiple toppings, seperated by , or ;
         <p class="language-label">HEEx
-        <pre class="language-markup"><code >&lt;%= awesomplete(
+        <pre class="language-markup"><code >&lt;.autocomplete
  :user,
  :seafood,
  [
@@ -947,7 +943,7 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
         <p class="runtime"><a href="#" onclick="return toggle('#awe-seafood');">show/hide runtime code</a>
       </div>
       <div class="col-sm-12 awe slide-up" id="awe-seafood">
-        <p class="language-label">runtime HTML
+        <p class="language-label">HTML
         <pre class="language-markup"><code >&lt;input id="user_seafood" class="form-control" 
      name="user[seafood]" type="text" 
   data-list="Anchovies, Cajun Prawn, Crayfish, Lobster,
@@ -1005,7 +1001,7 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
       <div class="col-sm-12 heex">
         Below the Awesomplete object and input control created 
         <p class="language-label">HEEx
-        <pre class="language-markup"><code>&lt;%= awesomplete(
+        <pre class="language-markup"><code>&lt;.autocomplete
   :user,
   :multimail,
   [
@@ -1050,7 +1046,7 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
         <p class="runtime"><a href="#" onclick="return toggle('#awe-multimail');">show/hide runtime code</a>
       </div>
       <div class="col-sm-12 awe slide-up" id="awe-multimail">
-        <p class="language-label">runtime HTML
+        <p class="language-label">HTML
         <pre class="language-markup"><code >&lt;input id="user_multimail" class="form-control"
      name="user[multimail]" type="text" /&gt;</code></pre>
         <p class="language-label">runtime javascript
@@ -1117,7 +1113,7 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
         This example has a lot of custom code. The hidden input with id user_seafood2_all is used to 
         store the complete list. The visible input with id user_seafood2 is used to add new chip pills.
         <p class="language-label">HEEx
-        <pre class="language-markup"><code >&lt;%= awesomplete(
+        <pre class="language-markup"><code >&lt;.autocomplete
  :user,
  :seafood2,
  [
@@ -1203,7 +1199,7 @@ inputElement.addEventListener('awesomplete-selectcomplete', updateChipsAndclearI
         <p class="runtime"><a href="#" onclick="return toggle('#awe-seafood2');">show/hide runtime code</a>
       </div>
       <div class="col-sm-12 awe slide-up" id="awe-seafood2">
-        <p class="language-label">runtime HTML
+        <p class="language-label">HTML
         <pre class="language-markup"><code >&lt;input id="user_seafood2" class="form-control" 
      name="user[seafood2]" type="text" 
   data-list="Anchovies, Cajun Prawn, Crayfish, Lobster,
