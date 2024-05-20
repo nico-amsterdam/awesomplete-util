@@ -92,7 +92,7 @@
               padding: 1em;
               margin-bottom: 2em;
               border: 3px solid blue }
-  .html, .js, .heex { margin-top: 1em }
+  .html, .js, .heex, .extra-explain { margin-top: 1em }
   .caron {
 	  border: 3px solid transparent;
 	  pointer-events: none }
@@ -183,8 +183,7 @@
           </ul>
         </div>
         <div class="col-sm-12 hint">
-          This Github API will not show suggestions anymore if the API rate limit is exceeded for your IP address<span id="myipaddress"></span>.
-          <p><p>Enter a username:
+          <p>Enter a username:
         </div>
         <label class="control-label text-sm-right col-sm-2" for="user_name1">Name</label>
         <div class="col-sm-10 au">
@@ -199,38 +198,60 @@
     </fieldset>
 
     <div class="row odd">
+      <div class="col-sm-12 hint">
+        Side note: the Github API will not show suggestions anymore if the API rate limit is exceeded for your IP address<span id="myipaddress"></span>.
+      </div>
       <div class="col-sm-12 heex">
-        The HEEx template below will show suggestions from the Github API. This REST API also returns avatar url's. When there is an exact match, the avatar url will be set in the IMG tag to show the avatar picture.
+        The example above is made with the HEEx template below.
+        <p>        
+        The Github REST API also returns avatar url's. When there is an exact match, the avatar url will be set in the IMG tag to show the avatar picture.
         <p class="language-label">HEEx
-        <pre class="language-markup"><code >&lt;div phx-update="ignore" id={"#{@form[:name1].id}-domspace"}&gt;
+        <pre class="language-markup"><code >&lt;.simple_form
+  for={@form}
+  id="list-form"
+  phx-target={@myself}
+  phx-change="validate"
+  phx-submit="save"
+  &gt;
+        
+  &lt;div phx-update="ignore" id={"#{@form[:name1].id}-domspace"}&gt;
 
-  &lt;.input field={@form[:name1]} type="text" /&gt;
+    &lt;.input field={@form[:name1]} type="text" /&gt;
 
-  &lt;img id="awe-avatar-img" 
-    alt="avatar image" 
-    width="100px"
-    height="100px"
-    /&gt;
+    &lt;img id="awe-avatar-img" 
+      alt="avatar image" 
+      width="100px"
+      height="100px"
+      /&gt;
 
-  &lt;.autocomplete
-    forField={@form[:name1]}
-    url="https://api.github.com/search/users?q="
-    urlEnd=" in:login type:user&per_page=30"
-    minChars="3"
-    maxItems="10"
-    limit="30"
-    value="login"
-    filter="filterStartsWith"
-    item="itemStartsWith"
-    /&gt;
+    &lt;.autocomplete
+      forField={@form[:name1]}
+      url="https://api.github.com/search/users?q="
+      urlEnd=" in:login type:user&per_page=30"
+      minChars="3"
+      maxItems="10"
+      limit="30"
+      value="login"
+      filter="filterStartsWith"
+      item="itemStartsWith"
+      /&gt;
 
-  &lt;.copy_value_to_id
-    field={@form[:name1]}
-    dataField="avatar_url"
-    target="#awe-avatar-img"
-    /&gt;
+    &lt;.copy_value_to_id
+      field={@form[:name1]}
+      dataField="avatar_url"
+      target="#awe-avatar-img"
+      /&gt;
 
-&lt;/div&gt;</code></pre>
+  &lt;/div&gt;
+
+&lt;/.simple_form&gt;</code></pre>
+      <div class="extra-explain">
+          In this first example the surrounding elements are shown in the HEEx template to clarify the context:
+          <ul>
+            <li>The input is placed in a simple_form and uses the @form assign.</li>
+            <li>The div with phx-update="ignore" is needed in LiveView, because Awesomplete manipulates the DOM.</li>
+          </ul>
+      </div>
         The <code>maxItems</code> parameter indicates that maximum 10 suggestions must be shown in the dropdown.
         <p>The <code>per_page</code> parameter in the url tells the server to return maximum 30 suggestions per call.
         <p>The <code>limit</code> parameter informs the AwesompleteUtil component that normally 30 results can be expected. If there are less than 30 results, any additional characters in the search phrase won't need a new server call, because all the matching suggestions are already retrieved.
@@ -1125,7 +1146,7 @@ function removeFromList(text) {
 }
 
 findById('seafood2-chip-container').addEventListener('click', function(el) {
-  // The problem with this click-handler is that it needs to know the html-structure
+  // This click-handler is that it needs to know the html-structure
   // (e.g. CHIP_TEMPATE) to identify the chip that must be removed.
   // Currently el.target is the button inside the span's with the chip text.
   const spanNode = el.target.parentNode; 
