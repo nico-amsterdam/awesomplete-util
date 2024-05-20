@@ -5,16 +5,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Phoenix Awesomplete form helper</title>
-<link rel="stylesheet" href="https://leaverou.github.io/awesomplete/prism/prism.css"/>
+<link rel="stylesheet" href="https://leaverou.github.io/awesomplete/prism/prism.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-<link rel="stylesheet" href="css/awesomplete.css"/>
+<link rel="stylesheet" href="css/awesomplete.css">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <script src="js/awesomplete-v2024.min.js"></script>
 <script src="js/awesomplete-util.min.js"></script>
 <script src="js/scroll.js"></script>
 <script src="js/showhidetoggle.js"></script>
 <style>
-  body { line-heigth: 150%; 
+  body { line-height: 150%; 
          font-size: 18px;
          display: flex;
          flex-direction: column;
@@ -73,7 +73,7 @@
   div.awesomplete ul li p { display: block; 
                             font-size: small;
                             margin-left: 1em;
-                            color: #0 }
+                            color: #000 }
   div.awesomplete .awe-found { border: 2px solid green }
   div.awesomplete .awe-not-found { border: 2px solid red }
   .hide-not-found div.awesomplete .awe-not-found { border-color: lightblue }
@@ -193,7 +193,7 @@
       <div class="row odd avatar">
         <span class="control-label text-sm-right col-sm-2">Photo or avatar</span>
         <div class="col-sm-1" id="awe-avatar"></div>
-        <img src="https://www.gravatar.com/avatar/8833aef712168c3784ad9091214ba7d6?s=100&d=retro" id="awe-avatar-img" alt="avatar image" width="100px" height="100px"/>
+        <img src="https://www.gravatar.com/avatar/8833aef712168c3784ad9091214ba7d6?s=100&d=retro" id="awe-avatar-img" alt="avatar image" width="100" height="100">
      </div>
     </fieldset>
 
@@ -404,7 +404,7 @@ AwesompleteUtil.startCopy('#user_name1', 'avatar_url', '#awe-avatar-img');</scri
       <div class="row odd album"> 
          <span class="control-label text-sm-right col-sm-2">Album</span>
          <div class="col-sm-3" id="awe-track-album"></div>
-         <img src="" id="awe-track-album-img" alt="album image" width="200px"/>
+         <img id="awe-track-album-img" alt="album image" width="200"/>
       </div>
     </fieldset>
 
@@ -1114,7 +1114,8 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
 
     <div class="row odd">
       <div class="col-sm-12 heex">
-        Your text could be placed here.
+        This example has a lot of custom code. The hidden input with id user_seafood2_all is used to 
+        store the complete list. The visible input with id user_seafood2 is used to add new chip pills.
         <p class="language-label">HEEx
         <pre class="language-markup"><code >&lt;%= awesomplete(
  :user,
@@ -1226,6 +1227,7 @@ inputElement.addEventListener('awesomplete-selectcomplete', updateChipsAndclearI
     </section>
 
     <section class="container" id="other"> 
+      <h2>Links</h2>
       <div class="row">
         <div class="col-sm-12">
            <p><a href="https://github.com/nico-amsterdam/phoenix_form_awesomplete/#installation" target="github">Installation</a>
