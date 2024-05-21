@@ -5,16 +5,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Phoenix Awesomplete form helper</title>
-<link rel="stylesheet" href="https://leaverou.github.io/awesomplete/prism/prism.css"/>
+<link rel="stylesheet" href="https://leaverou.github.io/awesomplete/prism/prism.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-<link rel="stylesheet" href="css/awesomplete.css"/>
+<link rel="stylesheet" href="css/awesomplete.css">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <script src="js/awesomplete-v2024.min.js"></script>
 <script src="js/awesomplete-util.js"></script>
 <script src="js/scroll.js"></script>
 <script src="js/showhidetoggle.js"></script>
 <style>
-  body { line-heigth: 150%; 
+  body { line-height: 150%; 
          font-size: 18px;
          display: flex;
          flex-direction: column;
@@ -109,7 +109,8 @@
           display: inline-block;
           margin-left: 5px;
           vertical-align: top;
-          height: 25px; 
+          height: 25px;
+          line-height: normal;
         }
   .top-30px {
     margin-top: 30px;
@@ -194,7 +195,8 @@
       <div class="row odd avatar">
         <span class="control-label text-sm-right col-sm-2">Photo or avatar</span>
         <div class="col-sm-1" id="awe-avatar"></div>
-        <img src="https://www.gravatar.com/avatar/8833aef712168c3784ad9091214ba7d6?s=100&d=retro" id="awe-avatar-img" alt="avatar image" width="100px" height="100px"/>
+        <img id="awe-avatar-img" alt="avatar image" width="100" height="100"
+             src="https://www.gravatar.com/avatar/8833aef712168c3784ad9091214ba7d6?s=100&d=retro">
      </div>
     </fieldset>
 
@@ -207,8 +209,7 @@
  :user,
  :name1,
  [       # input_text options
-  class: "form-control",
-  autocomplete: "off"
+  class: "form-control"
  ],
  %{
     url: "https://api.github.com/search/users?q=",
@@ -375,7 +376,8 @@ AwesompleteUtil.start('#user_name1',
       <div class="row odd album"> 
          <span class="control-label text-sm-right col-sm-2">Album</span>
          <div class="col-sm-3" id="awe-track-album"></div>
-         <img src="" id="awe-track-album-img" alt="album image" width="200px"/>
+         <img id="awe-track-album-img" alt="album image" width="200"
+              src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
       </div>
     </fieldset>
 
@@ -390,8 +392,7 @@ AwesompleteUtil.start('#user_name1',
  :user,
  :track1,
  [       # input_text options
-  class: "form-control",
-  autocomplete: "off"
+  class: "form-control"
  ],
  %{
     url: "https://itunes.apple.com/search?entity=song&amp;attribute=songTerm&amp;media=music&amp;limit=10&amp;country=gb&amp;sort=songTerm&amp;term=",
@@ -645,8 +646,7 @@ AwesompleteUtil.start('#user_track1',
  :user,
  :country_iso,
  [
-    class: "form-control",
-    autocomplete: "off"
+    class: "form-control"
  ],
  %{
     url: "https://restcountries.com/v2/alpha/",

@@ -109,7 +109,8 @@
           display: inline-block;
           margin-left: 5px;
           vertical-align: top;
-          height: 25px; 
+          height: 25px;
+          line-height: normal; 
         }
   .top-30px {
     margin-top: 30px;
@@ -408,37 +409,44 @@ AwesompleteUtil.startCopy('#user_name1', 'avatar_url', '#awe-avatar-img');</scri
       <div class="col-sm-12 heex">
         The creation of the Awesomplete object below is almost the same as in the 'iTunes artist search' example.
         <p class="language-label">HEEx
-        <pre class="language-markup"><code >&lt;%= copy_to_id(:user, :track1, "collectionName", "#awe-track-album") %&gt;
-&lt;%= copy_to_id(:user, :track1, "artistName", "#awe-track-artists") %&gt;
-&lt;%= copy_to_id(:user, :track1, "artworkUrl100", "#awe-track-album-img") %&gt;
+        <pre class="language-markup"><code >&lt;.input field={@form[:track1]} type="text" /&gt;
+
+&lt;.copy_value_to_id
+  field={@form[:track1]}
+  dataField="collectionName"
+  target="#awe-track-album"
+  /&gt;
+
+&lt;.copy_value_to_id
+  field={@form[:track1]}
+  dataField="artistName"
+  target="#awe-track-artist"
+  /&gt;
+
+&lt;.copy_value_to_id
+  field={@form[:track1]}
+  dataField="artworkUrl100"
+  target="#awe-track-album-img"
+  /&gt;
+
 &lt;.autocomplete
- :user,
- :track1,
- [       # input_text options
-  class: "form-control",
-  autocomplete: "off"
- ],
- %{
-    url: "https://itunes.apple.com/search?entity=song&amp;attribute=songTerm&amp;media=music&amp;limit=10&amp;country=gb&amp;sort=songTerm&amp;term=",
-    limit: -1,
-    debounce: 300,
-    maxItems: 10,
-    minChars: 4,
-    value: "trackName",
-    descr: "collectionName",
-    filter: "AwesompleteUtil.filterWords",
-    item: "AwesompleteUtil.itemWords"
-  }
-) %&gt;</code></pre>
+  forField={@form[:track1]}
+  url="https://itunes.apple.com/search?entity=song&amp;attribute=songTerm&amp;media=music&amp;limit=10&amp;country=gb&amp;sort=songTerm&amp;term="
+  limit="-1"
+  debounce="300"
+  maxItems="10"
+  minChars="4"
+  value="trackName"
+  descr="collectionName"
+  filter="filterWords"
+  item="itemWords"
+  /&gt;</code></pre>
         Unfortunetly we cannot instruct to iTunes to sort on song title length.
         If you search for songs with only one or two words, it might be that the desired song is not in the first 
         10 shown results.
         <p class="runtime"><a href="#" onclick="return toggle('#awe-track');">show/hide runtime code</a>
       </div>
       <div class="col-sm-12 awe slide-up" id="awe-track">
-        <p class="language-label">HTML
-        <pre class="language-markup"><code >&lt;input id="user_track1" class="form-control" 
-     name="user[track1]" type="text" /&gt;</code></pre>
         <p class="language-label">runtime javascript
         <pre class="language-javascript"><code><script>
 AwesompleteUtil.startCopy('#user_track1', 'collectionName', '#awe-track-album');
@@ -497,44 +505,35 @@ AwesompleteUtil.start('#user_track1',
     </fieldset>
 
     <div class="row even">
-      <div class="col-sm-12 html">
-        Add a combobox button after the awesomplete control:
-        <p class="language-label">HTML
-        <pre class="language-markup"><code >&lt;span class="input-group-btn"&gt;
-   &lt;button class="dropdown-btn" id="awe_btn_user_combocountry" type="button" tabindex="-1"&gt;
-      &lt;span class="caron"&gt;&amp;#9660;&lt;/span&gt;
-   &lt;/button&gt;
-&lt;/span&gt;</code></pre>
-      </div>
       <div class="col-sm-12 heex">
         The combobox is useful when there are only a few items in the list, 
         or to give the user some examples of expected input.
         Here we use maxItems:8, so when the combobox is opened, only the first 8 countries are shown.
         The shortest country names are shown first.
         <p class="language-label">HEEx
-        <pre class="language-markup"><code >&lt;.autocomplete
-  :user,
-  :combocountry,
-  [       # input_text options
-    class: "form-control"
-  ],                                                                                                                    
-  %{                                                                                                                    
-    url: "https://restcountries.com/v2/all",
-    loadall: true,
-    prepop: true,
-    minChars: 1,
-    maxItems: 8,
-    value: "name",
-    combobox: true
-  }
-) %&gt;</code></pre>
+        <pre class="language-markup"><code >&lt;.input field={@form[:combocountry]} type="text" /&gt;
+
+&lt;span class="input-group-btn"&gt;
+  &lt;button class="dropdown-btn" id={"awe_btn_#{@form[:combocountry].id}"} type="button" tabindex="-1"&gt;
+      &lt;span class="caron"&gt;&amp;#9660;&lt;/span&gt;
+  &lt;/button&gt;
+&lt;/span&gt;
+
+&lt;.autocomplete
+  forField={@form[:combocountry]}
+  url="https://restcountries.com/v2/all"
+  loadall="true"
+  prepop="true"
+  minChars="1"
+  maxItems="8"
+  value="name"
+  combobox="true"
+  /&gt;</code></pre>
         The prepop:true makes sure that the countries are loaded during page load.
         The combobox:true will open/close the list when the button is pushed, assuming the id of the button is 'awe_btn_' + id of input-text. Instead of true/false you can also supply the id of the button with the combobox property.
         <p class="runtime"><a href="#" onclick="return toggle('#awe-combobox');">show/hide runtime code</a>
       </div>
       <div class="col-sm-12 awe slide-up" id="awe-combobox">
-        <p class="language-label">HTML
-        <pre class="language-markup"><code>&lt;input class="form-control" id="user_combocountry" name="user[combocountry]" type="text"&gt;</code></pre>
         <p class="language-label">runtime javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.startClick('#awe_btn_user_combocountry',
   AwesompleteUtil.start('#user_combocountry',
@@ -579,29 +578,30 @@ AwesompleteUtil.start('#user_track1',
     </fieldset>
 
     <div class="row odd">
+      <div class="col-sm-12 js">
+        Add a custom function to the custom awesomplete context in app.js:
+        <p class="language-label">Javascript
+        <pre class="language-markup"><code >customAwesompleteContext.dataAfterAtSign = function (data, input) { 
+  var before = (input.slice(0, input.indexOf('@')) + '@').trim(); 
+  return {label: before + data.label, value: before + data.value}; 
+}</code></pre>
+      </div>
       <div class="col-sm-12 heex">
         <p class="language-label">HEEx
-        <pre class="language-markup"><code >&lt;.autocomplete
- :user,
- :host1,
- [
-  class: "form-control"
- ],
- %{
-    url:    "/js/host.json",
-    loadall: true,
-    filter: "Awesomplete.FILTER_STARTSWITH",
-    value: "value",
-    descr: "label",
-    data:   "function (data, input) { var before = (input.slice(0, input.indexOf('@')) + '@').trim(); return {label: before + data.label, value: before + data.value}; }"
-  }
-) %&gt;</code></pre>
+        <pre class="language-markup"><code >&lt;.input field={@form[:host1]} type="text" /&gt;
+
+&lt;.autocomplete
+  forField={@form[:host1]}
+  url="/js/host.json"
+  loadall="true"
+  filter="filterStartsWith"
+  value="value"
+  descr="label"
+  data="dataAfterAtSign"
+  /&gt;</code></pre>
         <p class="runtime"><a href="#" onclick="return toggle('#awe-user-host');">show/hide runtime code</a>
       </div>
       <div class="col-sm-12 awe slide-up" id="awe-user-host">
-        <p class="language-label">HTML
-        <pre class="language-markup"><code >&lt;input id="user_host" class="form-control" 
-     name="user[host]" type="text" /&gt;</code></pre>
         <p class="language-label">runtime javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_host',
  {
@@ -653,7 +653,7 @@ AwesompleteUtil.start('#user_track1',
         function only processes responses with HTTP OK status 200.
         The ajax404 function below replaces the onload function to set the empty list if a 404 is received. 
         <p class="language-label">Javascript
-        <pre class="language-javascript"><code><script>var ajax404 = function(url, urlEnd, val, fn, xhr) {
+        <pre class="language-javascript"><code><script>const ajax404  = function(url, urlEnd, val, fn, xhr) {
     var awe = this;
     function onload404() {
       if (xhr.status === 404) AwesompleteUtil.load(awe, [], null);
@@ -661,37 +661,37 @@ AwesompleteUtil.start('#user_track1',
     }
     AwesompleteUtil.ajax(url, urlEnd, val, onload404, xhr);
   };
-</script></code></pre>
+</script>customAwesompleteContext.ajax404 = ajax404</code></pre>
       </div>
       <div class="col-sm-12 heex">
         This is actually not an autocomplete, but it does verify the input.
         <p class="language-label">HEEx
-        <pre class="language-markup"><code >&lt;.autocomplete
- :user,
- :country_iso,
- [
-    class: "form-control",
-    autocomplete: "off"
- ],
- %{
-    url: "https://restcountries.com/v2/alpha/",
-    value: "alpha3Code",
-    limit: 0,
-    minChars: 3,
-    maxItems: 0,
-    filter: "Awesomplete.FILTER_STARTSWITH",
-    ajax: ajax404
- }
-) %&gt;</code></pre>
+        <pre class="language-markup"><code >&lt;.input field={@form[:country_iso]} type="text" /&gt;
+
+&lt;span id="awe-country-name"&gt;&lt;/span&gt;
+
+&lt;.autocomplete
+  forField={@form[:country_iso]}
+  url="https://restcountries.com/v2/alpha/"
+  value="alpha3Code"
+  limit="0"
+  minChars="3"
+  maxItems="0"
+  filter="filterStartsWith"
+  ajax="ajax404"
+  /&gt;
+
+&lt;.copy_value_to_id
+  field={@form[:country_iso]}
+  dataField="name"
+  target="#awe-country-name"
+  /&gt;</code></pre>
         A limit:1 tells that not more than 1 result is expected, so the json service doesn't have to return an array. 
         With limit:0 it will always re-query if more characters are typed. 
         <p class="runtime"><a href="#" onclick="return toggle('#awe-country-iso');">show/hide runtime code</a>
       </div>
       <div class="col-sm-12 awe slide-up" id="awe-country-iso">
-        <p class="language-label">HTML
-        <pre class="language-markup"><code >&lt;input id="user_country_iso" class="form-control" 
-     name="user[iso-country]" type="text" /&gt;
-&lt;span  id="awe-country-name"&gt;&lt;/span&gt;</code></pre>
+
         <p class="language-label">runtime javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.startCopy('#user_country_iso', 'name', '#awe-country-name');
 AwesompleteUtil.start('#user_country_iso',
@@ -704,7 +704,7 @@ AwesompleteUtil.start('#user_country_iso',
   maxItems: 0,
   minChars: 3,
   data: function(rec, input) { return rec['alpha3Code']; },
-  filter: Awesomplete.FILTER_STARTSWITH
+  filter: AwesompleteUtil.filterStartsWith
  }
 );</script></code></pre>
       </div>
