@@ -1145,7 +1145,7 @@ function removeFromList(text) {
 }
 
 findById('seafood2-chip-container').addEventListener('click', function(el) {
-  // This click-handler is that it needs to know the html-structure
+  // This click-handler needs to know the html-structure
   // (e.g. CHIP_TEMPATE) to identify the chip that must be removed.
   // Currently el.target is the button inside the span's with the chip text.
   const spanNode = el.target.parentNode; 
