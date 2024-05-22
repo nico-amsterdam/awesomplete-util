@@ -737,31 +737,44 @@ AwesompleteUtil.start('#user_country_iso',
     </fieldset>
 
     <div class="row odd">
+      <div class="col-sm-12 js">
+        Define the color list in app.js and add it to the custom awesomplete context:
+        <p class="language-label">Javascript
+        <pre class="language-markup"><code >
+customAwesompleteContext.listColor = [
+  { label: "&lt;b style='color:black'&gt;black&lt;/b&gt;",   value: 'black' },
+  { label: "&lt;b style='color:blue'&gt;blue&lt;/b&gt;",     value: 'blue'  },
+  { label: "&lt;b style='color:brown'&gt;brown&lt;/b&gt;",   value: 'brown' },
+  { label: "&lt;b style='color:green'&gt;green&lt;/b&gt;",   value: 'green' },
+  { label: "&lt;b style='color:orange'&gt;orange&lt;/b&gt;", value: 'orange'},
+  { label: "&lt;b style='color:pink'&gt;pink&lt;/b&gt;",     value: 'pink'  },
+  { label: "&lt;b style='color:purple'&gt;purple&lt;/b&gt;", value: 'purple'},
+  { label: "&lt;b style='color:red'&gt;red&lt;/b&gt;",       value: 'red'   },
+  { label: "&lt;b style='color:yellow'&gt;yellow&lt;/b&gt;", value: 'yellow'}
+]
+</code></pre>
+      </div>
       <div class="col-sm-12 html">
         Input control:
         <p class="language-label">HEEx
-        <pre class="language-markup"><code>&lt;%= text_input(:user, :color, [value: "purple" class: "form-control"]) %&gt;
+        <pre class="language-markup"><code>&lt;.input field={@form[:color]} type="text" value="purple" /&gt;
 &lt;div&gt;&lt;span id="awe-color-result"&gt;&lt;/span&gt; &amp;#x21B2;&lt;/div&gt;
-&lt;%= copy_to_id(:user, :color, "label", "#awe-color-result") %&gt; 
-&lt;%= awesomplete_script(
- :user, 
- :color, 
- %{ 
-    minChars: 1, 
-    filter: "AwesompleteUtil.filterContains",
-    list: "[
-           { label: \"&lt;b style='color:black'&gt;black&lt;/b&gt;\",   value: 'black' },
-           { label: \"&lt;b style='color:blue'&gt;blue&lt;/b&gt;\",     value: 'blue'  },
-           { label: \"&lt;b style='color:brown'&gt;brown&lt;/b&gt;\",   value: 'brown' },
-           { label: \"&lt;b style='color:green'&gt;green&lt;/b&gt;\",   value: 'green' },
-           { label: \"&lt;b style='color:orange'&gt;orange&lt;/b&gt;\", value: 'orange'},
-           { label: \"&lt;b style='color:pink'&gt;pink&lt;/b&gt;\",     value: 'pink'  },
-           { label: \"&lt;b style='color:purple'&gt;purple&lt;/b&gt;\", value: 'purple'},
-           { label: \"&lt;b style='color:red'&gt;red&lt;/b&gt;\",       value: 'red'   },
-           { label: \"&lt;b style='color:yellow'&gt;yellow&lt;/b&gt;\", value: 'yellow'}
-    ]"
-  }
-) %&gt;</code></pre>
+
+&lt;.autocomplete
+  forField={@form[:color]} 
+  minChars="1" 
+  prepop="true"
+  filter="filterContains"
+  list="listColor"
+  /&gt;
+
+&lt;.copy_value_to_id
+  field={@form[:color]}
+  dataField="label"
+  target="#awe-color-result"
+  /&gt;
+
+</code></pre>
       Notice the prepop property and the startCopy function call. The initial/autofilled value of input-control triggers the copy action, and the label is copied to the span-tag with id 'awe-color-result' during page load. The order of the HTML elements and the inline script is important here. The startCopy function must be called before the startAwesomplete function, because the latter can immediately fire the 'awesomplete-prepop' event which should be handled by the former.
 The startCopy inline script should preferable be placed after the HTML element which is the target. If you do, it only has to lookup the target element once, but if you don't do this it will lookup the target element with each event.
 <p>
@@ -769,10 +782,6 @@ If you use remote data loading and combine prepop:true with loadall:true the rem
         <p class="runtime"><a href="#" onclick="return toggle('#awe-colors');">show/hide runtime code</a>
       </div>
       <div class="col-sm-12 awe slide-up" id="awe-colors">
-        <p class="language-label">HTML
-        <pre class="language-markup"><code>&lt;input id="user_color" class="form-control" 
-     name="user[color]" type="text" value="purple" /&gt;
-&lt;div&gt;&lt;span id="awe-color-result"&gt;&lt;/span&gt; &amp;#x21B2;&lt;/div&gt;</code></pre>
         <p class="language-label">runtime javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.startCopy('#user_color', 'label', '#awe-color-result');
 AwesompleteUtil.start('#user_color', 
@@ -827,40 +836,56 @@ AwesompleteUtil.start('#user_color',
     </fieldset>
 
     <div class="row even">
+      <div class="col-sm-12 js">
+        Load the countries and capitals in app.js and add them to the custom awesomplete context:
+        <p class="language-label">Javascript
+        <pre class="language-markup"><code >
+// use fetch function and json parser to retrieve countries from https://restcountries.com/v2/all
+customAwesompleteContext.listCountry = {}  // TODO
+
+// The filter below removes countries without capital.
+customAwesompleteContext.listCapital = listCountry.filter(function(e) { return e.capital })</code></pre>
+      </div>
       <div class="col-sm-12 heex">
         <p class="language-label">HEEx
-        <pre class="language-markup"><code>&lt;%= copy_to_field(:user, :country, "capital", :user, :capital) %&gt;
-&lt;%= copy_to_field(:user, :capital, "name", :user, :country) %&gt;
-&lt;%= label(:user, :country, "Country", class: "control-label col-sm-2") %&gt;
-&lt;div class="col-sm-4"&gt;
-  &lt;.autocomplete:user, :country, 
-      [class: "form-control"
-      ], 
-      [ 
-        assign: true,
-        minChars: 1, 
-        maxItems: 7, 
-        value: "name" 
-      ]) %&gt;
-&lt;/div&gt;
-&lt;%= label(:user, :capital, "Capital", class: "control-label col-sm-2") %&gt;
-&lt;div class="col-sm-4"&gt;
-  &lt;.autocomplete:user, :capital,
-      [class: "form-control"
-      ], 
-      [ 
-        assign: true,
-        minChars: 1, 
-        maxItems: 7, 
-        value: "capital" 
-      ]) %&gt;
-&lt;/div&gt;</code></pre>
+        <pre class="language-markup"><code>&lt;.input field={@form[:country]} type="text" /&gt;
+          
+&lt;.input field={@form[:capital]} type="text" /&gt;
+
+&lt;.autocomplete
+  forField={@form[:country]} 
+  assign="true"
+  minChars="1" 
+  maxItems="7" 
+  value="name" 
+  list="listCountry"
+  /&gt;
+
+&lt;.autocomplete
+  forField={@form[:capital]} 
+  assign="true"
+  minChars="1" 
+  maxItems="7" 
+  value="capital" 
+  list="listCapital"
+  /&gt;
+
+&lt;.copy_value_to_field
+  sourceField={@form[:country]}
+  dataField="capital"
+  targetField={@form[:capital]}
+  /&gt;
+
+&lt;.copy_value_to_field
+  sourceField={@form[:capital]}
+  dataField="name"
+  targetField={@form[:country]}
+  /&gt;
+
+  </code></pre>
         <p class="runtime"><a href="#" onclick="return toggle('#awe-capital');">show/hide runtime code</a>
       </div>
       <div class="col-sm-12 awe slide-up" id="awe-capital">
-        <p class="language-label">HTML
-        <pre class="language-markup"><code>&lt;input id="user_country" class="form-control" name="user[country]" type="text" /&gt;
-&lt;input id="user_capital" class="form-control" name="user[capital]" type="text" /&gt;</code></pre>
         <p class="language-label">runtime javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.startCopy('#user_country', 'capital', '#user_capital');
 AwesompleteUtil.startCopy('#user_capital', 'name', '#user_country');
@@ -882,10 +907,7 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
  }
 );</script></code></pre>
       </div>
-      <div class="col-sm-12 js">
-        The script below loads all countries and fills both Awesomplete objects with the result.
-        <p class="language-label">Javascript
-        <pre class="language-javascript"><code><script>AwesompleteUtil.ajax('https://restcountries.com/v2/all', '', '', 
+      <script>AwesompleteUtil.ajax('https://restcountries.com/v2/all', '', '', 
   function(e) {
     var xhr = this, list;
     if (xhr.status === 200) {
@@ -895,8 +917,7 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
       AwesompleteUtil.load(awe_user_capital, list.filter(function(e) { return e.capital }), true);
     }
    }
-);</script></code></pre>
-      </div>
+);</script>
     </div>
     <!-- END capital example -->
 
