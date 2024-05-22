@@ -772,9 +772,7 @@ customAwesompleteContext.listColor = [
   field={@form[:color]}
   dataField="label"
   target="#awe-color-result"
-  /&gt;
-
-</code></pre>
+  /&gt;</code></pre>
       Notice the prepop property and the startCopy function call. The initial/autofilled value of input-control triggers the copy action, and the label is copied to the span-tag with id 'awe-color-result' during page load. The order of the HTML elements and the inline script is important here. The startCopy function must be called before the startAwesomplete function, because the latter can immediately fire the 'awesomplete-prepop' event which should be handled by the former.
 The startCopy inline script should preferable be placed after the HTML element which is the target. If you do, it only has to lookup the target element once, but if you don't do this it will lookup the target element with each event.
 <p>
@@ -880,9 +878,7 @@ customAwesompleteContext.listCapital = listCountry.filter(function(e) { return e
   sourceField={@form[:capital]}
   dataField="name"
   targetField={@form[:country]}
-  /&gt;
-
-  </code></pre>
+  /&gt;</code></pre>
         <p class="runtime"><a href="#" onclick="return toggle('#awe-capital');">show/hide runtime code</a>
       </div>
       <div class="col-sm-12 awe slide-up" id="awe-capital">
@@ -949,27 +945,17 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
       <div class="col-sm-12 heex">
         Notice that you can enter multiple toppings, seperated by , or ;
         <p class="language-label">HEEx
-        <pre class="language-markup"><code >&lt;.autocomplete
- :user,
- :seafood,
- [
-    class: "form-control",
-   "data-list": "Anchovies, Cajun Prawn, Crayfish, Lobster, Oysters, Prawns, Salmon, Shrimps, Smoked Salmon, Squid, Tuna, Whitebait"
- ],
- %{
-    minChars: 1,
-    multiple: ",;"
-  }
-) %&gt;</code></pre>
+        <pre class="language-markup"><code >&lt;.input field={@form[:seafood]} type="text"
+data-list="Anchovies, Cajun Prawn, Crayfish, Lobster, Oysters, Prawns, Salmon, Shrimps, Smoked Salmon, Squid, Tuna, Whitebait" /&gt;
+
+&lt;.autocomplete
+  forField={@form[:seafood]}
+  minChars="1"
+  multiple=",;"
+  /&gt;</code></pre>
         <p class="runtime"><a href="#" onclick="return toggle('#awe-seafood');">show/hide runtime code</a>
       </div>
       <div class="col-sm-12 awe slide-up" id="awe-seafood">
-        <p class="language-label">HTML
-        <pre class="language-markup"><code >&lt;input id="user_seafood" class="form-control" 
-     name="user[seafood]" type="text" 
-  data-list="Anchovies, Cajun Prawn, Crayfish, Lobster,
-             Oysters, Prawns, Salmon, Shrimps,
-             Smoked Salmon, Squid, Tuna, Whitebait"&gt;</code></pre>
         <p class="language-label">runtime javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_seafood',
  {
@@ -1019,42 +1005,16 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
     </fieldset>
 
     <div class="row even">
-      <div class="col-sm-12 heex">
-        Below the Awesomplete object and input control created 
-        <p class="language-label">HEEx
-        <pre class="language-markup"><code>&lt;.autocomplete
-  :user,
-  :multimail,
-  [
-   class: "form-control"
-  ],
-  %{
-     url:    "https://raw.githubusercontent.com/kentcdodds/starwars-names/main/src/starwars-names.json",
-     convertResponse: "names2contacts",
-     loadall : true,
-     minChars: 1,
-     maxItems: 7,
-     multiple: ";,",
-     value:  "value",
-     label:  "name",
-     descr:  "email",
-     item:   "AwesompleteUtil.itemMarkAll"
-   }
- ) %&gt;</code></pre>
-        In this example the 'value' field contains both name (label) and email address (descr).
-        By default the description is not highlighted. The itemMarkAll function above
-        highlights all matching text in the suggestion list, including the description.
-        Try for example to search on '@starwars.com' to see what it highlights with or without this function. 
-      </div>
       <div class="col-sm-12 js">
-          This example uses Star Wars names from a github repository.
+        This example uses Star Wars names from a github repository.
         The names2contacts function below constructs email addresses and a value that contains both name and email address.
+        In app.js this function is added to the custom awesomplete context.
         <p class="language-label">Javascript
-        <pre class="language-javascript"><code><script>var names2contacts = function(names) {
-  var email_result = {},
+        <pre class="language-javascript"><code><script>const names2contacts = function(names) {
+  let email_result = {},
       result_list = [],
       transform_names = function(name) {
-        var contact = {};
+        let contact = {};
         contact.name = name;
         contact.email = name.toLowerCase().replace(' ', '.') + '@starwars.com';
         contact.value = contact.name + ' <' + contact.email + '>';
@@ -1063,13 +1023,34 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
   names.forEach(transform_names);
   email_result.contacts = result_list;
   return email_result;
-};</script></code></pre>
-        <p class="runtime"><a href="#" onclick="return toggle('#awe-multimail');">show/hide runtime code</a>
+};
+</script>customAwesompleteContext.names2contacts = names2contacts</code></pre>
       </div>
+      <div class="col-sm-12 heex">
+        Below the Awesomplete object and input control created 
+        <p class="language-label">HEEx
+        <pre class="language-markup"><code>&lt;.input field={@form[:multimail]} type="text" /&gt;
+
+&lt;.autocomplete
+  forField={@form[:multimail]}
+  url="https://raw.githubusercontent.com/kentcdodds/starwars-names/main/src/starwars-names.json"
+  convertResponse="names2contacts"
+  loadall="true"
+  minChars="1"
+  maxItems="7"
+  multiple=";,"
+  value="value"
+  label="name"
+  descr="email"
+  item="itemMarkAll"
+  /&gt;</code></pre>
+        In this example the 'value' field contains both name (label) and email address (descr).
+        By default the description is not highlighted. The itemMarkAll function above
+        highlights all matching text in the suggestion list, including the description.
+        Try for example to search on '@starwars.com' to see what it highlights with or without this function. 
+        <p class="runtime"><a href="#" onclick="return toggle('#awe-multimail');">show/hide runtime code</a>
+        </div>
       <div class="col-sm-12 awe slide-up" id="awe-multimail">
-        <p class="language-label">HTML
-        <pre class="language-markup"><code >&lt;input id="user_multimail" class="form-control"
-     name="user[multimail]" type="text" /&gt;</code></pre>
         <p class="language-label">runtime javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_multimail',
  { 
@@ -1134,17 +1115,17 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
         This example has a lot of custom code. The hidden input with id user_seafood2_all is used to 
         store the complete list. The visible input with id user_seafood2 is used to add new chip pills.
         <p class="language-label">HEEx
-        <pre class="language-markup"><code >&lt;.autocomplete
- :user,
- :seafood2,
- [
-    class: "form-control",
-   "data-list": "Anchovies, Cajun Prawn, Crayfish, Lobster, Oysters, Prawns, Salmon, Shrimps, Smoked Salmon, Squid, Tuna, Whitebait"
- ],
- %{
-    minChars: 1"
-  }
-) %&gt;</code></pre>
+        <pre class="language-markup"><code >&lt;div id="seafood2-chip-container" class="chip-container" aria-live="polite"&gt;&lt;/div&gt;
+
+&lt;.input field={@form[:seafood2]} type="text"
+  data-list="Anchovies, Cajun Prawn, Crayfish, Lobster, Oysters, Prawns, Salmon, Shrimps, Smoked Salmon, Squid, Tuna, Whitebait" /&gt;
+
+&lt;input type="hidden" id="user_seafood2_all" value=""&gt;
+
+&lt;.autocomplete
+  forField={@form[:seafood2]}
+  minChars="1"
+  /&gt;</code></pre>
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>const SEP = ',',
       CHIP_TEMPLATE = '<span class="chip">{0}<button title="Remove {0} topping" aria-label="Remove {0} topping">&#10006;</button></span>', 
@@ -1220,12 +1201,6 @@ inputElement.addEventListener('awesomplete-selectcomplete', updateChipsAndclearI
         <p class="runtime"><a href="#" onclick="return toggle('#awe-seafood2');">show/hide runtime code</a>
       </div>
       <div class="col-sm-12 awe slide-up" id="awe-seafood2">
-        <p class="language-label">HTML
-        <pre class="language-markup"><code >&lt;input id="user_seafood2" class="form-control" 
-     name="user[seafood2]" type="text" 
-  data-list="Anchovies, Cajun Prawn, Crayfish, Lobster,
-             Oysters, Prawns, Salmon, Shrimps,
-             Smoked Salmon, Squid, Tuna, Whitebait"&gt;</code></pre>
         <p class="language-label">runtime javascript
         <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_seafood2',
  {
