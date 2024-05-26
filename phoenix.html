@@ -218,7 +218,7 @@
         
   &lt;div phx-update="ignore" id={"#{@form[:name1].id}-domspace"}&gt;
 
-    &lt;.input field={@form[:name1]} type="text" /&gt;
+    &lt;.input field={@form[:name1]} type="text" phx-debounce="blur" /&gt;
 
     &lt;img id="awe-avatar-img" 
       alt="avatar image" 
@@ -339,7 +339,7 @@ AwesompleteUtil.startCopy('#user_name1', 'avatar_url', '#awe-avatar-img');</scri
         is completing the last word while typing, you could add a * wildcard at the end of the search url with the
         <code> urlEnd: '*' </code> configuration to search the last word starting with the typed letters.
         <p class="language-label">HEEx
-        <pre class="language-markup"><code >&lt;.input field={@form[:artist1]} type="text" /&gt;
+        <pre class="language-markup"><code >&lt;.input field={@form[:artist1]} type="text" phx-debounce="blur" /&gt;
 
 &lt;.autocomplete
   forField={@form[:artist1]}          
@@ -409,7 +409,7 @@ AwesompleteUtil.startCopy('#user_name1', 'avatar_url', '#awe-avatar-img');</scri
       <div class="col-sm-12 heex">
         The creation of the Awesomplete object below is almost the same as in the 'iTunes artist search' example.
         <p class="language-label">HEEx
-        <pre class="language-markup"><code >&lt;.input field={@form[:track1]} type="text" /&gt;
+        <pre class="language-markup"><code >&lt;.input field={@form[:track1]} type="text" phx-debounce="blur" /&gt;
 
 &lt;.copy_value_to_id
   field={@form[:track1]}
@@ -511,7 +511,7 @@ AwesompleteUtil.start('#user_track1',
         Here we use maxItems:8, so when the combobox is opened, only the first 8 countries are shown.
         The shortest country names are shown first.
         <p class="language-label">HEEx
-        <pre class="language-markup"><code >&lt;.input field={@form[:combocountry]} type="text" /&gt;
+        <pre class="language-markup"><code >&lt;.input field={@form[:combocountry]} type="text" phx-debounce="blur" /&gt;
 
 &lt;span class="input-group-btn"&gt;
   &lt;button class="dropdown-btn" id={"awe_btn_#{@form[:combocountry].id}"} type="button" tabindex="-1"&gt;
@@ -588,7 +588,7 @@ AwesompleteUtil.start('#user_track1',
       </div>
       <div class="col-sm-12 heex">
         <p class="language-label">HEEx
-        <pre class="language-markup"><code >&lt;.input field={@form[:host1]} type="text" /&gt;
+        <pre class="language-markup"><code >&lt;.input field={@form[:host1]} type="text" phx-debounce="blur" /&gt;
 
 &lt;.autocomplete
   forField={@form[:host1]}
@@ -666,7 +666,7 @@ AwesompleteUtil.start('#user_track1',
       <div class="col-sm-12 heex">
         This is actually not an autocomplete, but it does verify the input.
         <p class="language-label">HEEx
-        <pre class="language-markup"><code >&lt;.input field={@form[:country_iso]} type="text" /&gt;
+        <pre class="language-markup"><code >&lt;.input field={@form[:country_iso]} type="text" phx-debounce="blur" /&gt;
 
 &lt;span id="awe-country-name"&gt;&lt;/span&gt;
 
@@ -757,7 +757,7 @@ customAwesompleteContext.listColor = [
       <div class="col-sm-12 html">
         Input control:
         <p class="language-label">HEEx
-        <pre class="language-markup"><code>&lt;.input field={@form[:color]} type="text" value="purple" /&gt;
+        <pre class="language-markup"><code>&lt;.input field={@form[:color]} type="text" value="purple" phx-debounce="blur" /&gt;
 &lt;div&gt;&lt;span id="awe-color-result"&gt;&lt;/span&gt; &amp;#x21B2;&lt;/div&gt;
 
 &lt;.autocomplete
@@ -846,9 +846,9 @@ customAwesompleteContext.listCapital = listCountry.filter(function(e) { return e
       </div>
       <div class="col-sm-12 heex">
         <p class="language-label">HEEx
-        <pre class="language-markup"><code>&lt;.input field={@form[:country]} type="text" /&gt;
+        <pre class="language-markup"><code>&lt;.input field={@form[:country]} type="text" phx-debounce="blur" /&gt;
           
-&lt;.input field={@form[:capital]} type="text" /&gt;
+&lt;.input field={@form[:capital]} type="text" phx-debounce="blur" /&gt;
 
 &lt;.autocomplete
   forField={@form[:country]} 
@@ -945,7 +945,7 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
       <div class="col-sm-12 heex">
         Notice that you can enter multiple toppings, seperated by , or ;
         <p class="language-label">HEEx
-        <pre class="language-markup"><code >&lt;.input field={@form[:seafood]} type="text"
+        <pre class="language-markup"><code >&lt;.input field={@form[:seafood]} type="text" phx-debounce="blur"
 data-list="Anchovies, Cajun Prawn, Crayfish, Lobster, Oysters, Prawns, Salmon, Shrimps, Smoked Salmon, Squid, Tuna, Whitebait" /&gt;
 
 &lt;.autocomplete
@@ -1029,7 +1029,7 @@ data-list="Anchovies, Cajun Prawn, Crayfish, Lobster, Oysters, Prawns, Salmon, S
       <div class="col-sm-12 heex">
         Below the Awesomplete object and input control created 
         <p class="language-label">HEEx
-        <pre class="language-markup"><code>&lt;.input field={@form[:multimail]} type="text" /&gt;
+        <pre class="language-markup"><code>&lt;.input field={@form[:multimail]} type="text" phx-debounce="blur" /&gt;
 
 &lt;.autocomplete
   forField={@form[:multimail]}
@@ -1117,10 +1117,10 @@ data-list="Anchovies, Cajun Prawn, Crayfish, Lobster, Oysters, Prawns, Salmon, S
         <p class="language-label">HEEx
         <pre class="language-markup"><code >&lt;div id="seafood2-chip-container" class="chip-container" aria-live="polite"&gt;&lt;/div&gt;
 
-&lt;.input field={@form[:seafood2]} type="text"
+&lt;.input field={@form[:seafood2]} type="text" phx-debounce="blur"
   data-list="Anchovies, Cajun Prawn, Crayfish, Lobster, Oysters, Prawns, Salmon, Shrimps, Smoked Salmon, Squid, Tuna, Whitebait" /&gt;
 
-&lt;input type="hidden" id="user_seafood2_all" value=""&gt;
+&lt;input type="hidden" id="user_seafood2_all" value="" /&gt;
 
 &lt;.autocomplete
   forField={@form[:seafood2]}
