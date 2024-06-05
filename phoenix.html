@@ -838,8 +838,9 @@ AwesompleteUtil.start('#user_color',
         Load the countries and capitals in app.js and add them to the custom awesomplete context:
         <p class="language-label">Javascript
         <pre class="language-markup"><code >
-// use fetch function and json parser to retrieve countries from https://restcountries.com/v2/all
-customAwesompleteContext.listCountry = {}  // TODO
+// use fetch function and json parser to retrieve countries
+const countryResponse = await fetch("https://nico-amsterdam.github.io/awesomplete-util/json/countries.json")
+customAwesompleteContext.listCountry = await countryResponse.json() 
 
 // The filter below removes countries without capital.
 customAwesompleteContext.listCapital = listCountry.filter(function(e) { return e.capital })</code></pre>
