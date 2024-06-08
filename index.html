@@ -177,6 +177,7 @@
               <li><a href="#seafood">Seafood pizza toppings</a>
               <li><a href="#multimail">Email address</a>
               <li><a href="#seafood2">Dismissible chip pills</a>
+              <li><a href="#diacritics">Diacritics and ligatures</a>
            </ol>
         </div>
       </div>
@@ -215,10 +216,10 @@
         <div class="col-sm-12 html">
           This example will show suggestions from the Github API. This REST API also returns avatar url's. When there is an exact match, the avatar url will be set in the IMG tag to show the avatar picture.
           <p class="language-label">HTML
-          <pre class="language-markup"><code >&lt;input   id="user_name1" class="form-control" 
-       name="user[name1]" type="text" /&gt;
+          <pre class="language-markup"><code >&lt;input id="user_name1" class="form-control" 
+       name="user[name1]" type="text" &gt;
           
-&lt;img id="awe-avatar-img" alt="avatar image" width="100px" height="100px"/&gt;</code></pre>
+&lt;img id="awe-avatar-img" alt="avatar image" width="100px" height="100px" &gt;</code></pre>
         </div>
         <div class="col-sm-12 js">
           <p class="language-label">Javascript
@@ -289,7 +290,7 @@ AwesompleteUtil.start('#user_name1',
         <div class="col-sm-12 html">
           Nothing unusal in the input control:
           <p class="language-label">HTML
-          <pre class="language-markup"><code >&lt;input class="form-control" id="user_artist1" name="user[artist1]" type="text" /&gt;</code></pre>
+          <pre class="language-markup"><code >&lt;input class="form-control" id="user_artist1" name="user[artist1]" type="text" &gt;</code></pre>
         </div>
         <div class="col-sm-12 js">
           The standard supplied 'starts-with' and 'contains' filters don't exactly match with how iTunes searches (Elasticsearch).
@@ -361,7 +362,7 @@ AwesompleteUtil.start('#user_name1',
           The creation of the Awesomplete object below is almost the same as in the 'iTunes artist search' example.
           <p class="language-label">HTML
           <pre class="language-markup"><code >&lt;input id="user_track1" class="form-control" 
-       name="user[track1]" type="text" /&gt;</code></pre>
+       name="user[track1]" type="text" &gt;</code></pre>
         </div>
         <div class="col-sm-12 js">
           <p class="language-label">Javascript
@@ -427,7 +428,7 @@ AwesompleteUtil.start('#user_track1',
           Input control:
           <p class="language-label">HTML
           <pre class="language-markup"><code >&lt;input id="user_combocountry" class="form-control" 
-       name="user[combocountry]" type="text" /&gt;
+       name="user[combocountry]" type="text" &gt;
   &lt;span class="input-group-btn"&gt;
      &lt;button class="dropdown-btn" id="awe_btn_user_combocountry" type="button" tabindex="-1"&gt;
         &lt;span class="caron"&gt;&amp;#9660;&lt;/span&gt;
@@ -442,7 +443,7 @@ AwesompleteUtil.start('#user_track1',
           <pre class="language-javascript"><code><script>AwesompleteUtil.startClick('#awe_btn_user_combocountry',
     AwesompleteUtil.start('#user_combocountry',
      {
-      url: 'https://restcountries.com/v2/all', 
+      url: 'https://nico-amsterdam.github.io/awesomplete-util/json/countries.json', 
       loadall: true, 
       prepop: true
      }, 
@@ -487,7 +488,7 @@ AwesompleteUtil.start('#user_track1',
           Input control:
           <p class="language-label">HTML
           <pre class="language-markup"><code >&lt;input id="user_host" class="form-control" 
-       name="user[host]" type="text" /&gt;</code></pre>
+       name="user[host]" type="text" &gt;</code></pre>
         </div>
         <div class="col-sm-12 awe">
           <p class="language-label">Javascript
@@ -540,7 +541,7 @@ AwesompleteUtil.start('#user_track1',
           This is actually not an autocomplete, but it does verify the input.
           <p class="language-label">HTML
           <pre class="language-markup"><code >&lt;input id="user_country_iso" class="form-control" 
-       name="user[iso-country]" type="text" /&gt;
+       name="user[iso-country]" type="text" &gt;
   &lt;span id="awe-country-name"&gt;&lt;/span&gt;</code></pre>
         </div>
         <div class="col-sm-12 awe">
@@ -607,7 +608,7 @@ AwesompleteUtil.start('#user_track1',
           Input control:
           <p class="language-label">HTML
           <pre class="language-markup"><code>&lt;input id="user_color" class="form-control" 
-       name="user[color]" type="text" value="purple" /&gt;
+       name="user[color]" type="text" value="purple" &gt;
   &lt;div&gt;&lt;span id="awe-color-result"&gt;&lt;/span&gt; &amp;#x21B2;&lt;/div&gt;</code></pre>
         </div>
         <div class="col-sm-12 awe">
@@ -673,8 +674,8 @@ AwesompleteUtil.start('#user_track1',
         <div class="col-sm-12 html">
           Input controls:
           <p class="language-label">HTML
-          <pre class="language-markup"><code>&lt;input id="user_country" class="form-control" name="user[country]" type="text" /&gt;
-  &lt;input id="user_capital" class="form-control" name="user[capital]" type="text" /&gt;</code></pre>
+          <pre class="language-markup"><code>&lt;input id="user_country" class="form-control" name="user[country]" type="text" &gt;
+  &lt;input id="user_capital" class="form-control" name="user[capital]" type="text" &gt;</code></pre>
         </div>
         <div class="col-sm-12 awe">
           Below the Awesomplete objects are created 
@@ -699,7 +700,7 @@ AwesompleteUtil.start('#user_track1',
    }
   );
 
-  AwesompleteUtil.ajax('https://restcountries.com/v2/all', '', '', 
+  AwesompleteUtil.ajax('https://nico-amsterdam.github.io/awesomplete-util/json/countries.json', '', '', 
     function(e) {
       var xhr = this, list;
       if (xhr.status === 200) {
@@ -802,7 +803,7 @@ AwesompleteUtil.start('#user_track1',
           Input control:
           <p class="language-label">HTML
           <pre class="language-markup"><code >&lt;input id="user_multimail" class="form-control"
-       name="user[multimail]" type="text" /&gt;</code></pre>
+       name="user[multimail]" type="text" &gt;</code></pre>
         </div>
         <div class="col-sm-12 js">
           This example uses Star Wars names from a github repository.
@@ -891,8 +892,9 @@ AwesompleteUtil.start('#user_track1',
 
       <div class="row odd">
         <div class="col-sm-12 html">
-          Your text could be placed here.
-          <p class="language-label">HTML
+          This example has a lot of custom code. The hidden input with id user_seafood2_all is used to 
+          store the complete list. The visible input with id user_seafood2 is used to add new chip pills.
+            <p class="language-label">HTML
           <pre class="language-markup"><code >&lt;input id="user_seafood2" class="form-control" 
        name="user[seafood2]" type="text" 
     data-list="Anchovies, Cajun Prawn, Crayfish, Lobster,
@@ -927,7 +929,7 @@ function removeFromList(text) {
 }
 
 findById('seafood2-chip-container').addEventListener('click', function(el) {
-  // The problem with this click-handler is that it needs to know the html-structure
+  // This click-handler needs to know the html-structure
   // (e.g. CHIP_TEMPATE) to identify the chip that must be removed.
   // Currently el.target is the button inside the span's with the chip text.
   const spanNode = el.target.parentNode; 
@@ -982,6 +984,87 @@ inputElement.addEventListener('awesomplete-selectcomplete', updateChipsAndclearI
         </div>
       </div>
       <!-- END seafood with dismissible chip pills example -->
+
+
+      <!-- BEGIN diacritics example -->
+      <fieldset id="diacritics" class="example">
+        <legend class="h3">
+        Diacritics and ligatures
+        </legend>
+        <div class="row even">
+          <div class="col-xs-11 col-xs-offset-1 features">
+            Example demonstrates:
+            <ul>
+              <li>Type base characters and get suggustions with diacritics and ligatures
+            </ul>
+          </div>
+          <div class="col-sm-12 hint">
+             Type some base characters to get examples of words with diacritics and ligatures:
+          </div>
+          <label class="control-label col-sm-2" for="user_diacritics">Word</label>
+          <div class="col-sm-10 au">
+             <input class="form-control" id="user_diacritics" name="user[diacritics]" type="text"
+                data-list="ænigma, Æthel, böse, fließen, fossilien, fröhlich, führen, füllen, gänse, götter, größe, hände, hölle, hügel, küssen, kräftig, lösen, löwe, mädchen, männer, mächtig, müde, möglichkeit, Œdipus, œuvre, Osnabrück, rätseln, rösten, rühren, säen, säubern, schön, schwül, STRAUß, süß, träumen, überlegen, übermäßig, vögel, wählen, wände, Ĳmuiden, zählen, accès, appétit, cliché, déjà vu, garçon, hôtel, île, accès, maître, pâté, où, quête, tête-à-tête, voilà">
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="row even">
+        <div class="col-sm-12 html">
+          Input control:
+          <p class="language-label">HTML
+          <pre class="language-markup"><code >&lt;input id="user_diacritics" class="form-control"
+       name="user[diacritics]" type="text" 
+       data-list="ænigma, Æthel, böse, fließen, fossilien, fröhlich
+       , führen, füllen, gänse, götter, größe, hände, hölle, hügel
+       , küssen, kräftig, lösen, löwe, mädchen, männer, mächtig
+       , müde, möglichkeit, Œdipus, œuvre, Osnabrück, rätseln
+       , rösten, rühren, säen, säubern, schön, schwül, STRAUß
+       , süß, träumen, überlegen, übermäßig, vögel, wählen, wände
+       , Ĳmuiden, zählen, accès, appétit, cliché, déjà vu, garçon
+       , hôtel, île, accès, maître, pâté, où, quête, tête-à-tête
+       , voilà" &gt;</code></pre>
+        </div>
+        <div class="col-sm-12 js">
+          This example allows you to search for words with diacritics by typing just the base characters.
+          For example search for 'oss' and besides 'fossiles' you will get the suggestion of 'größe'.
+          <ul>
+            <li>o is base character of ö
+            <li>The ligature ß can be searched with 'ss'
+          </ul>
+          The functions below are used to convert diacrites and ligatures to base characters.
+          <p class="language-label">Javascript
+          <pre class="language-javascript"><code><script>
+function removeDiacritesAndLigature(text) {
+  return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replaceAll('æ', 'ae').replaceAll('œ', 'oe').replaceAll('ß', 'ss').replace('ĳ', 'ij');
+}
+
+function trimLowerDiacrites(input) {
+  return removeDiacritesAndLigature(input.trim().toLowerCase());
+}</script></code></pre>
+        </div>
+        <div class="col-sm-12 awe">
+          In the code below the filter function replaces diacritics and ligatures 
+          in both the search phrase and the suggestions from the lists. 
+          After the conversions the strings with base characters can be compared.
+          <p>
+          <p class="language-label">Javascript
+          <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_diacritics',
+   { 
+   }, 
+   {
+    minChars: 1,
+    maxItems: 10,
+    filter: function(text, input) {
+      return trimLowerDiacrites(text).indexOf(trimLowerDiacrites(input)) !== -1;
+    }
+   }
+  );</script></code></pre>
+            This example uses a fixed list of words. If you use a backend service to get suggestions,
+            this backend service must apply the same search algorithm as this filter.  
+        </div>
+      </div>
+      <!-- END diacritics example -->
 
     </section>
     <section class="container" id="installation"> 
