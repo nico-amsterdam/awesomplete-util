@@ -1001,12 +1001,17 @@ inputElement.addEventListener('awesomplete-selectcomplete', updateChipsAndclearI
             </ul>
           </div>
           <div class="col-sm-12 hint">
-             Type some base characters to get examples of words with diacritics and ligatures:
+            This example allows you to search for words with diacritics by typing just the base characters.
+            For example search for 'oss' and besides 'fossilien' you will get the suggestion of 'größe'.
+            <ul>
+              <li>o is base character of ö
+              <li>The ligature ß can be searched with 'ss'
+            </ul>
           </div>
-          <label class="control-label col-sm-2" for="user_diacritics">Word</label>
+          <label class="control-label col-sm-2" for="user_diacritics">Search</label>
           <div class="col-sm-10 au">
              <input class="form-control" id="user_diacritics" name="user[diacritics]" type="text"
-                data-list="ænigma, Æthel, böse, fließen, fossilien, fröhlich, führen, füllen, gänse, götter, größe, hände, hölle, hügel, küssen, kräftig, lösen, löwe, mädchen, männer, mächtig, müde, möglichkeit, Œdipus, œuvre, Osnabrück, rätseln, rösten, rühren, säen, säubern, schön, schwül, STRAUß, süß, träumen, überlegen, übermäßig, vögel, wählen, wände, Ĳmuiden, zählen, accès, appétit, cliché, déjà vu, garçon, hôtel, île, accès, maître, pâté, où, quête, tête-à-tête, voilà">
+                data-list="ænigma, Æthel, böse, fließen, fossilien, fröhlich, führen, füllen, gänse, götter, größe, hände, hölle, hügel, küssen, kräftig, lösen, löwe, mädchen, männer, mächtig, müde, möglichkeit, Œdipus, œuvre, Osnabrück, rätseln, rösten, rühren, säen, säubern, schön, schwül, STRAUß, süß, träumen, überlegen, übermäßig, vögel, wählen, wände, Ĳmuiden, zählen, accès, appétit, cliché, déjà vu, garçon, hôtel, île, maître, pâté, où, quête, tête-à-tête, voilà">
           </div>
         </div>
       </fieldset>
@@ -1028,17 +1033,12 @@ inputElement.addEventListener('awesomplete-selectcomplete', updateChipsAndclearI
        , voilà" &gt;</code></pre>
         </div>
         <div class="col-sm-12 js">
-          This example allows you to search for words with diacritics by typing just the base characters.
-          For example search for 'oss' and besides 'fossiles' you will get the suggestion of 'größe'.
-          <ul>
-            <li>o is base character of ö
-            <li>The ligature ß can be searched with 'ss'
-          </ul>
           The functions below are used to convert diacrites and ligatures to base characters.
           <p class="language-label">Javascript
           <pre class="language-javascript"><code><script>
 function removeDiacritesAndLigature(text) {
-  return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replaceAll('æ', 'ae').replaceAll('œ', 'oe').replaceAll('ß', 'ss').replace('ĳ', 'ij');
+  return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replaceAll('æ', 'ae').replaceAll('œ', 'oe').replaceAll('ß', 'ss').replaceAll('ĳ', 'ij');
 }
 
 function trimLowerDiacrites(input) {

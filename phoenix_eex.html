@@ -166,6 +166,7 @@
               <li><a href="#seafood">Seafood pizza toppings</a>
               <li><a href="#multimail">Email address</a>
               <li><a href="#seafood2">Dismissible chip pills</a>
+              <li><a href="#diacritics">Diacritics and ligatures</a>
            </ol>
         </div>
       </div>
@@ -1086,8 +1087,9 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
 
     <div class="row odd">
       <div class="col-sm-12 eex">
-        Your text could be placed here.
-        <p class="language-label">EEx
+        This example has a lot of custom code. The hidden input with id user_seafood2_all is used to 
+        store the complete list. The visible input with id user_seafood2 is used to add new chip pills.
+      <p class="language-label">EEx
         <pre class="language-markup"><code >&lt;%= awesomplete(
  :user,
  :seafood2,
@@ -1096,9 +1098,11 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
    "data-list": "Anchovies, Cajun Prawn, Crayfish, Lobster, Oysters, Prawns, Salmon, Shrimps, Smoked Salmon, Squid, Tuna, Whitebait"
  ],
  %{
-    minChars: 1"
+    minChars: 1
   }
-) %&gt;</code></pre>
+) %&gt;
+
+&lt;input type="hidden" id="user_seafood2_all" value="" /&gt;</code></pre>
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>const SEP = ',',
       CHIP_TEMPLATE = '<span class="chip">{0}<button title="Remove {0} topping" aria-label="Remove {0} topping">&#10006;</button></span>', 
@@ -1118,7 +1122,7 @@ function removeFromList(text) {
 }
 
 findById('seafood2-chip-container').addEventListener('click', function(el) {
-  // The problem with this click-handler is that it needs to know the html-structure
+  // This click-handler needs to know the html-structure
   // (e.g. CHIP_TEMPATE) to identify the chip that must be removed.
   // Currently el.target is the button inside the span's with the chip text.
   const spanNode = el.target.parentNode; 
@@ -1194,6 +1198,107 @@ inputElement.addEventListener('awesomplete-selectcomplete', updateChipsAndclearI
       </div>
     </div>
     <!-- END seafood with dismissible chip pills example -->
+
+      <!-- BEGIN diacritics example -->
+      <fieldset id="diacritics" class="example">
+        <legend class="h3">
+        Diacritics and ligatures
+        </legend>
+        <div class="row even">
+          <div class="col-xs-11 col-xs-offset-1 features">
+            Example demonstrates:
+            <ul>
+              <li>Type base characters and get suggustions with diacritics and ligatures
+            </ul>
+          </div>
+          <div class="col-sm-12 hint">
+            This example allows you to search for words with diacritics by typing just the base characters.
+            For example search for 'oss' and besides 'fossilien' you will get the suggestion of 'größe'.
+            <ul>
+              <li>o is base character of ö
+              <li>The ligature ß can be searched with 'ss'
+            </ul>
+          </div>
+          <label class="control-label col-sm-2" for="user_diacritics">Search</label>
+          <div class="col-sm-10 au">
+             <input class="form-control" id="user_diacritics" name="user[diacritics]" type="text"
+                data-list="ænigma, Æthel, böse, fließen, fossilien, fröhlich, führen, füllen, gänse, götter, größe, hände, hölle, hügel, küssen, kräftig, lösen, löwe, mädchen, männer, mächtig, müde, möglichkeit, Œdipus, œuvre, Osnabrück, rätseln, rösten, rühren, säen, säubern, schön, schwül, STRAUß, süß, träumen, überlegen, übermäßig, vögel, wählen, wände, Ĳmuiden, zählen, accès, appétit, cliché, déjà vu, garçon, hôtel, île, maître, pâté, où, quête, tête-à-tête, voilà">
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="row even">
+        <div class="col-sm-12 eex">
+          Input control:
+          <p class="language-label">EEx
+          <pre class="language-markup"><code >&lt;%= awesomplete(
+  :user,
+  :diacritics,
+  [
+      class: "form-control",
+    "data-list": "ænigma, Æthel, böse, fließen, fossilien, fröhlich
+    , führen, füllen, gänse, götter, größe, hände, hölle, hügel
+    , küssen, kräftig, lösen, löwe, mädchen, männer, mächtig
+    , müde, möglichkeit, Œdipus, œuvre, Osnabrück, rätseln
+    , rösten, rühren, säen, säubern, schön, schwül, STRAUß
+    , süß, träumen, überlegen, übermäßig, vögel, wählen, wände
+    , Ĳmuiden, zählen, accès, appétit, cliché, déjà vu, garçon
+    , hôtel, île, accès, maître, pâté, où, quête, tête-à-tête
+    , voilà"
+  ],
+  %{
+      minChars: 1,
+      maxItems: 10,
+      filter: "function(text, input) {
+        return trimLowerDiacrites(text).indexOf(trimLowerDiacrites(input)) !== -1;
+      }"
+   }
+) %&gt;</code></pre>
+        </div>
+        <div class="col-sm-12 js">
+          The functions below are used to convert diacrites and ligatures to base characters.
+          <p class="language-label">Javascript
+          <pre class="language-javascript"><code><script>
+function removeDiacritesAndLigature(text) {
+  return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+  .replaceAll('æ', 'ae').replaceAll('œ', 'oe').replaceAll('ß', 'ss').replaceAll('ĳ', 'ij');
+}
+
+function trimLowerDiacrites(input) {
+  return removeDiacritesAndLigature(input.trim().toLowerCase());
+}</script></code></pre>
+        <p class="generated"><a href="#" onclick="return toggle('#awe-diacritics');">show/hide generated code</a>
+        </div>
+        <div class="col-sm-12 awe slide-up" id="awe-diacritics">
+          <p class="language-label">Generated HTML
+          <pre class="language-markup"><code >&lt;input id="user_diacritics" class="form-control"
+  name="user[diacritics]" type="text" 
+  data-list="ænigma, Æthel, böse, fließen, fossilien, fröhlich
+  , führen, füllen, gänse, götter, größe, hände, hölle, hügel
+  , küssen, kräftig, lösen, löwe, mädchen, männer, mächtig
+  , müde, möglichkeit, Œdipus, œuvre, Osnabrück, rätseln
+  , rösten, rühren, säen, säubern, schön, schwül, STRAUß
+  , süß, träumen, überlegen, übermäßig, vögel, wählen, wände
+  , Ĳmuiden, zählen, accès, appétit, cliché, déjà vu, garçon
+  , hôtel, île, accès, maître, pâté, où, quête, tête-à-tête
+  , voilà" &gt;</code></pre>
+          <p class="language-label">Generated javascript
+          <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_diacritics',
+  { 
+  }, 
+  {
+    minChars: 1,
+    maxItems: 10,
+    filter: function(text, input) {
+      return trimLowerDiacrites(text).indexOf(trimLowerDiacrites(input)) !== -1;
+    }
+  }
+);</script></code></pre>
+            This example uses a fixed list of words. If you use a backend service to get suggestions,
+            this backend service must apply the same search algorithm as this filter.  
+        </div>
+      </div>
+      <!-- END diacritics example -->
 
     </section>
 
