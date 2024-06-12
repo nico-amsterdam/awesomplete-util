@@ -1235,7 +1235,7 @@ inputElement.addEventListener('awesomplete-selectcomplete', updateChipsAndclearI
   :user,
   :diacritics,
   [
-      class: "form-control",
+     class: "form-control",
     "data-list": "ænigma, Æthel, böse, fließen, fossilien, fröhlich
     , führen, füllen, gänse, götter, größe, hände, hölle, hügel
     , küssen, kräftig, lösen, löwe, mädchen, männer, mächtig
@@ -1254,6 +1254,8 @@ inputElement.addEventListener('awesomplete-selectcomplete', updateChipsAndclearI
       }"
    }
 ) %&gt;</code></pre>
+            This example uses a fixed list of words. If you use a backend service to get suggestions,
+            this backend service must apply the same search algorithm as this filter.  
         </div>
         <div class="col-sm-12 js">
           The functions below are used to convert diacrites and ligatures to base characters.
@@ -1294,8 +1296,6 @@ function trimLowerDiacrites(input) {
     }
   }
 );</script></code></pre>
-            This example uses a fixed list of words. If you use a backend service to get suggestions,
-            this backend service must apply the same search algorithm as this filter.  
         </div>
       </div>
       <!-- END diacritics example -->
