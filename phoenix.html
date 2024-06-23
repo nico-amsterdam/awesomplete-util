@@ -1130,14 +1130,9 @@ data-list="Anchovies, Cajun Prawn, Crayfish, Lobster, Oysters, Prawns, Salmon, S
   /&gt;</code></pre>
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>const SEP = ',',
-      CHIP_TEMPLATE = '<span class="chip">{0}<button title="Remove {0} topping" aria-label="Remove {0} topping">&#10006;</button></span>', 
-      findById = (id, root) => { return (root || document).getElementById(id); },
-      splitAndTrim = (text) => text.split(SEP).map(item => item.trim()).filter(e => e !== '')
-      template = (templ, vars) => {
-        return templ.replace(/{\s*[\w]+\s*}/g, (v)=> {
-          return vars[v.substring(1, v.length - 1)];
-        })
-      };
+      findById = (id, root) => (root || document).getElementById(id),
+      splitAndTrim = (text) => text.split(SEP).map(item => item.trim()).filter(e => e !== ''),
+      chipTemplate = (chip) => `<span class="chip">${chip}<button title="Remove ${chip} topping" aria-label="Remove ${chip} topping">&#10006;</button></span>`;
 
 function removeFromList(text) {
   const elem = findById('user_seafood2_all'), // hidden input field
@@ -1147,8 +1142,8 @@ function removeFromList(text) {
 }
 
 findById('seafood2-chip-container').addEventListener('click', function(el) {
-  // This click-handler needs to know the html-structure
-  // (e.g. CHIP_TEMPATE) to identify the chip that must be removed.
+  // This click-handler needs to know the HTML structure
+  // (see chipTemplate) to identify the chip that must be removed.
   // Currently el.target is the button inside the span's with the chip text.
   const spanNode = el.target.parentNode; 
   if (spanNode.nodeName === 'SPAN') {
@@ -1167,7 +1162,7 @@ function updateChips() {
    for (item in allArray) {
       let currentChipText = allArray[item]
       if (currentChipText) { 
-          chipButtons += template(CHIP_TEMPLATE, [ currentChipText ]);
+          chipButtons += chipTemplate(currentChipText);
       }
    }
    findById('seafood2-chip-container').innerHTML = chipButtons;
