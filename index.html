@@ -470,7 +470,7 @@ AwesompleteUtil.start('#user_track1',
             <ul>
               <li>Type user name and get suggestions for hostnames; autocomplete after a certain character.
               <li>Show descriptions in the suggestion list.
-              <li>Load suggestions from json file.
+              <li>Load suggestions from JSON file.
             </ul>
           </div>
           <div class="col-sm-12 hint">
@@ -572,7 +572,7 @@ AwesompleteUtil.start('#user_track1',
     filter: Awesomplete.FILTER_STARTSWITH
    }
   );</script></code></pre>
-          A limit:1 tells that not more than 1 result is expected, so the json service doesn't have to return an array. 
+          A limit:1 tells that not more than 1 result is expected, so the JSON service doesn't have to return an array. 
           With limit:0 it will always re-query if more characters are typed. 
         </div>
       </div>
@@ -635,7 +635,7 @@ AwesompleteUtil.start('#user_track1',
     filter: AwesompleteUtil.filterContains
    }
   );</script></code></pre>
-        Notice the prepop property and the startCopy function call. The initial/autofilled value of input-control triggers the copy action, and the label is copied to the span-tag with id 'awe-color-result' during page load. The order of the html elements and the inline script is important here. The startCopy function must be called before the startAwesomplete function, because the latter can immediately fire the 'awesomplete-prepop' event which should be handled by the former.
+        Notice the prepop property and the startCopy function call. The initial/autofilled value of input-control triggers the copy action, and the label is copied to the span-tag with id 'awe-color-result' during page load. The order of the HTML elements and the inline script is important here. The startCopy function must be called before the startAwesomplete function, because the latter can immediately fire the 'awesomplete-prepop' event which should be handled by the former.
   The startCopy inline script should preferable be placed after the HTML element which is the target. If you do, it only has to lookup the target element once, but If you don't do this it will lookup the target element with each event.
   <p>
   If you use remote data loading and combine prepop:true with loadall:true the remote call will happen during page load. If prepop:false, the loadall will be done lazely, e.g. if the user makes changes and the input size >= minChars.
@@ -931,12 +931,12 @@ function removeFromList(text) {
 }
 
 findById('seafood2-chip-container').addEventListener('click', function(el) {
-  // This click-handler needs to know the html-structure
+  // This click-handler needs to know the HTML structure
   // (e.g. CHIP_TEMPATE) to identify the chip that must be removed.
   // Currently el.target is the button inside the span's with the chip text.
   const spanNode = el.target.parentNode; 
   if (spanNode.nodeName === 'SPAN') {
-    // get text from span but exclude text from nested html elements.
+    // get text from span but exclude text from nested HTML elements.
     let spanTextWithoutButtonText = [].reduce.call(spanNode.childNodes, 
             (a, b) => { return a + (b.nodeType === 3 ? b.textContent : ''); }, '');
     spanNode.remove();
@@ -1175,8 +1175,11 @@ function trimLowerDiacrites(input) {
                  <td><code>update(awe, value, prepop)</code>
                  <td>Update awesomplete input value via javascript. If you do this directly on the input control, no events will fire. If you use this update function, the AwesompleteUtil can check if the value exists in the suggestion list and set classes on the input control and fire it's events. Specify prepop=true if it is an initial value (no user input). Default value for prepop: false
                <tr>
+                 <td><code>updateList(awe, queryResult, queryValue, forceUpdate)</code>
+                 <td>Replace the current list with suggestions with a new list. queryResult should contain an array or an object with an array or a JSON string. By default forceUpdate is false and it only replaces the list if the queryValue matches the current input value. If the list must be replaced this function will call the load function.
+               <tr>
                  <td><code>start(elemId, utilOpts, opts)</code>
-                 <td>Create the Awesomplete object and attach event-handlers for AwesompleteUtil. elemId must be either a DOM element or a string with the query for document.querySelector to find the element. In general use '#id_of_element'. utilsOpts is an json object with the options for AwesompleteUtil, see the table below. opts are the options for Awesomplete and are passed on unchanged.
+                 <td>Create the Awesomplete object and attach event-handlers for AwesompleteUtil. elemId must be either a DOM element or a string with the query for document.querySelector to find the element. In general use '#id_of_element'. utilsOpts is an JSON object with the options for AwesompleteUtil, see the table below. opts are the options for Awesomplete and are passed on unchanged.
                <tr>
                  <td><code>startCopy(sourceId, dataField, targetId, prepop)</code>
                  <td>Listens to awesomplete-prepop (when prepop is not false) and awesomplete-match events from the source, and copy the dataField to the DOM element with the given target id. The targetId can also be a javascript function. This function receives two parameters: event and dataField. The event detail property contains an array with the matching list item. The array is empty when there is no match. Default value for prepop: true. dataField must be null if the list items are strings.
@@ -1191,7 +1194,7 @@ function trimLowerDiacrites(input) {
                  <td>filter function (as specified in <a href="http://leaverou.github.io/awesomplete/index.html#extensibility">Awesomplete</a>) to filter suggestions. input is searched as start text in data.value. Notice that Awesomplete.FILTER_STARTWITH by default searches on data.label.
                <tr>
                  <td><code>jsonFlatten(data)</code>
-                 <td>function to flatten JSON. Notice that you can supply extra options via jsonFlatten.bind(opts) where opts is a json object with options 'root', 'value' and 'label'.
+                 <td>function to flatten JSON. Notice that you can supply extra options via jsonFlatten.bind(opts) where opts is a JSON object with options 'root', 'value' and 'label'.
                </tr>
              </tbody>
            </table>
@@ -1219,10 +1222,10 @@ function trimLowerDiacrites(input) {
                   <td>Convert JSON response from ajax calls. This function is called with the parsed JSON, and allows conversion of the data before further processing. Default: nil - no conversion.
                <tr>
                   <td>debounce
-                  <td>number. Time in milliseconds to wait for additional user input before doing the ajax call to retrieve suggestions. It limits the rate at which the json service is called per user session.
+                  <td>number. Time in milliseconds to wait for additional user input before doing the ajax call to retrieve suggestions. It limits the rate at which the JSON service is called per user session.
                <tr>
                   <td>limit
-                  <td>number. If a limit is specified, and the number of items returned by the server is equal or more as this limit, the AwesompleteUtil code assumes that there are more results, so it will re-query if more characters are typed to get more refined results. The limit:1 tells that not more than 1 result is expected, so the json service doesn’t have to return an array. With limit:0 it will always re-query if more characters are typed and the result doesn't have to be an array either. Limit:-1 will always requery and the expected result is an array. When no limit is specified, the code assumes that all possible suggestions are returned based on the typed characters, and it will not re-query if more characters are typed. It uses the specified filter for the suggestions in the dropdown. Default: no limit 
+                  <td>number. If a limit is specified, and the number of items returned by the server is equal or more as this limit, the AwesompleteUtil code assumes that there are more results, so it will re-query if more characters are typed to get more refined results. The limit:1 tells that not more than 1 result is expected, so the JSON service doesn’t have to return an array. With limit:0 it will always re-query if more characters are typed and the result doesn't have to be an array either. Limit:-1 will always requery and the expected result is an array. When no limit is specified, the code assumes that all possible suggestions are returned based on the typed characters, and it will not re-query if more characters are typed. It uses the specified filter for the suggestions in the dropdown. Default: no limit 
                <tr>
                   <td>loadall
                   <td>true/false. true if the data list contains all items. The input value will not be used in ajax calls. Default: false 
