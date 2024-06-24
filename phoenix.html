@@ -937,8 +937,21 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
         </div>
         <label class="control-label col-sm-2" for="user_seafood">Seafood toppings</label>
         <div class="col-sm-10 au">
-           <input class="form-control" id="user_seafood" name="user[seafood]" type="text"
-            data-list="Anchovies, Cajun Prawn, Crayfish, Lobster, Oysters, Prawns, Salmon, Shrimps, Smoked Salmon, Squid, Tuna, Whitebait">
+           <input class="form-control" id="user_seafood" name="user[seafood]" type="text" data-list="#seafood_options">
+            <datalist id="seafood_options">
+	            <option>Anchovies</option>
+	            <option>Cajun Prawn</option>
+	            <option>Crayfish</option>
+	            <option>Lobster</option>
+	            <option>Oysters</option>
+	            <option>Prawns</option>
+	            <option>Salmon</option>
+	            <option>Shrimps</option>
+	            <option>Smoked Salmon</option>
+	            <option>Squid</option>
+	            <option>Tuna</option>
+	            <option>Whitebait</option>
+            </datalist>
         </div>
       </div>
     </fieldset>
@@ -947,8 +960,21 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
       <div class="col-sm-12 heex">
         Notice that you can enter multiple toppings, seperated by , or ;
         <p class="language-label">HEEx
-        <pre class="language-markup"><code >&lt;.input field={@form[:seafood]} type="text" phx-debounce="blur"
-data-list="Anchovies, Cajun Prawn, Crayfish, Lobster, Oysters, Prawns, Salmon, Shrimps, Smoked Salmon, Squid, Tuna, Whitebait" /&gt;
+        <pre class="language-markup"><code >&lt;.input field={@form[:seafood]} type="text" phx-debounce="blur" data-list="#seafood_options" /&gt;
+&lt;datalist id="seafood_options"&gt;
+   &lt;option&gt;Anchovies&lt;/option&gt;
+   &lt;option&gt;Cajun Prawn&lt;/option&gt;
+   &lt;option&gt;Crayfish&lt;/option&gt;
+   &lt;option&gt;Lobster&lt;/option&gt;
+   &lt;option&gt;Oysters&lt;/option&gt;
+   &lt;option&gt;Prawns&lt;/option&gt;
+   &lt;option&gt;Salmon&lt;/option&gt;
+   &lt;option&gt;Shrimps&lt;/option&gt;
+   &lt;option&gt;Smoked Salmon&lt;/option&gt;
+   &lt;option&gt;Squid&lt;/option&gt;
+   &lt;option&gt;Tuna&lt;/option&gt;
+   &lt;option&gt;Whitebait&lt;/option&gt;
+&lt;/datalist&gt;
 
 &lt;.autocomplete
   forField={@form[:seafood]}
