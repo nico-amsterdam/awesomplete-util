@@ -302,7 +302,7 @@ var AwesompleteUtil = function() {
             innerHTML: html,
             'role': 'option',
             'aria-selected': 'false',
-            'tabindex': '0',
+            'tabindex': '-1', // for the Talkback screen reader
             'id': 'awesomplete_list_' + this.count + '_item_' + item_id // for aria-activedescendant on the input element
           });
         }
