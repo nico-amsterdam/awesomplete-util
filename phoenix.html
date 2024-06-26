@@ -1131,7 +1131,7 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
           Seafood toppings</label>
         <div class="col-sm-10 au">
           <div id="seafood2-chip-container" class="chip-container" aria-live="polite"></div>
-          <input class="form-control" id="user_seafood2" name="user[seafood2]" type="text"
+          <input class="form-control" id="user_seafood2" name="user[seafood2]" type="text" enterkeyhint="done"
             data-list="Anchovies, Cajun Prawn, Crayfish, Lobster, Oysters, Prawns, Salmon, Shrimps, Smoked Salmon, Squid, Tuna, Whitebait">
           <input id="user_seafood2_all" type="hidden" value="">
         </div>
@@ -1145,7 +1145,7 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
         <p class="language-label">HEEx
         <pre class="language-markup"><code >&lt;div id="seafood2-chip-container" class="chip-container" aria-live="polite"&gt;&lt;/div&gt;
 
-&lt;.input field={@form[:seafood2]} type="text" phx-debounce="blur"
+&lt;.input field={@form[:seafood2]} type="text" phx-debounce="blur" enterkeyhint="done"
   data-list="Anchovies, Cajun Prawn, Crayfish, Lobster, Oysters, Prawns, Salmon, Shrimps, Smoked Salmon, Squid, Tuna, Whitebait" /&gt;
 
 &lt;input type="hidden" id="user_seafood2_all" value="" /&gt;
