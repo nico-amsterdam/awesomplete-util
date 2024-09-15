@@ -1175,7 +1175,7 @@ findById('seafood2-chip-container').addEventListener('click', function(el) {
   const spanNode = el.target.parentNode; 
   if (spanNode.nodeName === 'SPAN') {
     // get text from span but exclude text from nested html elements.
-    let spanTextWithoutButtonText = [].reduce.call(spanNode.childNodes, 
+    const spanTextWithoutButtonText = [].reduce.call(spanNode.childNodes, 
             (a, b) => { return a + (b.nodeType === 3 ? b.textContent : ''); }, '');
     spanNode.remove();
     removeFromList(spanTextWithoutButtonText.trim());
@@ -1201,8 +1201,8 @@ updateChips();
 function updateChipsAndclearInput(el) {
   const newItem = el.target.value.trim(); 
   if (newItem !== '') {
-    let elem = removeFromList(newItem), // Remove it, if it is already in the list.
-        normalizedValue = splitAndTrim(elem.value + SEP + newItem).join(',');
+    const elem = removeFromList(newItem), // Remove it, if it is already in the list.
+          normalizedValue = splitAndTrim(elem.value + SEP + newItem).join(',');
     elem.value = normalizedValue;
     el.target.value = '';
     Awesomplete.$.fire(el.target, 'input', {});
@@ -1448,9 +1448,9 @@ customAwesompleteContext.filterDiacrites = function(text, input) {
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>
 var mentionEndCutPosition = function(textWithMentions) {
-  let cursorPos = this.input.selectionStart, 
-      match = textWithMentions.substr(cursorPos).match(/[\t \n@/]/), 
-      cutPos = match ? match.index + cursorPos : textWithMentions.length;
+  const cursorPos = this.input.selectionStart, 
+        match = textWithMentions.substr(cursorPos).match(/[\t \n@/]/), 
+        cutPos = match ? match.index + cursorPos : textWithMentions.length;
   return cutPos;
 },  
 convertTextWithMentions = function(textWithMentions, cutTillSpace = true) {
@@ -1464,7 +1464,7 @@ convertTextWithMentions = function(textWithMentions, cutTillSpace = true) {
     singleMentionAtCursor = singleMentionAtCursor.replaceAll(' ', '\xA0'); 
   } else {
     // extract from cursor position till space or other @ or the end of the string
-    let cutPos = mentionEndCutPosition.call(this, textWithMentions);
+    const cutPos = mentionEndCutPosition.call(this, textWithMentions);
     singleMentionAtCursor = textWithMentions.substr(0, cutPos);
     // remove the @+spaces+chars entries from the end to ignore them in the compare between input and suggestion
     if (cutTillSpace) singleMentionAtCursor = singleMentionAtCursor.replace(/(@([\t \n]?|[\t \n][^@]*))+$/, ''); 
@@ -1486,18 +1486,18 @@ convertTextWithMentions = function(textWithMentions, cutTillSpace = true) {
 replaceTextWithMentions = function(data) { 
   // the space character is also a delimiter, not handy to have in the suggestion list. 
   // Replace with no-break space.
-  let suggestionText=data.value.replaceAll(' ', '\xA0'),
-      textWithMentions = this.input.value; 
+  const suggestionText   = data.value.replaceAll(' ', '\xA0'),
+        textWithMentions = this.input.value; 
   if (!textWithMentions.includes('@')) { 
       // is a suggestion text, not user input
       this.input.value = suggestionText; 
       return; 
   }
   // extract from cursor position till space or other @ or the end of the string      
-  let cutPos = mentionEndCutPosition.call(this, textWithMentions),
-      singleMentionAtCursor = textWithMentions.substr(0, cutPos),
-      afterText = textWithMentions.substr(cutPos),
-      cutoffText = singleMentionAtCursor.substr(0, singleMentionAtCursor.lastIndexOf('@') + 1);
+  const cutPos = mentionEndCutPosition.call(this, textWithMentions),
+        afterText = textWithMentions.substr(cutPos),
+        singleMentionAtCursor = textWithMentions.substr(0, cutPos),
+        cutoffText = singleMentionAtCursor.substr(0, singleMentionAtCursor.lastIndexOf('@') + 1);
 
   this.input.value = cutoffText + suggestionText + (afterText === '' ? ' ' : afterText);
   // set cursor position at the end of the inserted suggestion text.
@@ -1505,7 +1505,7 @@ replaceTextWithMentions = function(data) {
 },
 filterTextWithMentions = function(data, input) {
   if (!input.includes('@')) return false;
-  let conv = convertTextWithMentions.call(this, input, false)
+  const conv = convertTextWithMentions.call(this, input, false)
   if (conv === '') return false;
   return Awesomplete.FILTER_CONTAINS.call(this, data.value, conv.replace('\xA0', ' '));
 },
@@ -1514,7 +1514,7 @@ itemTextWithMentions = function(text, input) {
 },
 dataOptionalLabel = function(rec, input) {
   // peoplelist contains options     
-  let val = rec['value'], lbl = rec['label'] || ''; 
+  const val = rec['value'], lbl = rec['label'] || ''; 
   return { 
     // some options have labels, others not
     label: val + (val !== lbl ? '<p>' + lbl : ''), 
