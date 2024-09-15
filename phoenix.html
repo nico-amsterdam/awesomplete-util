@@ -167,6 +167,7 @@
               <li><a href="#multimail">Email address</a>
               <li><a href="#seafood2">Dismissible chip pills</a>
               <li><a href="#diacritics">Diacritics and ligatures</a>
+              <li><a href="#mentions">Text with mentions</a>
            </ol>
         </div>
       </div>
@@ -307,8 +308,8 @@ AwesompleteUtil.startCopy('#user_name1', 'avatar_url', '#awe-avatar-img');</scri
           Example demonstrates:
           <ul>
             <li>Dynamic data loading.
-            <li>Custom search filter.
-            <li>Custom text highlighter.
+            <li>Word search filter.
+            <li>Word text highlighter.
           </ul>
           Obviously we cannot load all artists known by iTunes in the browsers memory, so that's why we use here
           dynamic data loading. The search starts if 3 characters are entered.
@@ -990,7 +991,7 @@ var awe_user_capital=AwesompleteUtil.start('#user_capital',
   convertInput: function(input) { return input.replace(/[,;]\s*$/, '').match(/[^,;]*$/)[0].trim().toLowerCase(); }
  },
  {
-  minChars: 1, 
+  minChars: 1,
   replace: function(data) { 
     var text=data.value; 
     this.input.value = this.input.value.match(/^.+[,;]\s*|/)[0] + text + ', ';
@@ -1185,8 +1186,8 @@ function updateChips() {
    const all = findById('user_seafood2_all').value, 
          allArray = splitAndTrim(all);
    let chipButtons = '';
-   for (item in allArray) {
-      let currentChipText = allArray[item]
+   for (const item in allArray) {
+      const currentChipText = allArray[item]
       if (currentChipText) { 
           chipButtons += chipTemplate(currentChipText);
       }
@@ -1337,6 +1338,212 @@ customAwesompleteContext.filterDiacrites = function(text, input) {
       </div>
     </div>
     <!-- END diacritics example -->
+
+    <!-- BEGIN mentions example -->
+    <fieldset id="mentions" class="example">
+      <legend class="h3">
+      Text with mentions
+      </legend>
+      <div class="row odd">
+        <div class="col-xs-11 col-xs-offset-1 features">
+          Example demonstrates:
+          <ul>
+            <li>Autocomplete after typing symbol (in this case: @)
+            <li>Suggestions in the middle of the text, at the cursor position.
+            <li>Autocomplete in a textarea
+            <li>Custom input converter
+            <li>Custom replace function
+            <li>Custom search filter
+            <li>Custom item highlighter
+            <li>Option label used as description
+            <li>Mixture of suggestions with and without extra description
+          </ul>
+        </div>
+        <datalist id="peoplelist">
+          <option>Ada</option>
+          <option>Beyonce</option>
+          <option>Chris</option>
+          <option label="HR">Danny</option>
+          <option>Edward</option>
+          <option label="CEO">Frank</option>
+          <option>Gerard</option>
+          <option>Hanna</option>
+          <option>Iris</option>
+          <option>John</option>
+          <option label="Director">Kate</option>
+          <option label="Marketing">Leo</option>
+          <option label="Sales">Max</option>
+          <option label="IT">Neo</option>
+          <option>Olivia</option>
+          <option label="Finance">Penny</option>
+          <option>Quincey</option>
+          <option>Ryan</option>
+          <option>Sarah</option>
+          <option>Tara</option>
+          <option>Umar</option>
+          <option label="PR">Veronica</option>
+          <option>Wendy</option>
+          <option>Xena</option>
+          <option>Yasmine</option>
+          <option>Zara</option>
+        </datalist>
+
+        <div class="col-sm-12 hint">
+           Enter for example: 'Maybe @Neo can solve this. I wil notify @Frank about this.'<p>Note that you can change the names @Neo and @Frank afterwards with autocompletion.
+        </div>
+        <label class="control-label text-sm-right col-sm-2" for="user_mentions">
+          Comment</label>
+        <div class="col-sm-10 au">
+          <textarea class="form-control" id="user_mentions" name="user[mentions]" rows="2"
+            data-list="#peoplelist"></textarea>
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="row odd">
+      <div class="col-sm-12 heex">
+        This is an advanced example
+        <p class="language-label">HEEx
+        <pre class="language-markup"><code >&lt;.input field={@form[:mentions]} type="text" phx-debounce="blur"
+  data-list="#peoplelist" /&gt;
+
+&lt;datalist id="peoplelist"&gt;
+  &lt;option&gt;Ada&lt;/option&gt;
+  &lt;option&gt;Beyonce&lt;/option&gt;
+  &lt;option&gt;Chris&lt;/option&gt;
+  &lt;option label="HR"&gt;Danny&lt;/option&gt;
+  &lt;option&gt;Edward&lt;/option&gt;
+  &lt;option label="CEO"&gt;Frank&lt;/option&gt;
+  &lt;option&gt;Gerard&lt;/option&gt;
+  &lt;option&gt;Hanna&lt;/option&gt;
+  &lt;option&gt;Iris&lt;/option&gt;
+  &lt;option&gt;John&lt;/option&gt;
+  &lt;option label="Director"&gt;Kate&lt;/option&gt;
+  &lt;option label="Marketing"&gt;Leo&lt;/option&gt;
+  &lt;option label="Sales"&gt;Max&lt;/option&gt;
+  &lt;option label="IT"&gt;Neo&lt;/option&gt;
+  &lt;option&gt;Olivia&lt;/option&gt;
+  &lt;option label="Finance"&gt;Penny&lt;/option&gt;
+  &lt;option&gt;Quincey&lt;/option&gt;
+  &lt;option&gt;Ryan&lt;/option&gt;
+  &lt;option&gt;Sarah&lt;/option&gt;
+  &lt;option&gt;Tara&lt;/option&gt;
+  &lt;option&gt;Umar&lt;/option&gt;
+  &lt;option label="PR"&gt;Veronica&lt;/option&gt;
+  &lt;option&gt;Wendy&lt;/option&gt;
+  &lt;option&gt;Xena&lt;/option&gt;
+  &lt;option&gt;Yasmine&lt;/option&gt;
+  &lt;option&gt;Zara&lt;/option&gt;
+&lt;/datalist&gt;
+
+&lt;.autocomplete
+  forField={@form[:mentions]}
+  minChars="1"
+  convertInput="convertTextWithMentions"
+  data="dataOptionalLabel"
+  filter="filterTextWithMentions"
+  item="itemTextWithMentions"
+  replace="replaceTextWithMentions"
+  /&gt;</code></pre>
+        <p class="language-label">Javascript
+        <pre class="language-javascript"><code><script>
+var mentionEndCutPosition = function(textWithMentions) {
+  let cursorPos = this.input.selectionStart, 
+      match = textWithMentions.substr(cursorPos).match(/[\t \n@/]/), 
+      cutPos = match ? match.index + cursorPos : textWithMentions.length;
+  return cutPos;
+},  
+convertTextWithMentions = function(textWithMentions, cutTillSpace = true) {
+  // Do not mark it green/red if there is nothing to look for
+  if (!this.input.value.match(/@\S/)) return '';  
+  let singleMentionAtCursor = textWithMentions;
+  // if it is the suggestion text and not the user input 
+  if (!textWithMentions.includes('@')) { 
+    // the space character is also a delimiter, not handy to have in the suggestion list. 
+    // Replace with no-break space. In de regex's below match whitespaces but not the no-break space. 
+    singleMentionAtCursor = singleMentionAtCursor.replaceAll(' ', '\xA0'); 
+  } else {
+    // extract from cursor position till space or other @ or the end of the string
+    let cutPos = mentionEndCutPosition.call(this, textWithMentions);
+    singleMentionAtCursor = textWithMentions.substr(0, cutPos);
+    // remove the @+spaces+chars entries from the end to ignore them in the compare between input and suggestion
+    if (cutTillSpace) singleMentionAtCursor = singleMentionAtCursor.replace(/(@([\t \n]?|[\t \n][^@]*))+$/, ''); 
+    // return when there is nothing to look for
+    if (!singleMentionAtCursor.includes('@')) return '';
+    // Get the string after the @ sign
+    singleMentionAtCursor = singleMentionAtCursor.match(/[^@]*$/)[0];
+    if (cutTillSpace) {
+      // After the @ there is a word. Remove the text after the word.
+      singleMentionAtCursor = singleMentionAtCursor.replace(/[\t \n][^@]*$/, ''); 
+    } else if (singleMentionAtCursor.match(/^[\t \n]/)) {
+      // filters by default ignore leading spaces, but in this case @+space should not match anything.
+      return '';
+    }  
+  }
+  // search/compare everything in lowercase
+  return singleMentionAtCursor.toLowerCase();;
+},
+replaceTextWithMentions = function(data) { 
+  // the space character is also a delimiter, not handy to have in the suggestion list. 
+  // Replace with no-break space.
+  let suggestionText=data.value.replaceAll(' ', '\xA0'),
+      textWithMentions = this.input.value; 
+  if (!textWithMentions.includes('@')) { 
+      // is a suggestion text, not user input
+      this.input.value = suggestionText; 
+      return; 
+  }
+  // extract from cursor position till space or other @ or the end of the string      
+  let cutPos = mentionEndCutPosition.call(this, textWithMentions),
+      singleMentionAtCursor = textWithMentions.substr(0, cutPos),
+      afterText = textWithMentions.substr(cutPos),
+      cutoffText = singleMentionAtCursor.substr(0, singleMentionAtCursor.lastIndexOf('@') + 1);
+
+  this.input.value = cutoffText + suggestionText + (afterText === '' ? ' ' : afterText);
+  // set cursor position at the end of the inserted suggestion text.
+  this.input.selectionStart = this.input.selectionEnd = cutoffText.length + suggestionText.length + (afterText === '' ? 1 : 0);
+},
+filterTextWithMentions = function(data, input) {
+  if (!input.includes('@')) return false;
+  let conv = convertTextWithMentions.call(this, input, false)
+  if (conv === '') return false;
+  return Awesomplete.FILTER_CONTAINS.call(this, data.value, conv.replace('\xA0', ' '));
+},
+itemTextWithMentions = function(text, input) {
+  return AwesompleteUtil.itemContains.call(this, text, input.match(/[^@]*(@[\t \n]*)?$/)[0]); 
+},
+dataOptionalLabel = function(rec, input) {
+  // peoplelist contains options     
+  let val = rec['value'], lbl = rec['label'] || ''; 
+  return { 
+    // some options have labels, others not
+    label: val + (val !== lbl ? '<p>' + lbl : ''), 
+    value: val 
+  }; 
+};
+</script>customAwesompleteContext.convertTextWithMentions = convertTextWithMentions;
+customAwesompleteContext.replaceTextWithMentions = replaceTextWithMentions;
+customAwesompleteContext.filterTextWithMentions = filterTextWithMentions;
+customAwesompleteContext.itemTextWithMentions = itemTextWithMentions;
+customAwesompleteContext.dataOptionalLabel = dataOptionalLabel;</code></pre>
+        <p class="runtime"><a href="#" onclick="return toggle('#awe-mentions');">show/hide runtime code</a>
+      </div>
+      <div class="col-sm-12 awe slide-up" id="awe-mentions">     
+        <p class="language-label">runtime javascript
+        <pre class="language-javascript"><code><script>AwesompleteUtil.start('#user_mentions',
+   {
+    convertInput: convertTextWithMentions
+   },
+   {
+    minChars: 1, 
+    replace: replaceTextWithMentions,
+    filter: filterTextWithMentions,
+    item: itemTextWithMentions,
+    data: dataOptionalLabel
+  });</script></code></pre>
+      </div>
+    </div>
+    <!-- END mentions example -->
 
     </section>
 
