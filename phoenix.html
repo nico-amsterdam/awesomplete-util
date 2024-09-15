@@ -1509,8 +1509,8 @@ filterTextWithMentions = function(data, input) {
   if (conv === '') return false;
   return Awesomplete.FILTER_CONTAINS.call(this, data.value, conv.replace('\xA0', ' '));
 },
-itemTextWithMentions = function(text, input) {
-  return AwesompleteUtil.itemContains.call(this, text, input.match(/[^@]*(@[\t \n]*)?$/)[0]); 
+itemTextWithMentions = function(text, input, item_id) {
+  return AwesompleteUtil.itemContains.call(this, text, input.match(/[^@]*(@[\t \n]*)?$/)[0], item_id); 
 },
 dataOptionalLabel = function(rec, input) {
   // peoplelist contains options     
