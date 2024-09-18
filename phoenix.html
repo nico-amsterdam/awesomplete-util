@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
 <link rel="stylesheet" href="css/awesomplete.css">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<script src="js/awesomplete-v2024.min.js"></script>
+<script src="js/awesomplete-v2024.js"></script>
 <script src="js/awesomplete-util.js"></script>
 <script src="js/scroll.js"></script>
 <script src="js/showhidetoggle.js"></script>
@@ -652,14 +652,14 @@ AwesompleteUtil.start('#user_track1',
 
     <div class="row even">
       <div class="col-sm-12 js">
-        The remote service returns a HTTP status 404 if the searched value is not found. The default ajax
+        The remote service returns a HTTP status 404/400 if the searched value is not found. The default ajax
         function only processes responses with HTTP OK status 200.
         The ajax404 function below replaces the onload function to set the empty list if a 404 is received. 
         <p class="language-label">Javascript
         <pre class="language-javascript"><code><script>const ajax404  = function(url, urlEnd, val, fn, xhr) {
     var awe = this;
     function onload404() {
-      if (xhr.status === 404) AwesompleteUtil.load(awe, [], '');
+      if (xhr.status === 404 || xhr.status === 400) AwesompleteUtil.load(awe, [], val);
       fn();
     }
     AwesompleteUtil.ajax(url, urlEnd, val, onload404, xhr);
@@ -703,7 +703,7 @@ AwesompleteUtil.start('#user_track1',
 AwesompleteUtil.start('#user_country_iso',
  {
   url: 'https://restcountries.com/v3/alpha/',
-  limit: 1,
+  limit: 0,
   ajax: ajax404,
   convertResponse: AwesompleteUtil.jsonFlatten
  }, 
