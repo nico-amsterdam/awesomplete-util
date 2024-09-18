@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="css/awesomplete.css">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <script src="js/awesomplete-v2024.min.js"></script>
-<script src="js/awesomplete-util.min.js"></script>
+<script src="js/awesomplete-util.js"></script>
 <script src="js/scroll.js"></script>
 <script src="js/showhidetoggle.js"></script>
 <style>
@@ -634,8 +634,9 @@ AwesompleteUtil.start('#user_track1',
           Example demonstrates:
           <ul>
             <li>Use remote service that doesn't return a list but a single entry to verify input.
-            <li>Show related data if entry found.
             <li>Handle HTTP 404 status with custom ajax function.
+            <li>Show related data if entry found.
+            <li>Flatten the json structure in the response.
           </ul>
         </div>
         <div class="col-sm-12 hint">
@@ -658,7 +659,7 @@ AwesompleteUtil.start('#user_track1',
         <pre class="language-javascript"><code><script>const ajax404  = function(url, urlEnd, val, fn, xhr) {
     var awe = this;
     function onload404() {
-      if (xhr.status === 404) AwesompleteUtil.load(awe, [], null);
+      if (xhr.status === 404) AwesompleteUtil.load(awe, [], '');
       fn();
     }
     AwesompleteUtil.ajax(url, urlEnd, val, onload404, xhr);
@@ -674,38 +675,42 @@ AwesompleteUtil.start('#user_track1',
 
 &lt;.autocomplete
   forField={@form[:country_iso]}
-  url="https://restcountries.com/v2/alpha/"
-  value="alpha3Code"
-  limit="0"
+  url="https://restcountries.com/v3/alpha/"
+  value="cca3"
+  limit="1"
   minChars="3"
   maxItems="0"
   filter="filterStartsWith"
   ajax="ajax404"
+  convertResponse="jsonFlatten"
   /&gt;
 
 &lt;.copy_value_to_id
   field={@form[:country_iso]}
-  dataField="name"
+  dataField="name.official"
   target="#awe-country-name"
   /&gt;</code></pre>
-        A limit:1 tells that not more than 1 result is expected, so the json service doesn't have to return an array. 
-        With limit:0 it will always re-query if more characters are typed. 
+        A limit:1 tells that not more than 1 result is expected, so the json service doesn't have to return an array.
+        <p>
+        The official name is in JSON structure like this { "name": {"official": "the country name"}}. The jsonFlatten
+        function transforms this to {"name.official": "the country name"}, which makes is easier to pick it up in the copy_to_value_id function.
         <p class="runtime"><a href="#" onclick="return toggle('#awe-country-iso');">show/hide runtime code</a>
       </div>
       <div class="col-sm-12 awe slide-up" id="awe-country-iso">
 
         <p class="language-label">runtime javascript
-        <pre class="language-javascript"><code><script>AwesompleteUtil.startCopy('#user_country_iso', 'name', '#awe-country-name');
+        <pre class="language-javascript"><code><script>AwesompleteUtil.startCopy('#user_country_iso', 'name.official', '#awe-country-name');
 AwesompleteUtil.start('#user_country_iso',
  {
-  url: 'https://restcountries.com/v2/alpha/',
-  limit: 0,
-  ajax: ajax404
+  url: 'https://restcountries.com/v3/alpha/',
+  limit: 1,
+  ajax: ajax404,
+  convertResponse: AwesompleteUtil.jsonFlatten
  }, 
  {
   maxItems: 0,
   minChars: 3,
-  data: function(rec, input) { return rec['alpha3Code']; },
+  data: function(rec, input) { return rec['cca3']; },
   filter: AwesompleteUtil.filterStartsWith
  }
 );</script></code></pre>
