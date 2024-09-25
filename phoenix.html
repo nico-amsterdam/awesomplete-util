@@ -228,7 +228,8 @@
 
   &lt;.autocomplete
     forField={@form[:name1]}
-    url="https://www.google.com/complete/search?q=justin&cp=6&client=gws-wiz&xssi=t&gs_pcrt=undefined&x=abc"
+    url="https://api.github.com/search/users?q=" 
+    urlEnd=" in:login type:user&per_page=30"  
     minChars="3"
     maxItems="10"
     limit="30"
@@ -274,7 +275,7 @@
         <pre class="language-javascript"><code><script>
 AwesompleteUtil.start('#user_name1', 
  {
-  url: 'https://www.google.com/complete/search?q=justin&cp=6&client=gws-wiz&xssi=t&gs_pcrt=undefined&x=abc',
+  url: 'https://api.github.com/search/users?q=',
   urlEnd: ' in:login type:user&per_page=30',  
   limit: 30
  },
@@ -1510,7 +1511,7 @@ filterTextWithMentions = function(data, input) {
   return Awesomplete.FILTER_CONTAINS.call(this, data.value, conv.replace('\xA0', ' '));
 },
 itemTextWithMentions = function(text, input, item_id) {
-  const conv = convertTextWithMentions.call(this, input, true)
+  const conv = convertTextWithMentions.call(this, input, false)
   return AwesompleteUtil.itemContains.call(this, text, conv.replace('\xA0', ' '), item_id); 
 },
 dataOptionalLabel = function(rec, input) {
