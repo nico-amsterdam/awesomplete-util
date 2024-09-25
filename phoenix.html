@@ -218,35 +218,30 @@
   phx-submit="save"
   &gt;
         
-  &lt;div phx-update="ignore" id={"#{@form[:name1].id}-domspace"}&gt;
+  &lt;.input field={@form[:name1]} type="autocomplete" phx-debounce="blur" /&gt;
 
-    &lt;.input field={@form[:name1]} type="text" phx-debounce="blur" /&gt;
+  &lt;img id="awe-avatar-img" 
+    alt="avatar image" 
+    width="100"
+    height="100"
+    /&gt;
 
-    &lt;img id="awe-avatar-img" 
-      alt="avatar image" 
-      width="100"
-      height="100"
-      /&gt;
+  &lt;.autocomplete
+    forField={@form[:name1]}
+    url="https://www.google.com/complete/search?q=justin&cp=6&client=gws-wiz&xssi=t&gs_pcrt=undefined&x=abc"
+    minChars="3"
+    maxItems="10"
+    limit="30"
+    value="login"
+    filter="filterStartsWith"
+    item="itemStartsWith"
+    /&gt;
 
-    &lt;.autocomplete
-      forField={@form[:name1]}
-      url="https://api.github.com/search/users?q="
-      urlEnd=" in:login type:user&per_page=30"
-      minChars="3"
-      maxItems="10"
-      limit="30"
-      value="login"
-      filter="filterStartsWith"
-      item="itemStartsWith"
-      /&gt;
-
-    &lt;.copy_value_to_id
-      field={@form[:name1]}
-      dataField="avatar_url"
-      target="#awe-avatar-img"
-      /&gt;
-
-  &lt;/div&gt;
+  &lt;.copy_value_to_id
+    field={@form[:name1]}
+    dataField="avatar_url"
+    target="#awe-avatar-img"
+    /&gt;
 
 &lt;/.simple_form&gt;</code></pre>
       <div class="extra-explain">
@@ -279,7 +274,7 @@
         <pre class="language-javascript"><code><script>
 AwesompleteUtil.start('#user_name1', 
  {
-  url: 'https://api.github.com/search/users?q=',
+  url: 'https://www.google.com/complete/search?q=justin&cp=6&client=gws-wiz&xssi=t&gs_pcrt=undefined&x=abc',
   urlEnd: ' in:login type:user&per_page=30',  
   limit: 30
  },
@@ -1515,7 +1510,7 @@ filterTextWithMentions = function(data, input) {
   return Awesomplete.FILTER_CONTAINS.call(this, data.value, conv.replace('\xA0', ' '));
 },
 itemTextWithMentions = function(text, input, item_id) {
-  const conv = convertTextWithMentions.call(this, input, false)
+  const conv = convertTextWithMentions.call(this, input, true)
   return AwesompleteUtil.itemContains.call(this, text, conv.replace('\xA0', ' '), item_id); 
 },
 dataOptionalLabel = function(rec, input) {
