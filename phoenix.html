@@ -47,10 +47,13 @@
 
   /* style navbar */
   nav { background-color: lightblue;
-        min-height: 135px }
+        min-height: 170px }
   ul.navbar-nav li .nav-link { padding: 0 1em }
     
   header, section { padding-top: 40px }
+  @media screen and (min-width: 360px) { 
+    nav { min-height: 135px }
+  }
   @media screen and (min-width: 576px) { 
     main { overflow-y: scroll;
            -webkit-overflow-scrolling: touch;
