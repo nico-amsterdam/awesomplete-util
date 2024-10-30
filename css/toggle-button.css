@@ -13,7 +13,7 @@ nav label.above {
   font-size: 8px
 }
 
-nav div.toggle {
+nav span.toggle {
   cursor: pointer;
   text-indent: -9999px;
   width: 40px;
@@ -24,7 +24,7 @@ nav div.toggle {
   position: relative;
 }
 
-nav div.toggle:after {
+nav span.toggle:after {
   content: '';
   position: absolute;
   top: 1px;
@@ -36,16 +36,16 @@ nav div.toggle:after {
   transition: 0.3s;
 }
 
-nav input:checked + div {
+nav input:checked + span {
   background: black;
 }
 
-nav input:checked + div:after {
+nav input:checked + span:after {
   left: calc(100% - 1px);
   transform: translateX(-100%);
 }
 
-nav div.toggle:active:after {
+nav span.toggle:active:after {
   width: 26px;
 }
 
