@@ -1,5 +1,21 @@
+function setDarkMode(mode) {
+  document.querySelector('link').disabled = mode;
+  document.querySelectorAll('link')[1].disabled = !mode;
+}
+
 document.querySelector('#dark-light').onclick = function() { 
-  document.querySelector('link').disabled = this.checked;
-  document.querySelectorAll('link')[1].disabled = !this.checked;
+  setDarkMode(this.checked);
   document.body.classList.toggle("dark");
 }
+
+function initDarkMode() {
+  const darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if (darkMode) {
+    const toggle = document.querySelector('#dark-light');
+    toggle.checked = true;
+    setDarkMode(true);
+    document.body.classList.add("dark");
+  }
+}
+
+document.addEventListener("DOMContentLoaded", initDarkMode);
